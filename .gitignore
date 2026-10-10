@@ -4,3 +4,9 @@ desktop.ini
 .env
 *.key
 credentials.*
+__pycache__/
+extracted_text*.txt
+slides_16_9.html
+cards_printable.html
+download/
+網站上傳包_2-2_三角函數的定義與性質/
