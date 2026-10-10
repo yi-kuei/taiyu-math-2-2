@@ -518,26 +518,26 @@ CARDS_PART1 = [
             }
         ],
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】熟記根號 1, 2, 3 規律，考試分秒搶分！",
-        "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
+        "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full" style="max-width:100%; height:auto;">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#78350f">特別角分子階梯定律 (分母恆為 2)</text>
-  <rect x="30" y="50" width="320" height="35" rx="6" fill="#fee2e2"/>
-  <text x="60" y="72" font-size="13" font-weight="bold" fill="#991b1b">sin θ</text>
-  <text x="140" y="72" font-size="13" font-weight="bold" fill="#991b1b">√1 / 2 (30°)</text>
-  <text x="230" y="72" font-size="13" font-weight="bold" fill="#991b1b">√2 / 2 (45°)</text>
-  <text x="315" y="72" font-size="13" font-weight="bold" fill="#991b1b">√3 / 2 (60°)</text>
+  <text x="190" y="28" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f">特別角分子階梯定律 (分母恆為 2)</text>
+  <rect x="20" y="48" width="340" height="36" rx="6" fill="#fee2e2"/>
+  <text x="45" y="71" font-size="12" font-weight="bold" fill="#991b1b">sin θ</text>
+  <text x="125" y="71" font-size="11.5" font-weight="bold" fill="#991b1b">√1/2 (30°)</text>
+  <text x="215" y="71" font-size="11.5" font-weight="bold" fill="#991b1b">√2/2 (45°)</text>
+  <text x="300" y="71" font-size="11.5" font-weight="bold" fill="#991b1b">√3/2 (60°)</text>
   
-  <rect x="30" y="100" width="320" height="35" rx="6" fill="#e0e7ff"/>
-  <text x="60" y="122" font-size="13" font-weight="bold" fill="#3730a3">cos θ</text>
-  <text x="140" y="122" font-size="13" font-weight="bold" fill="#3730a3">√3 / 2 (30°)</text>
-  <text x="230" y="122" font-size="13" font-weight="bold" fill="#3730a3">√2 / 2 (45°)</text>
-  <text x="315" y="122" font-size="13" font-weight="bold" fill="#3730a3">√1 / 2 (60°)</text>
+  <rect x="20" y="96" width="340" height="36" rx="6" fill="#e0e7ff"/>
+  <text x="45" y="119" font-size="12" font-weight="bold" fill="#3730a3">cos θ</text>
+  <text x="125" y="119" font-size="11.5" font-weight="bold" fill="#3730a3">√3/2 (30°)</text>
+  <text x="215" y="119" font-size="11.5" font-weight="bold" fill="#3730a3">√2/2 (45°)</text>
+  <text x="300" y="119" font-size="11.5" font-weight="bold" fill="#3730a3">√1/2 (60°)</text>
 
-  <rect x="30" y="150" width="320" height="35" rx="6" fill="#fef3c7"/>
-  <text x="60" y="172" font-size="13" font-weight="bold" fill="#92400e">tan θ</text>
-  <text x="140" y="172" font-size="13" font-weight="bold" fill="#92400e">√3 / 3</text>
-  <text x="230" y="172" font-size="13" font-weight="bold" fill="#92400e">1</text>
-  <text x="315" y="172" font-size="13" font-weight="bold" fill="#92400e">√3</text>
+  <rect x="20" y="144" width="340" height="36" rx="6" fill="#fef3c7"/>
+  <text x="45" y="167" font-size="12" font-weight="bold" fill="#92400e">tan θ</text>
+  <text x="135" y="167" font-size="12" font-weight="bold" fill="#92400e">√3 / 3</text>
+  <text x="225" y="167" font-size="12" font-weight="bold" fill="#92400e">1</text>
+  <text x="305" y="167" font-size="12" font-weight="bold" fill="#92400e">√3</text>
 </svg>"""
     },
     {

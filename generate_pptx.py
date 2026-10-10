@@ -4,14 +4,15 @@ generate_pptx.py - 泰宇版 技術高中數學（第一冊）2-2 三角函數�
 課堂旗艦 16:9 全螢幕教學簡報生成器 (HTML + Edge Headless + PyMuPDF + python-pptx)
 
 嚴格遵守使用者指示與教室投影教學核心原則：
-1. 【版面防斷裂與滿版呈現】：
-   - 全面調校字體級距、行距與間距，完美契合 16:9 頁面，絕對無內容溢出、斷裂或跨頁現象。
-   - 大題單頁呈現，排版開闊大氣，後排學生視野清晰。
+1. 【版面防斷裂、防溢出與大字型】：
+   - 解決任何文字或算式超出版面、與右側圖形重疊的現象。
+   - 嚴格控制 KaTeX 為數學方程式標準規格 (1.1em ~ 1.15em)，文字適度換行。
+   - 表格化呈現特別角 (30°-45°-60°)，取代擁擠條列，確保整齊優美。
 2. 【教學引導導向（不列出解答）】：
-   - 例題、隨堂練習與習題：重點在於提供教學者上課引導學生思考與說明解題方式！
-   - 列出【解題核心方向】與【輔助思考線索】，嚴格隱藏計算數值解答與最終答案，保留課堂互動啟發空間。
+   - 例題、隨堂練習與習題：重點在於提供教學者說明解題方式！
+   - 列出【解題重要方向】與【思考策略線索】，不列出最終數值解答，保留課堂思考互動空間。
 3. 【全 SVG 圖形輔助說明】：
-   - 100% 配置直角三角形、坐標系、六角星陣、特別角等幾何圖形，強化幾何直觀與代數聯想。
+   - 100% 配置直角三角形、坐標系、六角星陣、特別角分子階梯等幾何圖形。
 4. 【規範統一】：
    - 全面採用「第一冊」標準標註。
    - 象牙米杏暖白護眼底色 (#fbf9f4 ~ #f7f3ea)，教室投影高對比不反光。
@@ -48,7 +49,7 @@ SLIDES_CONFIG = [
         "subtitle": "泰宇版 ‧ 技術型高級中等學校數學 第一冊 ‧ 第二章 三角函數",
         "badge": "課堂教學專用 ‧ 啟發式引導 16:9 簡報",
         "desc": "掌握銳角三角比、六大函數定義、特別角精確值、神奇魔法六角形四大關係與常用三角恆等式",
-        "notes": "【單元破案引言】\n各位小小偵探大家好！今天我們要深入直角三角形的幾何世界，解鎖高中數學最重要的符號——三角函數。讓我們用名偵探的敏銳目光，一步一步找出每個函數背後的密碼！"
+        "notes": "【單元引言】\n各位小小偵探大家好！今天我們要深入直角三角形的幾何世界，解鎖高中數學最重要的符號——三角函數。讓我們用名偵探的敏銳目光，一步一步找出每個函數背後的密碼！"
     },
     # 02. 學習地圖
     {
@@ -79,6 +80,19 @@ SLIDES_CONFIG = [
         "card": ALL_CARDS[2],
         "badge": "核心概念 2",
         "title": "銳角三角函數的六大嚴格定義",
+        "custom_front": """
+        <div class="space-y-2">
+          <div class="text-slate-800 font-bold text-base">在直角 $\\triangle$ 中，角 $\\theta$ 的斜邊為 $r$、對邊為 $y$、鄰邊為 $x$：</div>
+          <div class="grid grid-cols-2 gap-2 text-base">
+            <div class="p-2 rounded bg-red-50 border border-red-200 font-bold">正弦：$\\sin\\theta = \\frac{y}{r} = \\frac{\\text{對邊}}{\\text{斜邊}}$</div>
+            <div class="p-2 rounded bg-red-50 border border-red-200 font-bold">餘割：$\\csc\\theta = \\frac{r}{y} = \\frac{\\text{斜邊}}{\\text{對邊}}$（倒數）</div>
+            <div class="p-2 rounded bg-blue-50 border border-blue-200 font-bold">餘弦：$\\cos\\theta = \\frac{x}{r} = \\frac{\\text{鄰邊}}{\\text{斜邊}}$</div>
+            <div class="p-2 rounded bg-blue-50 border border-blue-200 font-bold">正割：$\\sec\\theta = \\frac{r}{x} = \\frac{\\text{斜邊}}{\\text{鄰邊}}$（倒數）</div>
+            <div class="p-2 rounded bg-amber-50 border border-amber-200 font-bold">正切：$\\tan\\theta = \\frac{y}{x} = \\frac{\\text{對邊}}{\\text{鄰邊}}$</div>
+            <div class="p-2 rounded bg-amber-50 border border-amber-200 font-bold">餘切：$\\cot\\theta = \\frac{x}{y} = \\frac{\\text{鄰邊}}{\\text{對邊}}$（倒數）</div>
+          </div>
+        </div>
+        """,
         "notes": "【板書重點】\n斜邊為 r、對邊為 y、鄰邊為 x。正弦 sin=y/r、餘弦 cos=x/r、正切 tan=y/x。其倒數分別為餘割 csc、正割 sec、餘切 cot。"
     },
     {
@@ -153,6 +167,61 @@ SLIDES_CONFIG = [
         "card": ALL_CARDS[14],
         "badge": "速記秘技",
         "title": "特別角 30°、45°、60° 精確值全覽表",
+        "custom_front": """
+        <div class="space-y-1.5">
+          <div class="text-sm font-black text-amber-900">【特別角精確值標準對照表】</div>
+          <div class="overflow-hidden rounded-xl border border-amber-300 bg-white shadow-2xs">
+            <table class="w-full text-center border-collapse text-xs">
+              <thead>
+                <tr class="bg-amber-100/90 text-amber-950 font-black border-b border-amber-300">
+                  <th class="py-1 px-2 border-r border-amber-200">函數 \\ 角</th>
+                  <th class="py-1 px-2 border-r border-amber-200">$30^\\circ (\\frac{\\pi}{6})$</th>
+                  <th class="py-1 px-2 border-r border-amber-200">$45^\\circ (\\frac{\\pi}{4})$</th>
+                  <th class="py-1 px-2">$60^\\circ (\\frac{\\pi}{3})$</th>
+                </tr>
+              </thead>
+              <tbody class="font-bold text-slate-800 divide-y divide-amber-100">
+                <tr class="bg-red-50/40">
+                  <td class="py-1 px-2 font-black text-red-900 border-r border-amber-200">$\\sin\\theta$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$\\frac{1}{2}$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$\\frac{\\sqrt{2}}{2}$</td>
+                  <td class="py-1 px-2">$\\frac{\\sqrt{3}}{2}$</td>
+                </tr>
+                <tr class="bg-blue-50/40">
+                  <td class="py-1 px-2 font-black text-blue-900 border-r border-amber-200">$\\cos\\theta$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$\\frac{\\sqrt{3}}{2}$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$\\frac{\\sqrt{2}}{2}$</td>
+                  <td class="py-1 px-2">$\\frac{1}{2}$</td>
+                </tr>
+                <tr class="bg-amber-50/40">
+                  <td class="py-1 px-2 font-black text-amber-900 border-r border-amber-200">$\\tan\\theta$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$\\frac{\\sqrt{3}}{3}$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$1$</td>
+                  <td class="py-1 px-2">$\\sqrt{3}$</td>
+                </tr>
+                <tr class="bg-orange-50/30">
+                  <td class="py-1 px-2 font-black text-orange-900 border-r border-amber-200">$\\cot\\theta$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$\\sqrt{3}$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$1$</td>
+                  <td class="py-1 px-2">$\\frac{\\sqrt{3}}{3}$</td>
+                </tr>
+                <tr class="bg-indigo-50/30">
+                  <td class="py-1 px-2 font-black text-indigo-900 border-r border-amber-200">$\\sec\\theta$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$\\frac{2\\sqrt{3}}{3}$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$\\sqrt{2}$</td>
+                  <td class="py-1 px-2">$2$</td>
+                </tr>
+                <tr class="bg-purple-50/30">
+                  <td class="py-1 px-2 font-black text-purple-900 border-r border-amber-200">$\\csc\\theta$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$2$</td>
+                  <td class="py-1 px-2 border-r border-amber-200">$\\sqrt{2}$</td>
+                  <td class="py-1 px-2">$\\frac{2\\sqrt{3}}{3}$</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        """,
         "notes": "【階梯規律】\nsin 分子是根號1、根號2、根號3（分子遞增）；cos 分子是根號3、根號2、根號1（分子逆序遞減）；分母恆為 2！"
     },
     {
@@ -408,17 +477,28 @@ def clean_guidance_text(text):
     text = re.sub(r'^線索\s*\d+[：:]\s*', '', text)
     return text.strip()
 
+def sanitize_problem_svg(svg_code):
+    """移除例題與習題 SVG 中直接印出的最終解答，保留題目幾何結構、輔助線與思考方向"""
+    if not svg_code:
+        return ""
+    # 移除紅色醒目之答案文字 (例如 = 1, = -1, = 10, 以及計算完成之紅字等)
+    s = re.sub(r'<text[^>]*fill=[\'"](?:#b91c1c|#dc2626|#ef4444|red)[\'"][^>]*>.*?</text>', '', svg_code)
+    # 移除直接印出等號最終數值的文字
+    s = re.sub(r'<text[^>]*>[^<]*=\s*(?:[-+]?\d+(?:\.\d+)?|1|-1|0|10|24|25|12|13|√\d+/\d+)[^<]*</text>', '', s)
+    # 將卡片外框微調為更協調
+    return s
+
 def render_concept_slide(slide_cfg, idx, total_slides):
     card = slide_cfg["card"]
     badge = slide_cfg.get("badge", "核心概念")
     title = slide_cfg.get("title", card["title"])
-    front = card["front_content"]
+    front = slide_cfg.get("custom_front", card["front_content"])
     svg_html = card.get("svg", "")
 
     steps_html = "".join([f"""
-      <div class="p-2.5 rounded-xl bg-white border border-amber-200 shadow-2xs">
-        <div class="text-base font-black text-amber-900 mb-0.5">【{s['title']}】</div>
-        <div class="text-base text-slate-800 leading-normal font-medium">{s['content']}</div>
+      <div class="p-2 rounded-xl bg-white border border-amber-200/90 shadow-2xs">
+        <div class="text-xs font-black text-amber-900 mb-0.5">【{s['title']}】</div>
+        <div class="text-sm text-slate-800 leading-normal font-medium">{s['content']}</div>
       </div>
     """ for s in card.get("steps", [])])
 
@@ -426,39 +506,39 @@ def render_concept_slide(slide_cfg, idx, total_slides):
   <div class="slide-page">
     <!-- 頂部標題區 -->
     <div class="flex items-center justify-between mb-2 border-b-2 border-amber-300 pb-1.5">
-      <div class="flex items-center gap-3">
-        <span class="px-3 py-1 rounded-lg text-sm font-black bg-amber-600 text-white shadow-xs">{badge}</span>
-        <h2 class="text-2xl font-black text-amber-950 tracking-tight">{title}</h2>
+      <div class="flex items-center gap-2.5">
+        <span class="px-3 py-1 rounded-lg text-xs font-black bg-amber-600 text-white shadow-xs">{badge}</span>
+        <h2 class="text-xl font-black text-amber-950 tracking-tight">{title}</h2>
       </div>
-      <div class="text-sm font-bold text-amber-800 bg-amber-100/80 px-2.5 py-0.5 rounded-md">{card.get('page', '課本概念')}</div>
+      <div class="text-xs font-bold text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-md">{card.get('page', '課本概念')}</div>
     </div>
 
-    <!-- 雙欄主體內容：左欄 60% 概念與重點 / 右欄 40% 精密集幾何圖解 -->
-    <div class="grid grid-cols-12 gap-4 flex-1 items-stretch my-1 overflow-hidden">
+    <!-- 雙欄主體內容：左欄 58% 概念與重點 / 右欄 42% 精密集幾何圖解 -->
+    <div class="grid grid-cols-12 gap-3.5 flex-1 items-stretch my-1 overflow-hidden">
       <!-- 左欄 -->
       <div class="col-span-7 flex flex-col justify-between space-y-2">
-        <div class="p-3.5 rounded-xl bg-amber-50/90 border-2 border-amber-300 text-lg font-bold text-slate-900 leading-snug shadow-2xs">
+        <div class="p-3 rounded-xl bg-amber-50/90 border border-amber-300 text-sm font-bold text-slate-900 leading-snug shadow-2xs">
           {front}
         </div>
-        <div class="space-y-2 flex-1">
+        <div class="space-y-1.5 flex-1">
           {steps_html}
         </div>
-        <div class="p-2.5 rounded-lg bg-emerald-50 border border-emerald-400 text-base font-black text-emerald-900 text-center">
+        <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-400 text-xs font-black text-emerald-900 text-center">
           {card.get('conclusion', '【核心歸納】掌握幾何比例與恆等定義即破案！')}
         </div>
       </div>
 
       <!-- 右欄：滿版清晰幾何 SVG 輔助說明 -->
-      <div class="col-span-5 flex flex-col justify-center items-center p-3 rounded-2xl bg-white border-2 border-amber-200 shadow-sm">
-        <div class="w-full h-full max-h-[140mm] flex items-center justify-center">
+      <div class="col-span-5 flex flex-col justify-center items-center p-2.5 rounded-2xl bg-white border-2 border-amber-200 shadow-sm overflow-hidden">
+        <div class="w-full h-full max-h-[135mm] flex items-center justify-center">
           {svg_html}
         </div>
-        <div class="mt-1.5 text-xs font-bold text-slate-500 text-center">▲ 幾何模型輔助視覺解析</div>
+        <div class="mt-1 text-2xs font-bold text-slate-400 text-center">▲ 幾何模型輔助視覺解析</div>
       </div>
     </div>
 
     <!-- 頁尾 -->
-    <div class="flex items-center justify-between pt-1.5 border-t border-amber-200 text-xs text-slate-500 font-medium">
+    <div class="flex items-center justify-between pt-1 border-t border-amber-200 text-2xs text-slate-500 font-medium">
       <div>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質</div>
       <div>投影片 {idx+1} / {total_slides}</div>
       <div>PLVS 數學科  教育學習用</div>
@@ -481,7 +561,7 @@ def render_big_problem_slide(slide_cfg, idx, total_slides):
         guidance_items = []
         if tip_text:
             guidance_items.append(f"""
-              <div class="p-2.5 rounded-xl bg-amber-50/90 border border-amber-300 text-base text-amber-950 leading-relaxed shadow-2xs font-bold">
+              <div class="p-2 rounded-xl bg-amber-50/90 border border-amber-300 text-sm text-amber-950 leading-relaxed shadow-2xs font-bold">
                 <span class="text-amber-700 font-black">💡 思考核心：</span>{tip_text}
               </div>
             """)
@@ -489,7 +569,7 @@ def render_big_problem_slide(slide_cfg, idx, total_slides):
         for s in c.get("steps", []):
             stitle = clean_guidance_text(s['title'])
             guidance_items.append(f"""
-              <div class="p-2.5 rounded-xl bg-white border border-slate-200 text-base text-slate-800 leading-relaxed shadow-2xs">
+              <div class="p-2 rounded-xl bg-white border border-slate-200 text-sm text-slate-800 leading-relaxed shadow-2xs">
                 <span class="font-bold text-blue-900">▸ 解題步驟：</span>{stitle}
               </div>
             """)
@@ -497,27 +577,27 @@ def render_big_problem_slide(slide_cfg, idx, total_slides):
         guidance_html = "".join(guidance_items)
 
         body_html = f"""
-        <div class="grid grid-cols-12 gap-4 flex-1 items-stretch my-1 overflow-hidden">
-          <div class="col-span-7 flex flex-col justify-between space-y-2.5">
+        <div class="grid grid-cols-12 gap-3.5 flex-1 items-stretch my-1 overflow-hidden">
+          <div class="col-span-7 flex flex-col justify-between space-y-2">
             <div>
-              <div class="text-xs font-bold text-slate-400 mb-1">【題目描述】</div>
-              <div class="p-3.5 rounded-xl bg-amber-50/70 border-2 border-amber-200 text-xl font-bold text-slate-900 leading-snug shadow-2xs">
+              <div class="text-2xs font-bold text-slate-400 mb-0.5">【題目描述】</div>
+              <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-base font-bold text-slate-900 leading-snug shadow-2xs">
                 {c['front_content']}
               </div>
             </div>
-            <div class="space-y-2 flex-1">
-              <div class="text-xs font-black text-amber-800 uppercase tracking-wider">【解題方向與思考策略 ‧ 課堂討論】</div>
+            <div class="space-y-1.5 flex-1">
+              <div class="text-2xs font-black text-amber-800 uppercase tracking-wider">【解題方向與思考策略 ‧ 課堂討論】</div>
               {guidance_html}
             </div>
-            <div class="p-2.5 rounded-xl bg-blue-50 border border-blue-400 text-base font-black text-blue-900 text-center shadow-xs">
+            <div class="p-2 rounded-xl bg-blue-50 border border-blue-400 text-xs font-black text-blue-900 text-center shadow-xs">
               🎯 教學引導提示：引導學生依線索方向思考，動筆推導出最終解答！
             </div>
           </div>
-          <div class="col-span-5 flex flex-col justify-center items-center p-3 rounded-2xl bg-white border-2 border-amber-200 shadow-sm">
-            <div class="w-full h-full max-h-[140mm] flex items-center justify-center">
-              {c.get('svg', '')}
+          <div class="col-span-5 flex flex-col justify-center items-center p-2.5 rounded-2xl bg-white border-2 border-amber-200 shadow-sm overflow-hidden">
+            <div class="w-full h-full max-h-[135mm] flex items-center justify-center">
+              {sanitize_problem_svg(c.get('svg', ''))}
             </div>
-            <div class="mt-1.5 text-xs font-bold text-slate-500 text-center">▲ 幾何輔助解題模型</div>
+            <div class="mt-1 text-2xs font-bold text-slate-400 text-center">▲ 幾何輔助解題模型</div>
           </div>
         </div>
         """
@@ -529,38 +609,38 @@ def render_big_problem_slide(slide_cfg, idx, total_slides):
             step_dirs = [clean_guidance_text(s['title']) for s in c.get("steps", [])]
 
             dir_list_html = "".join([f"""
-              <li class="text-sm text-slate-700 leading-relaxed font-medium">▸ {sd}</li>
+              <li class="text-xs text-slate-700 leading-normal font-medium">▸ {sd}</li>
             """ for sd in step_dirs])
 
             cols_html.append(f"""
-            <div class="col-span-6 flex flex-col justify-between p-3.5 rounded-2xl bg-white border-2 border-amber-200 shadow-sm">
+            <div class="col-span-6 flex flex-col justify-between p-3 rounded-2xl bg-white border border-amber-200 shadow-sm overflow-hidden">
               <div>
-                <div class="flex items-center justify-between mb-1.5 pb-1 border-b border-amber-200">
-                  <span class="px-2.5 py-0.5 rounded text-xs font-black bg-amber-700 text-white">第 ({i+1}) 小題</span>
-                  <span class="text-xs font-bold text-slate-400">{c.get('page', '')}</span>
+                <div class="flex items-center justify-between mb-1 pb-1 border-b border-amber-200">
+                  <span class="px-2 py-0.5 rounded text-xs font-black bg-amber-700 text-white">第 ({i+1}) 小題</span>
+                  <span class="text-2xs font-bold text-slate-400">{c.get('page', '')}</span>
                 </div>
-                <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-lg font-bold text-slate-900 mb-2 leading-snug">
+                <div class="p-2 rounded-lg bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 mb-1.5 leading-snug">
                   {c['front_content']}
                 </div>
-                <div class="p-2 rounded-lg bg-amber-50/70 border border-amber-200 text-sm text-amber-950 font-bold mb-1.5">
+                <div class="p-1.5 rounded-lg bg-amber-50/70 border border-amber-200 text-xs text-amber-950 font-bold mb-1">
                   💡 關鍵方向：{tip_text}
                 </div>
-                <ul class="space-y-1 my-1 px-1">
+                <ul class="space-y-0.5 my-1 px-1">
                   {dir_list_html}
                 </ul>
               </div>
               <div>
-                <div class="h-32 w-full flex items-center justify-center my-1 bg-amber-50/30 rounded-lg p-1 border border-amber-100">
-                  {c.get('svg', '')}
+                <div class="h-28 w-full flex items-center justify-center my-1 bg-amber-50/30 rounded-lg p-1 border border-amber-100 overflow-hidden">
+                  {sanitize_problem_svg(c.get('svg', ''))}
                 </div>
-                <div class="p-1.5 rounded-lg bg-blue-50 border border-blue-300 text-xs font-black text-blue-900 text-center">
-                  🎯 教師引導學生由圖形三邊比推算答案
+                <div class="p-1 rounded-lg bg-blue-50 border border-blue-300 text-2xs font-black text-blue-900 text-center">
+                  🎯 引導學生由圖形三邊比推算答案
                 </div>
               </div>
             </div>
             """)
         body_html = f"""
-        <div class="grid grid-cols-12 gap-3.5 flex-1 items-stretch my-1 overflow-hidden">
+        <div class="grid grid-cols-12 gap-3 flex-1 items-stretch my-1 overflow-hidden">
           {''.join(cols_html)}
         </div>
         """
@@ -572,38 +652,38 @@ def render_big_problem_slide(slide_cfg, idx, total_slides):
             step_dirs = [clean_guidance_text(s['title']) for s in c.get("steps", [])]
 
             dir_list_html = "".join([f"""
-              <li class="text-xs text-slate-700 leading-tight font-medium">▸ {sd}</li>
+              <li class="text-2xs text-slate-700 leading-tight font-medium">▸ {sd}</li>
             """ for sd in step_dirs])
 
             cols_html.append(f"""
-            <div class="col-span-4 flex flex-col justify-between p-3 rounded-2xl bg-white border-2 border-amber-200 shadow-sm">
+            <div class="col-span-4 flex flex-col justify-between p-2.5 rounded-2xl bg-white border border-amber-200 shadow-sm overflow-hidden">
               <div>
-                <div class="flex items-center justify-between mb-1 pb-1 border-b border-amber-200">
-                  <span class="px-2 py-0.5 rounded text-xs font-black bg-amber-700 text-white">第 ({i+1}) 小題</span>
+                <div class="flex items-center justify-between mb-1 pb-0.5 border-b border-amber-200">
+                  <span class="px-1.5 py-0.5 rounded text-2xs font-black bg-amber-700 text-white">第 ({i+1}) 小題</span>
                   <span class="text-2xs font-bold text-slate-400">{c.get('page', '')}</span>
                 </div>
-                <div class="p-2 rounded-lg bg-slate-50 border border-slate-200 text-base font-bold text-slate-900 mb-1.5 leading-snug">
+                <div class="p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 mb-1 leading-snug">
                   {c['front_content']}
                 </div>
-                <div class="p-1.5 rounded-md bg-amber-50/70 border border-amber-200 text-xs text-amber-950 font-bold mb-1">
+                <div class="p-1 rounded-md bg-amber-50/70 border border-amber-200 text-2xs text-amber-950 font-bold mb-1">
                   💡 核心：{tip_text}
                 </div>
-                <ul class="space-y-0.5 my-1 px-1">
+                <ul class="space-y-0.5 my-0.5 px-0.5">
                   {dir_list_html}
                 </ul>
               </div>
               <div>
-                <div class="h-28 w-full flex items-center justify-center my-1 bg-amber-50/30 rounded-lg p-1 border border-amber-100">
-                  {c.get('svg', '')}
+                <div class="h-24 w-full flex items-center justify-center my-0.5 bg-amber-50/30 rounded-lg p-0.5 border border-amber-100 overflow-hidden">
+                  {sanitize_problem_svg(c.get('svg', ''))}
                 </div>
-                <div class="p-1 rounded bg-blue-50 border border-blue-300 text-2xs font-black text-blue-900 text-center">
-                  🎯 啟發學生套用星陣化簡求值
+                <div class="p-0.5 rounded bg-blue-50 border border-blue-300 text-2xs font-black text-blue-900 text-center">
+                  🎯 套用星陣化簡求值
                 </div>
               </div>
             </div>
             """)
         body_html = f"""
-        <div class="grid grid-cols-12 gap-3 flex-1 items-stretch my-1 overflow-hidden">
+        <div class="grid grid-cols-12 gap-2.5 flex-1 items-stretch my-1 overflow-hidden">
           {''.join(cols_html)}
         </div>
         """
@@ -612,18 +692,18 @@ def render_big_problem_slide(slide_cfg, idx, total_slides):
   <div class="slide-page">
     <!-- 頂部標題區 -->
     <div class="flex items-center justify-between mb-2 border-b-2 border-amber-300 pb-1.5">
-      <div class="flex items-center gap-3">
-        <span class="px-3 py-1 rounded-lg text-sm font-black bg-red-600 text-white shadow-xs">{tag}</span>
-        <h2 class="text-2xl font-black text-amber-950 tracking-tight">{title}</h2>
+      <div class="flex items-center gap-2.5">
+        <span class="px-3 py-1 rounded-lg text-xs font-black bg-red-600 text-white shadow-xs">{tag}</span>
+        <h2 class="text-xl font-black text-amber-950 tracking-tight">{title}</h2>
       </div>
-      <div class="text-xs font-bold text-slate-500 bg-amber-100/70 px-2.5 py-0.5 rounded-md">課堂教學 ‧ 解題思考方向引導</div>
+      <div class="text-2xs font-bold text-slate-500 bg-amber-100/70 px-2 py-0.5 rounded-md">課堂教學 ‧ 解題思考方向引導</div>
     </div>
 
     <!-- 主體內容 -->
     {body_html}
 
     <!-- 頁尾 -->
-    <div class="flex items-center justify-between pt-1.5 border-t border-amber-200 text-xs text-slate-500 font-medium">
+    <div class="flex items-center justify-between pt-1 border-t border-amber-200 text-2xs text-slate-500 font-medium">
       <div>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質</div>
       <div>投影片 {idx+1} / {total_slides}</div>
       <div>PLVS 數學科  教育學習用</div>
@@ -653,7 +733,7 @@ def generate_full_slides_html(slides_cfg):
       margin: 0;
       padding: 0;
       background: #e2e8f0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", "Noto Sans TC", sans-serif;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
@@ -667,21 +747,27 @@ def generate_full_slides_html(slides_cfg):
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 12mm 18mm 8mm 18mm;
+      padding: 10mm 15mm 7mm 15mm;
       background: #fbf9f4; /* 象牙米杏暖白護眼底色 */
     }
-    .katex, .katex-html, .katex-display {
-      white-space: nowrap !important;
-      font-size: 1.25em !important;
-      font-weight: 700 !important;
+    /* 嚴格控制 KaTeX 標準數學方程式規格，允許正常換行，避免衝破版面 */
+    .katex {
+      font-size: 1.1em !important;
+      font-weight: 600 !important;
+      white-space: normal !important;
+    }
+    .katex-html {
+      white-space: normal !important;
     }
     .katex-display {
       margin: 0.1em 0 !important;
       display: inline-block !important;
+      font-size: 1.15em !important;
     }
-    /* 避免任何捲軸或文字溢出斷裂 */
+    /* 全局防溢出 */
     * {
       box-sizing: border-box;
+      word-break: break-word;
     }
   </style>
 </head>
@@ -710,7 +796,7 @@ def generate_full_slides_html(slides_cfg):
             html += f"""
             <div class="slide-page">
               {content_html}
-              <div class="flex items-center justify-between pt-1.5 border-t border-amber-200 text-xs text-slate-500 font-medium">
+              <div class="flex items-center justify-between pt-1 border-t border-amber-200 text-2xs text-slate-500 font-medium">
                 <div>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質</div>
                 <div>投影片 {idx+1} / {total}</div>
                 <div>PLVS 數學科  教育學習用</div>
@@ -719,11 +805,11 @@ def generate_full_slides_html(slides_cfg):
             """
         elif kind == "roadmap":
             mods_html = "".join([f"""
-              <div class="p-5 rounded-2xl bg-white border-2 border-amber-200 shadow-sm flex flex-col justify-between">
+              <div class="p-4 rounded-2xl bg-white border border-amber-200 shadow-sm flex flex-col justify-between">
                 <div>
-                  <span class="px-2.5 py-0.5 rounded text-xs font-black bg-amber-600 text-white">{m['num']}</span>
-                  <h3 class="text-xl font-black text-amber-950 mt-2 mb-1.5">{m['title']}</h3>
-                  <p class="text-base text-slate-700 leading-relaxed">{m['desc']}</p>
+                  <span class="px-2 py-0.5 rounded text-xs font-black bg-amber-600 text-white">{m['num']}</span>
+                  <h3 class="text-lg font-black text-amber-950 mt-1.5 mb-1">{m['title']}</h3>
+                  <p class="text-sm text-slate-700 leading-relaxed">{m['desc']}</p>
                 </div>
               </div>
             """ for m in cfg['modules']])
@@ -731,10 +817,10 @@ def generate_full_slides_html(slides_cfg):
             <div class="flex-1 flex flex-col justify-between">
               <div>
                 <span class="text-xs font-black text-amber-700 tracking-wider">ROADMAP</span>
-                <h2 class="text-3xl font-black text-amber-950 mb-1">{cfg['title']}</h2>
-                <p class="text-base text-slate-600 mb-3">{cfg['subtitle']}</p>
+                <h2 class="text-2xl font-black text-amber-950 mb-0.5">{cfg['title']}</h2>
+                <p class="text-sm text-slate-600 mb-2">{cfg['subtitle']}</p>
               </div>
-              <div class="grid grid-cols-4 gap-4 flex-1 items-stretch my-2">
+              <div class="grid grid-cols-4 gap-3.5 flex-1 items-stretch my-2">
                 {mods_html}
               </div>
             </div>
@@ -742,7 +828,7 @@ def generate_full_slides_html(slides_cfg):
             html += f"""
             <div class="slide-page">
               {content_html}
-              <div class="flex items-center justify-between pt-1.5 border-t border-amber-200 text-xs text-slate-500 font-medium">
+              <div class="flex items-center justify-between pt-1 border-t border-amber-200 text-2xs text-slate-500 font-medium">
                 <div>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質</div>
                 <div>投影片 {idx+1} / {total}</div>
                 <div>PLVS 數學科  教育學習用</div>
