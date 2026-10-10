@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-interactive_cards_data.py - 泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質
+interactive_cards_data.py - 泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質
 正面互動檢核題庫 (QUIZ_DATA)、動態模型參數 (MODEL_DATA) 與六大闖關關卡 (CHALLENGE_STAGES)
 遵循 SOP v3.0 名偵探柯南數理探案特訓 ‧ 旗艦全功能標準版：
 - 全套 60 張圖卡每張均配置正面檢核抽屜題

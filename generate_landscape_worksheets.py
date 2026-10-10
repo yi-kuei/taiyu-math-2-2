@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 generate_landscape_worksheets.py
-泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質
+泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質
 JIS B4 橫向雙欄 Word 學習單產生器 (學生自主學習單 + 教師教學評量解答版)
 遵循《SOP v3.0 名偵探柯南數理探案特訓 ‧ 旗艦全功能標準版》規範：
 - Word 原生 OMML 數學方程式 (<m:oMath>)
@@ -188,7 +188,7 @@ def create_worksheet(is_teacher=False):
     f_p = footer.paragraphs[0]
     f_p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     status_str = "[警視廳機密解答卷宗 ‧ 密碼 88888888]" if is_teacher else "[偵探搜查實作單]"
-    f_run = f_p.add_run(f"泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質 {status_str} ｜ PLVS 數學科  教育學習用")
+    f_run = f_p.add_run(f"泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質 {status_str} ｜ PLVS 數學科  教育學習用")
     f_run.font.name = "微軟正黑體"
     f_run.font.size = Pt(9)
     f_run.font.color.rgb = RGBColor(140, 140, 140)
@@ -196,7 +196,7 @@ def create_worksheet(is_teacher=False):
     # 4. 標題橫幅
     title_p = doc.add_paragraph()
     title_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    t_run = title_p.add_run("泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質 數位學習單")
+    t_run = title_p.add_run("泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質 數位學習單")
     t_run.font.name = "微軟正黑體"
     t_run.font.size = Pt(16)
     t_run.bold = True

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-generate_full_flipcard_page.py - 泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質
+generate_full_flipcard_page.py - 泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質
 數位翻牌圖解互動平台主頁 index.html 生成器
 遵循 SOP v3.0 名偵探柯南數理探案特訓 ‧ 旗艦全功能標準版：
 - 卡片網格強制雙欄 (grid-cols-1 md:grid-cols-2)
@@ -23,7 +23,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質 ‧ 名偵探柯南數理探案特訓平台</title>
+  <title>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質 ‧ 名偵探柯南數理探案特訓平台</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -109,7 +109,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             名偵探柯南數理探案特訓
           </h1>
           <p class="text-[11px] text-slate-300 font-medium">
-            泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質
+            泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質
           </p>
         </div>
       </div>
@@ -314,7 +314,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
       <!-- 第二列：課程名稱與版權署名 -->
       <div class="text-sm font-bold text-amber-300 mb-1">
-        泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質
+        泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質
       </div>
       <div class="text-xs text-slate-400 mb-2">
         PLVS 數學科  教育學習用 ｜ 警視廳授權驗證密碼：88888888

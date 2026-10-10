@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-interactive_js_module.py - 泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質
+interactive_js_module.py - 泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質
 前端十大互動 JavaScript 核心邏輯模組
 遵循 SOP v3.0 名偵探柯南數理探案特訓 ‧ 旗艦全功能標準版：
 - 雙向同步逐步導引 showStep（防短路鐵律，課堂聚焦與半透明模糊遮蔽）

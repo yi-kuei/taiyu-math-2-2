@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-generate_cards_pdf.py - 泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質
+generate_cards_pdf.py - 泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質
 A4 橫向滿版圖解學習卡產生器 (HTML + Edge Headless 高解析向量 PDF)
 遵循 SOP v3.0 名偵探柯南數理探案特訓 ‧ 旗艦全功能標準版：
 - A4 橫向 (297mm x 210mm) 一頁一張雙欄卡片
@@ -26,7 +26,7 @@ def generate_printable_html(cards):
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質 ‧ 全套 {len(cards)} 張圖解學習卡</title>
+  <title>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質 ‧ 全套 {len(cards)} 張圖解學習卡</title>
   <!-- KaTeX CSS & JS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -94,7 +94,7 @@ def generate_printable_html(cards):
     <div class="flex items-center justify-between pb-2 border-b border-amber-200">
       <div class="flex items-center gap-2">
         <span class="px-2.5 py-0.5 rounded text-xs font-black bg-amber-600 text-white">{card['tag']}</span>
-        <span class="text-sm font-bold text-slate-800">泰宇版 技術高中數學（第二冊）2-2 三角函數的定義與性質</span>
+        <span class="text-sm font-bold text-slate-800">泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質</span>
         <span class="px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800">{card['category']} ‧ {card['page']}</span>
       </div>
       <div class="text-xs font-bold text-amber-700">
