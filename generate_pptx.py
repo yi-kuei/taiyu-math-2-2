@@ -3,16 +3,19 @@
 generate_pptx.py - 泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質
 課堂旗艦 16:9 全螢幕教學簡報生成器 (HTML + Edge Headless + PyMuPDF + python-pptx)
 
-嚴格遵守使用者指示與教室投影教學五大核心原則：
-1. 依據課程內容與主題，每張簡報放一個重點概念解說 (包含正三角形對折、六大定義、倒數、特別角、六角星四大星陣、常用恆等式等)
-2. 例題跟隨堂練習，每一大題一張頁面 (例題 1~9 與隨堂 1~9 各自獨立成頁，多小題並列左右或三欄清楚對照)
-3. 習題也是一題一張頁面 (是非題 5 小題獨立頁面診斷、基礎題 1~7 與進階題 8~9 每一大題獨立一張頁面)
-4. 字體全面放大：標題 36~40px、題幹 24~28px、算式與推理 20~24px、結論 22~26px，保證後排清晰可見
-5. 能夠用圖形來解釋說明的，盡量放上圖形來輔助說明 (100% 配置精密 SVG 向量幾何圖形、六角星陣、直角三角形坐標)
-6. 16:9 滿版渲染 (338.67mm x 190.5mm / 13.333" x 7.5")，0 邊距滿版貼合無黑邊
-7. 象牙米杏暖白護眼底色 (#fbf9f4 ~ #f7f3ea)，教室投影高對比不反光
-8. 每頁配置專屬教學備忘 Speaker Notes
-9. 自動將 PPTX 轉為 Base64 寫入 docx_b64.py
+嚴格遵守使用者指示與教室投影教學核心原則：
+1. 【版面防斷裂與滿版呈現】：
+   - 全面調校字體級距、行距與間距，完美契合 16:9 頁面，絕對無內容溢出、斷裂或跨頁現象。
+   - 大題單頁呈現，排版開闊大氣，後排學生視野清晰。
+2. 【教學引導導向（不列出解答）】：
+   - 例題、隨堂練習與習題：重點在於提供教學者上課引導學生思考與說明解題方式！
+   - 列出【解題核心方向】與【輔助思考線索】，嚴格隱藏計算數值解答與最終答案，保留課堂互動啟發空間。
+3. 【全 SVG 圖形輔助說明】：
+   - 100% 配置直角三角形、坐標系、六角星陣、特別角等幾何圖形，強化幾何直觀與代數聯想。
+4. 【規範統一】：
+   - 全面採用「第一冊」標準標註。
+   - 象牙米杏暖白護眼底色 (#fbf9f4 ~ #f7f3ea)，教室投影高對比不反光。
+   - 47 頁全螢幕 16:9 滿版（13.333" x 7.5"），每頁皆含專屬講者備忘稿 (Speaker Notes)。
 """
 
 import os
@@ -43,9 +46,9 @@ SLIDES_CONFIG = [
         "kind": "cover",
         "title": "2-2 三角函數的定義與性質",
         "subtitle": "泰宇版 ‧ 技術型高級中等學校數學 第一冊 ‧ 第二章 三角函數",
-        "badge": "課堂教學專用 ‧ 旗艦全螢幕 16:9 簡報",
-        "desc": "掌握銳角三角比、六大函數邊長比、特別角精確值、神奇魔法六角形四大關係與常用三角恆等式",
-        "notes": "【單元引言】\n全班同學好！今天我們要進入高中數學最關鍵的核心——三角函數。我們將從直角三角形邊長比例出發，一步步推導六大函數、熟記特別角、掌握神奇六角星陣，輕鬆攻克所有題型！"
+        "badge": "課堂教學專用 ‧ 啟發式引導 16:9 簡報",
+        "desc": "掌握銳角三角比、六大函數定義、特別角精確值、神奇魔法六角形四大關係與常用三角恆等式",
+        "notes": "【單元破案引言】\n各位小小偵探大家好！今天我們要深入直角三角形的幾何世界，解鎖高中數學最重要的符號——三角函數。讓我們用名偵探的敏銳目光，一步一步找出每個函數背後的密碼！"
     },
     # 02. 學習地圖
     {
@@ -90,42 +93,42 @@ SLIDES_CONFIG = [
         "tag": "課本例題 1",
         "title": "例題 1：三邊已知求 ∠A 之六個三角函數值",
         "cards": [ALL_CARDS[4], ALL_CARDS[5]],
-        "notes": "【例題 1 講解】\n本大題包含兩小題直角三角形：第 (1) 小題為 8-15-17，第 (2) 小題為 5-12-13。請同學先鎖定角 A 的對邊與鄰邊，先求 sin、cos、tan，再直接取倒數得 csc、sec、cot！"
+        "notes": "【例題 1 講解指引】\n引導重點：\n1. 請學生先找出直角 C，確認斜邊是哪一條。\n2. 鎖定角 A 視角，辨識誰是「對邊」（對面）、誰是「鄰邊」（相鄰）。\n3. 先求主幹 sin, cos, tan，再引導倒數求出 csc, sec, cot。"
     },
     {
         "kind": "big_problem",
         "tag": "隨堂實戰 1",
         "title": "隨堂練習 1：視角切換至 ∠B 之六個三角函數值",
         "cards": [ALL_CARDS[6], ALL_CARDS[7]],
-        "notes": "【隨堂 1 演練】\n注意視角切換到角 B！此時角 B 的對邊與鄰邊剛好跟角 A 互換，斜邊仍維持不變。請全班對照例題 1 與隨堂 1 的結果，體會餘角互換的關係！"
+        "notes": "【隨堂 1 演練指引】\n引導重點：\n1. 視角由角 A 切換至角 B，提醒學生「斜邊不變，對邊與鄰邊的角色對調」！\n2. 讓學生比較與例題 1 的數值關聯，為後續餘角關係埋下伏筆。"
     },
     {
         "kind": "big_problem",
         "tag": "課本例題 2",
         "title": "例題 2：已知 cos A = 5/13，求其餘各三角函數值",
         "cards": [ALL_CARDS[8]],
-        "notes": "【知一求其餘】\n已知 cos A = 5/13，設鄰邊為 5k、斜邊為 13k，利用畢氏定理求出對邊為 12k。三邊比例 5:12:13 一確定，其餘五個函數值直接寫出！"
+        "notes": "【知一求其餘指引】\n引導重點：\n1. 知一三角比即可設直角三角形邊長參數：鄰邊 5k、斜邊 13k。\n2. 透過畢氏定理 √(13^2 - 5^2) 求出對邊 12k。\n3. 三邊比例確定後，其餘五個比值即可逐一寫出。"
     },
     {
         "kind": "big_problem",
         "tag": "隨堂實戰 2",
         "title": "隨堂練習 2：已知 tan A = 24/7，求其餘各三角函數值",
         "cards": [ALL_CARDS[9]],
-        "notes": "【學生實戰】\n設對邊為 24k、鄰邊為 7k，畢氏定理算斜邊：根號(24^2 + 7^2) = 25k。三邊比 7:24:25，迅速寫出其餘五個函數值！"
+        "notes": "【隨堂 2 演練指引】\n引導重點：\n1. 正切 tan = 對邊 / 鄰邊 = 24/7。\n2. 畢氏定理算出斜邊為 25k (7-24-25 畢氏數)。\n3. 依定義直接寫出其餘五大函數值。"
     },
     {
         "kind": "big_problem",
         "tag": "課本例題 3",
         "title": "例題 3：已知 sin A = 4/5 且 AB = 15，求邊長與各函數值",
         "cards": [ALL_CARDS[10]],
-        "notes": "【比例與長度】\n強調函數值是比值（不隨放大改變），邊長是實際長度。由三邊比 3:4:5，斜邊 5k=15 得放大倍數 k=3，實際邊長為 9 與 12。"
+        "notes": "【比例與長度指引】\n引導重點：\n1. 區分「比值」與「實際長度」：sin A = 4/5 確立 3:4:5 幾何模型。\n2. 比值不隨縮放改變，故 cos A 與 tan A 直接可得。\n3. 斜邊 5k = 15 決定放大倍率 k = 3，進而求出實際邊長。"
     },
     {
         "kind": "big_problem",
         "tag": "隨堂實戰 3",
         "title": "隨堂練習 3：已知 csc A = 17/15 且 AC = 40，求邊長與各值",
         "cards": [ALL_CARDS[11]],
-        "notes": "【倒數與邊長】\ncsc A = 17/15 代表斜邊與對邊比為 17:15，鄰邊即為 8。由鄰邊 8k=40 得 k=5，故斜邊 AB=85、對邊 BC=75。"
+        "notes": "【隨堂 3 演練指引】\n引導重點：\n1. 餘割 csc = 斜邊 / 對邊 = 17/15，鄰邊即為 8。\n2. 鄰邊 8k = 40 導出縮放係數 k = 5。\n3. 依比例倍數求出實際長度與其他函數值。"
     },
 
     # =========================================================
@@ -157,28 +160,28 @@ SLIDES_CONFIG = [
         "tag": "課本例題 4",
         "title": "例題 4：特別角四則運算求值",
         "cards": [ALL_CARDS[15], ALL_CARDS[16]],
-        "notes": "【代值計算】\n第 (1) 小題代入 sin 30°=1/2、cos 60°=1/2、tan 45°=1 得 1。\n第 (2) 小題注意 sin^2 45° 是平方函數值：2*(1/根號2)^2 = 1，乘積項 cot 30°*csc 60° = 根號3*(2/根號3) = 2，合計 3。"
+        "notes": "【特別角運算指引】\n引導重點：\n1. 第 (1) 小題直接調用 30°, 60°, 45° 函數值進行加減。\n2. 第 (2) 小題提醒：sin^2 45° 是平方函數值，不是平方角度！乘積項善用根號相消。"
     },
     {
         "kind": "big_problem",
         "tag": "隨堂實戰 4",
         "title": "隨堂練習 4：含根號與弳度特別角求值",
         "cards": [ALL_CARDS[17], ALL_CARDS[18]],
-        "notes": "【根號與弳度】\n第 (1) 小題計算化簡得 2*根號3 - 1。\n第 (2) 小題將弳度 pi/4, pi/6, pi/3 轉為 45°, 30°, 60°，通分計算得 11/12。"
+        "notes": "【隨堂 4 演練指引】\n引導重點：\n1. 第 (1) 小題代入根號係數運算，同類項合併。\n2. 第 (2) 小題提醒：遇到弳度量先轉換為度數 (π/4=45°, π/6=30°, π/3=60°)，再通分計算。"
     },
     {
         "kind": "big_problem",
         "tag": "生活科技例題 5",
         "title": "例題 5：內政部營建署無障礙坡道坡度夾角反推",
         "cards": [ALL_CARDS[19]],
-        "notes": "【科技素養】\n坡度定義即正切值 tan θ = 垂直上升 / 水平前進。tan θ = 1/8 = 0.125，使用工程計算機按 tan^(-1)(0.125) 得夾角約 7.125°。"
+        "notes": "【工程素養引導】\n引導重點：\n1. 坡度定義為 tan θ = 垂直上升 / 水平前進 = 1/8 = 0.125。\n2. 指導學生在工程計算機上切換 DEG 模式，按 2nd 鍵啟用 tan^(-1) 反三角函數。"
     },
     {
         "kind": "big_problem",
         "tag": "生活科技隨堂 5",
         "title": "隨堂練習 5：自行車道 20% 險升坡夾角反推",
         "cards": [ALL_CARDS[20]],
-        "notes": "【生活應用】\n20% 坡度代表水平前進 100 公尺、垂直上升 20 公尺。tan θ = 20/100 = 0.2，計算機按 tan^(-1)(0.2) 得約 11.3°，夾角約為 11°。"
+        "notes": "【生活應用引導】\n引導重點：\n1. 20% 百分比坡度代表水平前進 100 公尺、垂直上升 20 公尺。\n2. tan θ = 20/100 = 0.2，由計算機反推地面夾角。"
     },
 
     # =========================================================
@@ -224,42 +227,42 @@ SLIDES_CONFIG = [
         "tag": "課本例題 6",
         "title": "例題 6：基本恆等關係秒殺求值",
         "cards": [ALL_CARDS[26], ALL_CARDS[27], ALL_CARDS[28]],
-        "notes": "【秒殺題型】\n(1) 同角倒數相乘：sin 50° * csc 50° = 1。\n(2) 同角平方和：sin^2 40° + cos^2 40° = 1。\n(3) 平方關係變形：sec^2 70° - tan^2 70° = 1。"
+        "notes": "【秒殺題型引導】\n引導重點：\n1. (1) 辨識同角正弦與餘割之對角線倒數關係。\n2. (2) 辨識同角正弦平方與餘弦平方之平方和關係。\n3. (3) 由 1 + tan^2 = sec^2 進行移項變形。"
     },
     {
         "kind": "big_problem",
         "tag": "隨堂實戰 6",
         "title": "隨堂練習 6：倒數與平方綜合求值",
         "cards": [ALL_CARDS[29], ALL_CARDS[30], ALL_CARDS[31]],
-        "notes": "【符號陷阱提醒】\n(1) cos 35° * sec 35° = 1。\n(2) sin^2 80° + cos^2 80° = 1。\n(3) cot^2 12° - csc^2 12° = -1（注意移項負號！）。"
+        "notes": "【隨堂 6 演練引導】\n引導重點：\n1. (1) 餘弦與正割之倒數乘積。\n2. (2) 同角 80° 正餘弦平方和。\n3. (3) 警惕符號陷阱：1 + cot^2 = csc^2 移項為 cot^2 - csc^2 = -1！"
     },
     {
         "kind": "big_problem",
         "tag": "課本例題 7",
         "title": "例題 7：餘角轉化與恆等混合求值",
         "cards": [ALL_CARDS[32]],
-        "notes": "【非特別角破案】\n40°+50°=90° 得 tan 50°=cot 40°，故 tan 40°*cot 40°=1；72°+18°=90° 得 csc 18°=sec 72°，tan^2 72°-sec^2 72°=-1。合計 1 + (-1) = 0。"
+        "notes": "【非特別角化簡引導】\n引導重點：\n1. 尋找相加 90° 的互餘角配對：40° 與 50°、72° 與 18°。\n2. 餘角互換將 tan 50° 化為 cot 40°，csc 18° 化為 sec 72°。\n3. 套用倒數與平方變形關係快速化簡。"
     },
     {
         "kind": "big_problem",
         "tag": "隨堂實戰 7",
         "title": "隨堂練習 7：餘角平方和與平方差混合求值",
         "cards": [ALL_CARDS[33]],
-        "notes": "【兩組餘角配對】\n第一組：cos^2 35° + cos^2 55° = cos^2 35° + sin^2 35° = 1。\n第二組：csc^2 47° - tan^2 43° = csc^2 47° - cot^2 47° = 1。合計 1 + 1 = 2。"
+        "notes": "【隨堂 7 演練引導】\n引導重點：\n1. 第一組：35° 與 55° 互餘，cos 55° = sin 35° 構成同角平方和。\n2. 第二組：47° 與 43° 互餘，tan 43° = cot 47° 構成 csc^2 - cot^2 平方差。"
     },
     {
         "kind": "big_problem",
         "tag": "課本例題 8",
         "title": "例題 8：已知 tan θ = 2，求一次齊次分式之值",
         "cards": [ALL_CARDS[34]],
-        "notes": "【齊次同除神技】\n分子分母同除以 cos θ，正弦全變正切：(tan θ + 2) / (3 tan θ - 1) = (2 + 2) / (6 - 1) = 4/5！完全不必算斜邊！"
+        "notes": "【齊次同除神技引導】\n引導重點：\n1. 觀察分子分母均為 sin, cos 的一次齊次式。\n2. 分子分母同除以 cos θ，利用商數關係將 sin/cos 全化為 tan θ。\n3. 強調此法完全無需計算斜邊長度，極為迅速！"
     },
     {
         "kind": "big_problem",
         "tag": "隨堂實戰 8",
         "title": "隨堂練習 8：已知 cot θ = 2/3，求一次齊次分式之值",
         "cards": [ALL_CARDS[35]],
-        "notes": "【同除正弦】\n已知餘切，分子分母同除以 sin θ：(1 - 3 cot θ) / (5 + 6 cot θ) = (1 - 2) / (5 + 4) = -1/9。"
+        "notes": "【隨堂 8 演練引導】\n引導重點：\n1. 已知條件為 cot θ，導引學生思考「同除以 sin θ」化為 cot θ。\n2. 代入分式進行通分運算。"
     },
 
     # =========================================================
@@ -277,14 +280,14 @@ SLIDES_CONFIG = [
         "tag": "課本例題 9",
         "title": "例題 9：和平方連環扣求乘積與切和",
         "cards": [ALL_CARDS[37], ALL_CARDS[38]],
-        "notes": "【連環口訣】\n(1) 平方展開：1 + 2 sin cos = (4/3)^2 = 16/9 得 sin cos = 7/18。\n(2) 切和即乘積倒數：tan + cot = 1 / (7/18) = 18/7！"
+        "notes": "【連環解題架構引導】\n引導重點：\n1. (1)「見和必平方」：等式兩邊平方，利用 (sin+cos)^2 = 1 + 2sin cos 解出乘積。\n2. (2) 將切和 tan+cot 通分為 1/(sin cos)，由上一小題結果直接倒數求解。"
     },
     {
         "kind": "big_problem",
         "tag": "隨堂實戰 9",
         "title": "隨堂練習 9：差平方連環扣求乘積與切和",
         "cards": [ALL_CARDS[39], ALL_CARDS[40]],
-        "notes": "【差平方實戰】\n(1) 差平方：1 - 2 sin cos = (3/5)^2 = 9/25 得 sin cos = 8/25。\n(2) 切和即倒數：tan + cot = 1 / (8/25) = 25/8！"
+        "notes": "【差平方實戰引導】\n引導重點：\n1. (1) 差平方展開：(sin-cos)^2 = 1 - 2sin cos，移項求乘積。\n2. (2) 同樣透過 tan+cot = 1/(sin cos) 倒數求切和。"
     },
 
     # =========================================================
@@ -295,98 +298,98 @@ SLIDES_CONFIG = [
         "tag": "課本習題 觀念 (1)",
         "title": "習題 觀念 (1)：已知銳角正弦是否可求其餘五個函數值？",
         "cards": [ALL_CARDS[41]],
-        "notes": "【觀念診斷 1】\n正確（○）！已知 sin θ = y/r，由畢氏定理鄰邊 x = 根號(r^2 - y^2) 唯一確定，因此其餘五個三角函數值皆能完全求出！"
+        "notes": "【觀念思辨 1】\n引導學生回想知一求其餘模型：sin θ 確定對邊與斜邊比例，畢氏定理確定鄰邊比例，因此其餘五值皆可解。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 觀念 (2)",
         "title": "習題 觀念 (2)：已知 sin A = 3/5 是否可求出三邊長度？",
         "cards": [ALL_CARDS[42]],
-        "notes": "【觀念診斷 2】\n錯誤（×）！函數值是邊長『比值』而非『長度』！三邊比為 3k:4k:5k，若未給予任何邊長條件，無法求得實際長度！"
+        "notes": "【觀念思辨 2】\n引導學生分辨「比值」與「長度」之差異，若無給定任何邊長實際數值，三角形可任意縮放，長度無法確定。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 觀念 (3)",
         "title": "習題 觀念 (3)：不同銳角平方和是否必等於 1？",
         "cards": [ALL_CARDS[43]],
-        "notes": "【觀念診斷 3】\n錯誤（×）！平方關係的前提是『同角』！sin^2 α + cos^2 β 不保證等於 1。反例：α=30°, β=60° 時平方和為 1/2 ≠ 1。"
+        "notes": "【觀念思辨 3】\n引導學生注意平方關係公式前題：必須是「同角」！舉出 α=30°, β=60° 之反例檢驗。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 觀念 (4)",
         "title": "習題 觀念 (4)：銳角 sin θ × cos θ 是否必等於 1？",
         "cards": [ALL_CARDS[44]],
-        "notes": "【觀念診斷 4】\n錯誤（×）！倒數關係是 sin θ * csc θ = 1，並非 sin θ * cos θ = 1！反例：θ=30° 時乘積為 根號3/4 ≠ 1。"
+        "notes": "【觀念思辨 4】\n引導學生澄清倒數伴侶概念：與 sin 乘積為 1 的是 csc，而非 cos。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 觀念 (5)",
         "title": "習題 觀念 (5)：和平方展開是否可省略交叉項？",
         "cards": [ALL_CARDS[45]],
-        "notes": "【觀念診斷 5】\n錯誤（×）！(sin+cos)^2 展開必須包含交叉項 2 sin cos！因為 θ 為銳角，交叉項大於 0，故展開值大於 1，不可能等於 1。"
+        "notes": "【觀念思辨 5】\n引導乘法公式嚴密展開：(a+b)^2 = a^2 + 2ab + b^2，不可漏掉 2sin cos 交叉項。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 基礎 1",
         "title": "基礎題 1：已知直角三角形 sin A = 3/5，求 tan A + sec A",
         "cards": [ALL_CARDS[46]],
-        "notes": "【基礎 1 詳解】\nsin A = 3/5 得三邊比 3:4:5。對邊 3、鄰邊 4、斜邊 5。tan A = 3/4、sec A = 5/4，相加 3/4 + 5/4 = 8/4 = 2。"
+        "notes": "【基礎 1 解題指引】\n引導重點：\n1. 由 sin A = 3/5 建立 3-4-5 直角三角形比例。\n2. 分別寫出 tan A 與 sec A 之分式後相加化簡。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 基礎 2",
         "title": "基礎題 2：tan A = 12/5 且 AB = 26，求 sin A 與 AC",
         "cards": [ALL_CARDS[47], ALL_CARDS[48]],
-        "notes": "【基礎 2 詳解】\n三邊比 5:12:13。第 (1) 小題 sin A = 12/13。\n第 (2) 小題斜邊 13k = 26 得 k=2，鄰邊 AC = 5(2) = 10。"
+        "notes": "【基礎 2 解題指引】\n引導重點：\n1. (1) tan A = 12/5 確定 5-12-13 比例，sin A 只看比例，與長度無關。\n2. (2) 由斜邊 13k = 26 算出比例放大倍率 k = 2，進而求出鄰邊 AC。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 基礎 3",
         "title": "基礎題 3：特別角四則與弳度乘積求值",
         "cards": [ALL_CARDS[49], ALL_CARDS[50]],
-        "notes": "【基礎 3 詳解】\n第 (1) 小題代入特別角算得 1 + 2 + 4 = 7。\n第 (2) 小題利用平方差公式 (2 + 根號2/2)(2 - 根號2/2) = 4 - 1/2 = 7/2。"
+        "notes": "【基礎 3 解題指引】\n引導重點：\n1. (1) 分別提取 30°, 45°, 60° 特別角代入運算。\n2. (2) 將弳度化為角度，觀察兩括號結構利用平方差公式 (a+b)(a-b) 快速求值。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 基礎 4",
         "title": "基礎題 4：餘角與平方關係綜合求值",
         "cards": [ALL_CARDS[51]],
-        "notes": "【基礎 4 詳解】\ncos 70° = sin 20° 得 cos^2 20° + sin^2 20° = 1；csc 70° = sec 20° 得 tan^2 20° - sec^2 20° = -1。原式 = 1 + (-1) = 0。"
+        "notes": "【基礎 4 解題指引】\n引導重點：\n1. 尋找餘角配對：將 70° 全部化為 20°。\n2. 分成 cos^2+sin^2 與 tan^2-sec^2 兩組平方關係化簡。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 基礎 5",
         "title": "基礎題 5：和平方加差平方之化簡",
         "cards": [ALL_CARDS[52]],
-        "notes": "【基礎 5 詳解】\n(sin+cos)^2 + (sin-cos)^2 = (1 + 2sincos) + (1 - 2sincos) = 1 + 1 = 2！交叉項完美抵消！"
+        "notes": "【基礎 5 解題指引】\n引導重點：\n1. 令角度為 θ，展開 (sin+cos)^2 與 (sin-cos)^2。\n2. 觀察交叉項 +2sincos 與 -2sincos 相互抵消，與具體角度無關！"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 基礎 6",
         "title": "基礎題 6：已知 cot θ = 5/12，求齊次分式之值",
         "cards": [ALL_CARDS[53]],
-        "notes": "【基礎 6 詳解】\n分子分母同除以 sin θ：(5 - 4 cot θ) / (5 + 3 cot θ) = (5 - 5/3) / (5 + 5/4) = (10/3) / (25/4) = 8/15。"
+        "notes": "【基礎 6 解題指引】\n引導重點：\n1. 一次齊次分式同除神法：分子分母同除以 sin θ。\n2. 整體化為 cot θ 代入計算。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 基礎 7",
         "title": "基礎題 7：已知 sin θ - cos θ = 1/2，求乘積與切和",
         "cards": [ALL_CARDS[54], ALL_CARDS[55]],
-        "notes": "【基礎 7 詳解】\n第 (1) 小題差平方 1 - 2sincos = 1/4 得 sincos = 3/8。\n第 (2) 小題切和為乘積倒數：tan + cot = 1 / (3/8) = 8/3。"
+        "notes": "【基礎 7 解題指引】\n引導重點：\n1. (1) 差平方展開求乘積 sin cos。\n2. (2) 切和 tan+cot 直接為乘積之倒數。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 進階 8",
         "title": "進階題 8：通分平方差求分式和",
         "cards": [ALL_CARDS[56]],
-        "notes": "【進階 8 詳解】\n通分分母 (1+sin)(1-sin) = 1 - sin^2 = cos^2 θ；分子為 (1-sin) + (1+sin) = 2。原式 = 2 / cos^2 θ = 2 / (1/25) = 50！"
+        "notes": "【進階 8 解題指引】\n引導重點：\n1. 兩分式通分相加：分母為 (1+sin)(1-sin) = 1 - sin^2 = cos^2。\n2. 分子交叉項相消得 2，原式簡化為 2 / cos^2 θ 後代入計算。"
     },
     {
         "kind": "big_problem",
         "tag": "課本習題 進階 9",
         "title": "進階題 9：切和求乘積、和與立方和",
         "cards": [ALL_CARDS[57], ALL_CARDS[58], ALL_CARDS[59]],
-        "notes": "【進階 9 劇場版魔王題】\n(1) tan+cot = 1/sincos = 25/12 得 sincos = 12/25。\n(2) (sin+cos)^2 = 1 + 24/25 = 49/25 得 sin+cos = 7/5。\n(3) 立方和公式 (sin+cos)(1 - sincos) = (7/5) * (13/25) = 91/125！"
+        "notes": "【進階 9 解題指引】\n引導重點：\n1. (1) 切和倒數求乘積 sin cos。\n2. (2) 利用 (sin+cos)^2 = 1 + 2sin cos 開根號求和。\n3. (3) 利用立方和因式分解 a^3 + b^3 = (a+b)(1 - ab) 直接代入求值。"
     },
 
     # 47. 終極結案錦囊
@@ -399,6 +402,12 @@ SLIDES_CONFIG = [
     }
 ]
 
+def clean_guidance_text(text):
+    """清理多餘字眼，保留乾淨的引導方向"""
+    text = re.sub(r'^🕵️\s*柯南破案導引[：:]\s*', '', text)
+    text = re.sub(r'^線索\s*\d+[：:]\s*', '', text)
+    return text.strip()
+
 def render_concept_slide(slide_cfg, idx, total_slides):
     card = slide_cfg["card"]
     badge = slide_cfg.get("badge", "核心概念")
@@ -407,35 +416,35 @@ def render_concept_slide(slide_cfg, idx, total_slides):
     svg_html = card.get("svg", "")
 
     steps_html = "".join([f"""
-      <div class="p-3.5 rounded-xl bg-white border border-amber-200/80 shadow-2xs">
-        <div class="text-base font-black text-amber-900 mb-1">【{s['title']}】</div>
-        <div class="text-lg text-slate-800 leading-relaxed font-medium">{s['content']}</div>
+      <div class="p-2.5 rounded-xl bg-white border border-amber-200 shadow-2xs">
+        <div class="text-base font-black text-amber-900 mb-0.5">【{s['title']}】</div>
+        <div class="text-base text-slate-800 leading-normal font-medium">{s['content']}</div>
       </div>
     """ for s in card.get("steps", [])])
 
     return f"""
   <div class="slide-page">
     <!-- 頂部標題區 -->
-    <div class="flex items-center justify-between mb-3 border-b-2 border-amber-300 pb-2">
+    <div class="flex items-center justify-between mb-2 border-b-2 border-amber-300 pb-1.5">
       <div class="flex items-center gap-3">
-        <span class="px-4 py-1.5 rounded-lg text-base font-black bg-amber-600 text-white shadow-xs">{badge}</span>
-        <h2 class="text-3xl font-black text-amber-950 tracking-tight">{title}</h2>
+        <span class="px-3 py-1 rounded-lg text-sm font-black bg-amber-600 text-white shadow-xs">{badge}</span>
+        <h2 class="text-2xl font-black text-amber-950 tracking-tight">{title}</h2>
       </div>
-      <div class="text-base font-bold text-amber-800 bg-amber-100/80 px-3 py-1 rounded-md">{card.get('page', '課本概念')}</div>
+      <div class="text-sm font-bold text-amber-800 bg-amber-100/80 px-2.5 py-0.5 rounded-md">{card.get('page', '課本概念')}</div>
     </div>
 
-    <!-- 雙欄主體內容：左欄 60% 概念與推理 / 右欄 40% 精密集幾何圖解 -->
-    <div class="grid grid-cols-12 gap-5 flex-1 items-stretch my-1 overflow-hidden">
+    <!-- 雙欄主體內容：左欄 60% 概念與重點 / 右欄 40% 精密集幾何圖解 -->
+    <div class="grid grid-cols-12 gap-4 flex-1 items-stretch my-1 overflow-hidden">
       <!-- 左欄 -->
-      <div class="col-span-7 flex flex-col justify-between space-y-3">
-        <div class="p-4 rounded-xl bg-amber-50/90 border-2 border-amber-300 text-xl font-bold text-slate-900 leading-relaxed shadow-2xs">
+      <div class="col-span-7 flex flex-col justify-between space-y-2">
+        <div class="p-3.5 rounded-xl bg-amber-50/90 border-2 border-amber-300 text-lg font-bold text-slate-900 leading-snug shadow-2xs">
           {front}
         </div>
-        <div class="space-y-2.5 flex-1">
+        <div class="space-y-2 flex-1">
           {steps_html}
         </div>
-        <div class="p-3 rounded-lg bg-emerald-50 border border-emerald-400 text-lg font-black text-emerald-900 text-center">
-          {card.get('conclusion', '【真相大白】掌握概念定義即破案！')}
+        <div class="p-2.5 rounded-lg bg-emerald-50 border border-emerald-400 text-base font-black text-emerald-900 text-center">
+          {card.get('conclusion', '【核心歸納】掌握幾何比例與恆等定義即破案！')}
         </div>
       </div>
 
@@ -444,12 +453,12 @@ def render_concept_slide(slide_cfg, idx, total_slides):
         <div class="w-full h-full max-h-[140mm] flex items-center justify-center">
           {svg_html}
         </div>
-        <div class="mt-2 text-sm font-bold text-slate-500 text-center">▲ 幾何模型輔助視覺解析</div>
+        <div class="mt-1.5 text-xs font-bold text-slate-500 text-center">▲ 幾何模型輔助視覺解析</div>
       </div>
     </div>
 
     <!-- 頁尾 -->
-    <div class="flex items-center justify-between pt-2 border-t border-amber-200 text-sm text-slate-500 font-medium">
+    <div class="flex items-center justify-between pt-1.5 border-t border-amber-200 text-xs text-slate-500 font-medium">
       <div>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質</div>
       <div>投影片 {idx+1} / {total_slides}</div>
       <div>PLVS 數學科  教育學習用</div>
@@ -463,108 +472,89 @@ def render_big_problem_slide(slide_cfg, idx, total_slides):
     cards = slide_cfg["cards"]
     num_cards = len(cards)
 
-    # 根據小題數量切分版面
+    # 根據小題數量切分版面，嚴格不列出數值解答，列出解題重要方向與圖形
     if num_cards == 1:
-        # 單題（單小題）：大題幹 + 雙欄 (左: 題目與推理步驟 / 右: SVG圖形輔助)
+        # 單題（單小題）：大題幹 + 雙欄 (左: 題目與教學解題方向 / 右: SVG圖形輔助)
         c = cards[0]
-        steps_html = "".join([f"""
-          <div class="p-3 rounded-xl bg-white border border-slate-200 text-lg text-slate-800 leading-relaxed shadow-2xs">
-            <span class="font-bold text-amber-900">{s['title']}：</span>{s['content']}
-          </div>
-        """ for s in c.get("steps", [])])
+        tip_text = clean_guidance_text(c.get("front_tip", ""))
+
+        guidance_items = []
+        if tip_text:
+            guidance_items.append(f"""
+              <div class="p-2.5 rounded-xl bg-amber-50/90 border border-amber-300 text-base text-amber-950 leading-relaxed shadow-2xs font-bold">
+                <span class="text-amber-700 font-black">💡 思考核心：</span>{tip_text}
+              </div>
+            """)
+
+        for s in c.get("steps", []):
+            stitle = clean_guidance_text(s['title'])
+            guidance_items.append(f"""
+              <div class="p-2.5 rounded-xl bg-white border border-slate-200 text-base text-slate-800 leading-relaxed shadow-2xs">
+                <span class="font-bold text-blue-900">▸ 解題步驟：</span>{stitle}
+              </div>
+            """)
+
+        guidance_html = "".join(guidance_items)
 
         body_html = f"""
-        <div class="grid grid-cols-12 gap-5 flex-1 items-stretch my-1 overflow-hidden">
-          <div class="col-span-7 flex flex-col justify-between space-y-3">
-            <div class="p-4 rounded-xl bg-amber-50/90 border-2 border-amber-300 text-2xl font-bold text-slate-900 leading-relaxed shadow-2xs">
-              {c['front_content']}
+        <div class="grid grid-cols-12 gap-4 flex-1 items-stretch my-1 overflow-hidden">
+          <div class="col-span-7 flex flex-col justify-between space-y-2.5">
+            <div>
+              <div class="text-xs font-bold text-slate-400 mb-1">【題目描述】</div>
+              <div class="p-3.5 rounded-xl bg-amber-50/70 border-2 border-amber-200 text-xl font-bold text-slate-900 leading-snug shadow-2xs">
+                {c['front_content']}
+              </div>
             </div>
-            <div class="space-y-2.5 flex-1">
-              {steps_html}
+            <div class="space-y-2 flex-1">
+              <div class="text-xs font-black text-amber-800 uppercase tracking-wider">【解題方向與思考策略 ‧ 課堂討論】</div>
+              {guidance_html}
             </div>
-            <div class="p-3.5 rounded-xl bg-emerald-50 border-2 border-emerald-500 text-xl font-black text-emerald-900 text-center shadow-xs">
-              {c.get('conclusion', '')}
+            <div class="p-2.5 rounded-xl bg-blue-50 border border-blue-400 text-base font-black text-blue-900 text-center shadow-xs">
+              🎯 教學引導提示：引導學生依線索方向思考，動筆推導出最終解答！
             </div>
           </div>
           <div class="col-span-5 flex flex-col justify-center items-center p-3 rounded-2xl bg-white border-2 border-amber-200 shadow-sm">
             <div class="w-full h-full max-h-[140mm] flex items-center justify-center">
               {c.get('svg', '')}
             </div>
-            <div class="mt-2 text-sm font-bold text-slate-500 text-center">▲ 題目幾何圖解與解題線索</div>
+            <div class="mt-1.5 text-xs font-bold text-slate-500 text-center">▲ 幾何輔助解題模型</div>
           </div>
         </div>
         """
     elif num_cards == 2:
-        # 兩小題：兩欄並列（左邊第 1 小題、右邊第 2 小題，各自包含題幹、步驟、結論與圖形）
+        # 兩小題：兩欄並列（左邊第 1 小題、右邊第 2 小題，各自包含題幹、重要解題方向與圖形）
         cols_html = []
         for i, c in enumerate(cards):
-            st_html = "".join([f"""
-              <div class="p-2.5 rounded-lg bg-amber-50/60 border border-amber-200/80 text-base text-slate-800 leading-relaxed">
-                <span class="font-bold text-amber-900">{s['title']}：</span>{s['content']}
-              </div>
-            """ for s in c.get("steps", [])])
-            svg_mini = c.get("svg", "")
+            tip_text = clean_guidance_text(c.get("front_tip", ""))
+            step_dirs = [clean_guidance_text(s['title']) for s in c.get("steps", [])]
+
+            dir_list_html = "".join([f"""
+              <li class="text-sm text-slate-700 leading-relaxed font-medium">▸ {sd}</li>
+            """ for sd in step_dirs])
 
             cols_html.append(f"""
-            <div class="col-span-6 flex flex-col justify-between p-4 rounded-2xl bg-white border-2 border-amber-200 shadow-sm">
+            <div class="col-span-6 flex flex-col justify-between p-3.5 rounded-2xl bg-white border-2 border-amber-200 shadow-sm">
               <div>
-                <div class="flex items-center justify-between mb-2 pb-1 border-b border-amber-200">
-                  <span class="px-2.5 py-0.5 rounded text-sm font-black bg-amber-700 text-white">第 ({i+1}) 小題</span>
+                <div class="flex items-center justify-between mb-1.5 pb-1 border-b border-amber-200">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-black bg-amber-700 text-white">第 ({i+1}) 小題</span>
                   <span class="text-xs font-bold text-slate-400">{c.get('page', '')}</span>
                 </div>
-                <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xl font-bold text-slate-900 mb-2 leading-relaxed">
+                <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-lg font-bold text-slate-900 mb-2 leading-snug">
                   {c['front_content']}
                 </div>
-                <div class="space-y-1.5 my-2">
-                  {st_html}
+                <div class="p-2 rounded-lg bg-amber-50/70 border border-amber-200 text-sm text-amber-950 font-bold mb-1.5">
+                  💡 關鍵方向：{tip_text}
                 </div>
+                <ul class="space-y-1 my-1 px-1">
+                  {dir_list_html}
+                </ul>
               </div>
               <div>
                 <div class="h-32 w-full flex items-center justify-center my-1 bg-amber-50/30 rounded-lg p-1 border border-amber-100">
-                  {svg_mini}
+                  {c.get('svg', '')}
                 </div>
-                <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-400 text-base font-black text-emerald-900 text-center">
-                  {c.get('conclusion', '')}
-                </div>
-              </div>
-            </div>
-            """)
-        body_html = f"""
-        <div class="grid grid-cols-12 gap-4 flex-1 items-stretch my-1 overflow-hidden">
-          {''.join(cols_html)}
-        </div>
-        """
-    else:
-        # 三小題：三欄並列（第 1, 2, 3 小題並列，例如例題 6、隨堂 6、進階 9）
-        cols_html = []
-        for i, c in enumerate(cards):
-            st_html = "".join([f"""
-              <div class="p-2 rounded bg-amber-50/50 border border-amber-200 text-sm text-slate-800 leading-relaxed">
-                <span class="font-bold text-amber-900">{s['title']}：</span>{s['content']}
-              </div>
-            """ for s in c.get("steps", [])])
-            svg_mini = c.get("svg", "")
-
-            cols_html.append(f"""
-            <div class="col-span-4 flex flex-col justify-between p-3.5 rounded-2xl bg-white border-2 border-amber-200 shadow-sm">
-              <div>
-                <div class="flex items-center justify-between mb-1.5 pb-1 border-b border-amber-200">
-                  <span class="px-2 py-0.5 rounded text-xs font-black bg-amber-700 text-white">第 ({i+1}) 小題</span>
-                  <span class="text-xs font-bold text-slate-400">{c.get('page', '')}</span>
-                </div>
-                <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-lg font-bold text-slate-900 mb-2 leading-relaxed">
-                  {c['front_content']}
-                </div>
-                <div class="space-y-1.5 my-1.5">
-                  {st_html}
-                </div>
-              </div>
-              <div>
-                <div class="h-28 w-full flex items-center justify-center my-1 bg-amber-50/30 rounded-lg p-1 border border-amber-100">
-                  {svg_mini}
-                </div>
-                <div class="p-1.5 rounded-lg bg-emerald-50 border border-emerald-400 text-sm font-black text-emerald-900 text-center">
-                  {c.get('conclusion', '')}
+                <div class="p-1.5 rounded-lg bg-blue-50 border border-blue-300 text-xs font-black text-blue-900 text-center">
+                  🎯 教師引導學生由圖形三邊比推算答案
                 </div>
               </div>
             </div>
@@ -574,23 +564,66 @@ def render_big_problem_slide(slide_cfg, idx, total_slides):
           {''.join(cols_html)}
         </div>
         """
+    else:
+        # 三小題：三欄並列（第 1, 2, 3 小題並列，例如例題 6、隨堂 6、進階 9）
+        cols_html = []
+        for i, c in enumerate(cards):
+            tip_text = clean_guidance_text(c.get("front_tip", ""))
+            step_dirs = [clean_guidance_text(s['title']) for s in c.get("steps", [])]
+
+            dir_list_html = "".join([f"""
+              <li class="text-xs text-slate-700 leading-tight font-medium">▸ {sd}</li>
+            """ for sd in step_dirs])
+
+            cols_html.append(f"""
+            <div class="col-span-4 flex flex-col justify-between p-3 rounded-2xl bg-white border-2 border-amber-200 shadow-sm">
+              <div>
+                <div class="flex items-center justify-between mb-1 pb-1 border-b border-amber-200">
+                  <span class="px-2 py-0.5 rounded text-xs font-black bg-amber-700 text-white">第 ({i+1}) 小題</span>
+                  <span class="text-2xs font-bold text-slate-400">{c.get('page', '')}</span>
+                </div>
+                <div class="p-2 rounded-lg bg-slate-50 border border-slate-200 text-base font-bold text-slate-900 mb-1.5 leading-snug">
+                  {c['front_content']}
+                </div>
+                <div class="p-1.5 rounded-md bg-amber-50/70 border border-amber-200 text-xs text-amber-950 font-bold mb-1">
+                  💡 核心：{tip_text}
+                </div>
+                <ul class="space-y-0.5 my-1 px-1">
+                  {dir_list_html}
+                </ul>
+              </div>
+              <div>
+                <div class="h-28 w-full flex items-center justify-center my-1 bg-amber-50/30 rounded-lg p-1 border border-amber-100">
+                  {c.get('svg', '')}
+                </div>
+                <div class="p-1 rounded bg-blue-50 border border-blue-300 text-2xs font-black text-blue-900 text-center">
+                  🎯 啟發學生套用星陣化簡求值
+                </div>
+              </div>
+            </div>
+            """)
+        body_html = f"""
+        <div class="grid grid-cols-12 gap-3 flex-1 items-stretch my-1 overflow-hidden">
+          {''.join(cols_html)}
+        </div>
+        """
 
     return f"""
   <div class="slide-page">
     <!-- 頂部標題區 -->
-    <div class="flex items-center justify-between mb-3 border-b-2 border-amber-300 pb-2">
+    <div class="flex items-center justify-between mb-2 border-b-2 border-amber-300 pb-1.5">
       <div class="flex items-center gap-3">
-        <span class="px-4 py-1.5 rounded-lg text-base font-black bg-red-600 text-white shadow-xs">{tag}</span>
-        <h2 class="text-3xl font-black text-amber-950 tracking-tight">{title}</h2>
+        <span class="px-3 py-1 rounded-lg text-sm font-black bg-red-600 text-white shadow-xs">{tag}</span>
+        <h2 class="text-2xl font-black text-amber-950 tracking-tight">{title}</h2>
       </div>
-      <div class="text-sm font-bold text-slate-500 bg-amber-100/70 px-3 py-1 rounded-md">泰宇課本 ‧ 大題完整獨立頁</div>
+      <div class="text-xs font-bold text-slate-500 bg-amber-100/70 px-2.5 py-0.5 rounded-md">課堂教學 ‧ 解題思考方向引導</div>
     </div>
 
     <!-- 主體內容 -->
     {body_html}
 
     <!-- 頁尾 -->
-    <div class="flex items-center justify-between pt-2 border-t border-amber-200 text-sm text-slate-500 font-medium">
+    <div class="flex items-center justify-between pt-1.5 border-t border-amber-200 text-xs text-slate-500 font-medium">
       <div>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質</div>
       <div>投影片 {idx+1} / {total_slides}</div>
       <div>PLVS 數學科  教育學習用</div>
@@ -634,17 +667,21 @@ def generate_full_slides_html(slides_cfg):
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 14mm 20mm 10mm 20mm;
+      padding: 12mm 18mm 8mm 18mm;
       background: #fbf9f4; /* 象牙米杏暖白護眼底色 */
     }
     .katex, .katex-html, .katex-display {
       white-space: nowrap !important;
-      font-size: 1.35em !important;
+      font-size: 1.25em !important;
       font-weight: 700 !important;
     }
     .katex-display {
-      margin: 0.15em 0 !important;
+      margin: 0.1em 0 !important;
       display: inline-block !important;
+    }
+    /* 避免任何捲軸或文字溢出斷裂 */
+    * {
+      box-sizing: border-box;
     }
   </style>
 </head>
@@ -656,16 +693,16 @@ def generate_full_slides_html(slides_cfg):
         if kind == "cover":
             content_html = f"""
             <div class="flex-1 flex flex-col justify-center items-center text-center">
-              <span class="px-6 py-2.5 rounded-full text-lg font-black bg-amber-600 text-white shadow-md mb-6 tracking-wide">
+              <span class="px-6 py-2 rounded-full text-base font-black bg-amber-600 text-white shadow-md mb-6 tracking-wide">
                 {cfg['badge']}
               </span>
-              <h1 class="text-6xl font-black text-amber-950 mb-6 tracking-tight leading-tight">
+              <h1 class="text-5xl font-black text-amber-950 mb-5 tracking-tight leading-tight">
                 {cfg['title']}
               </h1>
-              <p class="text-3xl font-bold text-amber-800 mb-8">
+              <p class="text-2xl font-bold text-amber-800 mb-6">
                 {cfg['subtitle']}
               </p>
-              <div class="max-w-4xl p-6 rounded-2xl bg-amber-50 border-2 border-amber-300 text-slate-800 text-2xl font-medium shadow-sm leading-relaxed">
+              <div class="max-w-4xl p-5 rounded-2xl bg-amber-50 border-2 border-amber-300 text-slate-800 text-xl font-medium shadow-sm leading-relaxed">
                 {cfg['desc']}
               </div>
             </div>
@@ -673,7 +710,7 @@ def generate_full_slides_html(slides_cfg):
             html += f"""
             <div class="slide-page">
               {content_html}
-              <div class="flex items-center justify-between pt-2 border-t border-amber-200 text-sm text-slate-500 font-medium">
+              <div class="flex items-center justify-between pt-1.5 border-t border-amber-200 text-xs text-slate-500 font-medium">
                 <div>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質</div>
                 <div>投影片 {idx+1} / {total}</div>
                 <div>PLVS 數學科  教育學習用</div>
@@ -682,22 +719,22 @@ def generate_full_slides_html(slides_cfg):
             """
         elif kind == "roadmap":
             mods_html = "".join([f"""
-              <div class="p-6 rounded-2xl bg-white border-2 border-amber-200 shadow-sm flex flex-col justify-between">
+              <div class="p-5 rounded-2xl bg-white border-2 border-amber-200 shadow-sm flex flex-col justify-between">
                 <div>
-                  <span class="px-3 py-1 rounded-md text-sm font-black bg-amber-600 text-white">{m['num']}</span>
-                  <h3 class="text-2xl font-black text-amber-950 mt-3 mb-2">{m['title']}</h3>
-                  <p class="text-lg text-slate-700 leading-relaxed">{m['desc']}</p>
+                  <span class="px-2.5 py-0.5 rounded text-xs font-black bg-amber-600 text-white">{m['num']}</span>
+                  <h3 class="text-xl font-black text-amber-950 mt-2 mb-1.5">{m['title']}</h3>
+                  <p class="text-base text-slate-700 leading-relaxed">{m['desc']}</p>
                 </div>
               </div>
             """ for m in cfg['modules']])
             content_html = f"""
             <div class="flex-1 flex flex-col justify-between">
               <div>
-                <span class="text-sm font-black text-amber-700 tracking-wider">ROADMAP</span>
-                <h2 class="text-4xl font-black text-amber-950 mb-1">{cfg['title']}</h2>
-                <p class="text-lg text-slate-600 mb-4">{cfg['subtitle']}</p>
+                <span class="text-xs font-black text-amber-700 tracking-wider">ROADMAP</span>
+                <h2 class="text-3xl font-black text-amber-950 mb-1">{cfg['title']}</h2>
+                <p class="text-base text-slate-600 mb-3">{cfg['subtitle']}</p>
               </div>
-              <div class="grid grid-cols-4 gap-6 flex-1 items-stretch my-2">
+              <div class="grid grid-cols-4 gap-4 flex-1 items-stretch my-2">
                 {mods_html}
               </div>
             </div>
@@ -705,7 +742,7 @@ def generate_full_slides_html(slides_cfg):
             html += f"""
             <div class="slide-page">
               {content_html}
-              <div class="flex items-center justify-between pt-2 border-t border-amber-200 text-sm text-slate-500 font-medium">
+              <div class="flex items-center justify-between pt-1.5 border-t border-amber-200 text-xs text-slate-500 font-medium">
                 <div>泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質</div>
                 <div>投影片 {idx+1} / {total}</div>
                 <div>PLVS 數學科  教育學習用</div>
