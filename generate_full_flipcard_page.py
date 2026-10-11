@@ -512,60 +512,237 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- 3. 阿笠博士動態實驗室彈窗 -->
-  <div id="lab-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs hidden flex items-center justify-center p-4">
-    <div class="bg-white border-2 border-indigo-500 rounded-3xl max-w-3xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between pb-3 border-b border-indigo-200 mb-4">
-        <h3 class="text-xl font-black text-indigo-950 flex items-center gap-2">
-          <i class="fa-solid fa-flask text-amber-500"></i>【阿笠博士動態幾何實驗室】三角比動態形變檢驗儀
+  <!-- 3. 阿笠博士名偵探互動探案實驗室 (3 大旗艦互動學習模組) -->
+  <div id="lab-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white border-2 border-indigo-500 rounded-3xl max-w-4xl w-full p-5 sm:p-6 shadow-2xl max-h-[92vh] overflow-y-auto flex flex-col">
+      <!-- 實驗室頂部標題與關閉按鈕 -->
+      <div class="flex items-center justify-between pb-3 border-b border-indigo-200 mb-4 shrink-0">
+        <h3 class="text-lg sm:text-xl font-black text-indigo-950 flex items-center gap-2">
+          <i class="fa-solid fa-flask text-amber-500"></i>【阿笠博士動態探案實驗室】高中三角函數互動特訓中心
         </h3>
-        <button onclick="closeLabModal()" class="p-1.5 text-slate-500 hover:text-slate-800 text-lg">
+        <button onclick="closeLabModal()" class="p-1.5 text-slate-500 hover:text-slate-800 text-lg rounded-lg hover:bg-slate-100 transition-colors">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-        <!-- 左側 SVG 動態畫布 -->
-        <div id="lab-svg-stage" class="h-64 bg-slate-50 rounded-2xl border border-slate-200 p-2 flex items-center justify-center overflow-hidden">
-          <!-- 動態繪製直角三角形 -->
+      <!-- 頂部 3 大功能切換頁籤 -->
+      <div class="flex items-center gap-2 mb-4 p-1 bg-slate-100 rounded-xl shrink-0">
+        <button onclick="switchLabTab('triangle')" id="lab-tab-btn-triangle" class="flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-1.5 bg-indigo-600 text-white shadow-xs">
+          <i class="fa-solid fa-draw-polygon"></i>
+          <span>📐 直角光學測距儀</span>
+        </button>
+        <button onclick="switchLabTab('hexagon')" id="lab-tab-btn-hexagon" class="flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-1.5 text-slate-600 hover:text-indigo-600">
+          <i class="fa-solid fa-shapes"></i>
+          <span>🧩 魔法六角密碼盤</span>
+        </button>
+        <button onclick="switchLabTab('speeddrill')" id="lab-tab-btn-speeddrill" class="flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-1.5 text-slate-600 hover:text-indigo-600">
+          <i class="fa-solid fa-stopwatch-20"></i>
+          <span>⏱️ 60秒特別角速算挑戰</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: 動態直角三角形光學測距儀 -->
+      <div id="lab-tab-pane-triangle" class="space-y-4">
+        <!-- 角度快速切換器與滑桿 -->
+        <div class="p-4 bg-indigo-50/70 border border-indigo-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-xs font-bold text-slate-700">特別角一鍵聚焦：</span>
+            <button onclick="setLabAngle(15)" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white rounded-lg text-xs font-bold border border-indigo-200 transition-colors">15°</button>
+            <button onclick="setLabAngle(30)" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white rounded-lg text-xs font-bold border border-indigo-200 transition-colors">30°</button>
+            <button onclick="setLabAngle(45)" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white rounded-lg text-xs font-bold border border-indigo-200 transition-colors">45°</button>
+            <button onclick="setLabAngle(60)" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white rounded-lg text-xs font-bold border border-indigo-200 transition-colors">60°</button>
+            <button onclick="setLabAngle(75)" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white rounded-lg text-xs font-bold border border-indigo-200 transition-colors">75°</button>
+          </div>
+          <div class="flex items-center gap-3 min-w-[200px]">
+            <span class="text-xs font-bold text-slate-700 whitespace-nowrap">連續微調 θ：</span>
+            <input id="lab-angle-slider" type="range" min="1" max="89" step="0.5" value="30" class="w-full accent-indigo-600 cursor-pointer">
+            <span id="lab-deg-display" class="text-indigo-600 text-lg font-black min-w-[55px] text-right">30.0°</span>
+          </div>
         </div>
 
-        <!-- 右側參數滑桿與數值面板 -->
-        <div class="space-y-4">
-          <div>
-            <div class="flex justify-between items-center mb-1 text-sm font-bold text-slate-700">
-              <span>調整銳角角度 θ：</span>
-              <span id="lab-deg-display" class="text-indigo-600 text-lg font-black">30.0°</span>
-            </div>
-            <input id="lab-angle-slider" type="range" min="1" max="89" step="0.5" value="30" class="w-full accent-indigo-600 cursor-pointer">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <!-- 左側動態 SVG 直角三角形 -->
+          <div id="lab-svg-stage" class="h-64 sm:h-72 bg-slate-50 rounded-2xl border-2 border-indigo-200/80 p-2 flex items-center justify-center overflow-hidden shadow-inner">
+            <!-- JS 動態繪製直角三角形 -->
           </div>
 
-          <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="p-3 bg-red-50 rounded-xl border border-red-200">
-              <div class="text-xs font-bold text-red-700">正弦 sin θ</div>
-              <div id="lab-sin-val" class="text-base font-black text-red-900 mt-1">0.5000</div>
+          <!-- 右側六大三角函數實時數值面板 -->
+          <div class="space-y-3">
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="p-2.5 bg-red-50 rounded-xl border border-red-200">
+                <div class="text-[11px] font-bold text-red-700">正弦 sin θ (對/斜)</div>
+                <div id="lab-sin-val" class="text-base font-black text-red-900 mt-0.5">0.5000</div>
+              </div>
+              <div class="p-2.5 bg-blue-50 rounded-xl border border-blue-200">
+                <div class="text-[11px] font-bold text-blue-700">餘弦 cos θ (鄰/斜)</div>
+                <div id="lab-cos-val" class="text-base font-black text-blue-900 mt-0.5">0.8660</div>
+              </div>
+              <div class="p-2.5 bg-amber-50 rounded-xl border border-amber-200">
+                <div class="text-[11px] font-bold text-amber-700">正切 tan θ (對/鄰)</div>
+                <div id="lab-tan-val" class="text-base font-black text-amber-900 mt-0.5">0.5774</div>
+              </div>
             </div>
-            <div class="p-3 bg-blue-50 rounded-xl border border-blue-200">
-              <div class="text-xs font-bold text-blue-700">餘弦 cos θ</div>
-              <div id="lab-cos-val" class="text-base font-black text-blue-900 mt-1">0.8660</div>
-            </div>
-            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
-              <div class="text-xs font-bold text-amber-700">正切 tan θ</div>
-              <div id="lab-tan-val" class="text-base font-black text-amber-900 mt-1">0.5774</div>
-            </div>
-          </div>
 
-          <div class="p-3.5 bg-emerald-50 rounded-xl border-2 border-emerald-400 text-center">
-            <div class="text-xs font-bold text-emerald-800">畢氏平方恆等檢驗：sin²θ + cos²θ</div>
-            <div id="lab-pythagoras-val" class="text-xl font-black text-emerald-950 mt-1">1.000000</div>
-            <div class="text-[11px] text-emerald-600 mt-0.5">無論角度如何形變，平方和恆等於 1！</div>
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="p-2.5 bg-purple-50 rounded-xl border border-purple-200">
+                <div class="text-[11px] font-bold text-purple-700">餘割 csc θ (斜/對)</div>
+                <div id="lab-csc-val" class="text-base font-black text-purple-900 mt-0.5">2.0000</div>
+              </div>
+              <div class="p-2.5 bg-teal-50 rounded-xl border border-teal-200">
+                <div class="text-[11px] font-bold text-teal-700">正割 sec θ (斜/鄰)</div>
+                <div id="lab-sec-val" class="text-base font-black text-teal-900 mt-0.5">1.1547</div>
+              </div>
+              <div class="p-2.5 bg-orange-50 rounded-xl border border-orange-200">
+                <div class="text-[11px] font-bold text-orange-700">餘切 cot θ (鄰/對)</div>
+                <div id="lab-cot-val" class="text-base font-black text-orange-900 mt-0.5">1.7321</div>
+              </div>
+            </div>
+
+            <!-- 兩大核心恆等式即時驗證 -->
+            <div class="p-3 bg-emerald-50 rounded-xl border-2 border-emerald-400 grid grid-cols-2 gap-2 text-center">
+              <div>
+                <div class="text-[11px] font-bold text-emerald-800">平方關係 sin²θ + cos²θ</div>
+                <div id="lab-pythagoras-val" class="text-base font-black text-emerald-950 mt-0.5">1.000000</div>
+              </div>
+              <div>
+                <div class="text-[11px] font-bold text-emerald-800">商數關係 sinθ / cosθ</div>
+                <div id="lab-quotient-val" class="text-base font-black text-emerald-950 mt-0.5">0.5774 (＝ tan θ)</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="mt-6 text-center">
-        <button onclick="closeLabModal()" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-indigo-600 text-white hover:bg-indigo-700">
-          完成實驗 (ESC)
+      <!-- TAB 2: 神級魔法六角密碼盤 (Magic Super Hexagon) -->
+      <div id="lab-tab-pane-hexagon" class="hidden space-y-4">
+        <!-- 模式切換按鈕列 -->
+        <div class="flex items-center justify-center gap-2 flex-wrap">
+          <button onclick="setHexagonMode('reciprocal')" id="hex-mode-reciprocal-btn" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow-xs border border-amber-600 transition-all">
+            <i class="fa-solid fa-arrows-rotate mr-1"></i>對角互倒關係 (乘積 = 1)
+          </button>
+          <button onclick="setHexagonMode('quotient')" id="hex-mode-quotient-btn" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-all">
+            <i class="fa-solid fa-divide mr-1"></i>相鄰商數關係 (頂點 = 商)
+          </button>
+          <button onclick="setHexagonMode('pythagorean')" id="hex-mode-pythagorean-btn" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-all">
+            <i class="fa-solid fa-square-root-variable mr-1"></i>倒三角平方關係 (平方和)
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <!-- 互動 SVG 魔法六角星圖 -->
+          <div id="hexagon-svg-container" class="h-68 bg-slate-900 rounded-2xl border-2 border-amber-500/50 p-2 flex items-center justify-center shadow-lg relative">
+            <!-- JS 動態生成互動 SVG 六角形 -->
+          </div>
+
+          <!-- 右側解密破案筆記動態面板 -->
+          <div class="p-5 rounded-2xl bg-[#fbf9f4] border-2 border-amber-300 flex flex-col justify-between h-full shadow-sm">
+            <div>
+              <span id="hex-badge-title" class="px-3 py-1 rounded-full text-xs font-black bg-amber-600 text-white inline-block mb-3">
+                【對角互倒關係】穿透中心的倒數伴侶
+              </span>
+              <div id="hex-formula-display" class="text-xl font-black text-amber-950 mb-3 leading-relaxed">
+                sin θ · csc θ = 1
+              </div>
+              <p id="hex-explanation-text" class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
+                點擊六角形對角頂點：穿過中央的「1」，對角線兩端的三角函數相乘恆等於 1！<br>
+                例如正弦 sin 與餘割 csc 互為倒數，餘弦 cos 與正割 sec 互為倒數，正切 tan 與餘切 cot 互為倒數。
+              </p>
+            </div>
+
+            <div class="mt-4 p-3 bg-amber-100/80 rounded-xl border border-amber-300 text-xs font-bold text-amber-900 flex items-center gap-2">
+              <i class="fa-solid fa-lightbulb text-amber-600 text-base"></i>
+              <span>偵探秘訣：點擊六角形任一頂點可立即切換聚焦點！</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: 60秒特別角速算破案挑戰 -->
+      <div id="lab-tab-pane-speeddrill" class="hidden space-y-4">
+        <!-- 挑戰進行前：規則介紹與開始按鈕 -->
+        <div id="speeddrill-start-view" class="p-8 rounded-2xl bg-gradient-to-br from-indigo-900 to-slate-900 text-white text-center space-y-5">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-400 text-2xl font-black shadow-lg">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <div>
+            <h4 class="text-xl sm:text-2xl font-black text-amber-300">60秒特別角極速破案特訓</h4>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1.5 max-w-md mx-auto">
+              隨機抽取 30°、45°、60° 之六大三角函數特別角數值！考驗名偵探的直覺反射與肌肉記憶！
+            </p>
+          </div>
+          <div class="flex justify-center gap-6 text-xs text-amber-200">
+            <div>⏱️ 限時：60 秒</div>
+            <div>🔥 連擊 Combo 加倍</div>
+            <div>🏆 依戰績獲頒偵探勳章</div>
+          </div>
+          <button onclick="startSpeedDrill()" class="px-8 py-3 rounded-2xl text-base font-black bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg hover:scale-105 active:scale-95 transition-all">
+            <i class="fa-solid fa-play mr-2"></i>啟動極速特訓
+          </button>
+        </div>
+
+        <!-- 挑戰進行中畫面 -->
+        <div id="speeddrill-game-view" class="hidden space-y-4">
+          <!-- 頂部資訊列：計時器、Combo、積分 -->
+          <div class="flex items-center justify-between p-3 bg-slate-900 text-white rounded-2xl">
+            <div class="flex items-center gap-2 font-black text-amber-400 text-lg">
+              <i class="fa-solid fa-stopwatch"></i>
+              <span id="drill-timer-text">60s</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="drill-combo-badge" class="px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500 text-slate-950">Combo x0</span>
+              <span id="drill-score-badge" class="px-2.5 py-1 rounded-lg text-xs font-black bg-indigo-600 text-white">Score: 0</span>
+            </div>
+          </div>
+
+          <!-- 核心題目大字板 -->
+          <div class="p-6 rounded-2xl bg-indigo-50 border-2 border-indigo-300 text-center relative overflow-hidden">
+            <div id="drill-question-card" class="text-3xl sm:text-4xl font-black text-indigo-950 tracking-wide">
+              sin 30° = ?
+            </div>
+            <div id="drill-feedback-overlay" class="absolute inset-0 flex items-center justify-center font-black text-3xl pointer-events-none opacity-0 transition-opacity">
+              <!-- 正確/錯誤動畫 -->
+            </div>
+          </div>
+
+          <!-- 8 大候選答案快速點選按鈕網格 -->
+          <div id="drill-options-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <!-- JS 動態生成選項按鈕 -->
+          </div>
+        </div>
+
+        <!-- 挑戰結算報告畫面 -->
+        <div id="speeddrill-result-view" class="hidden p-6 rounded-2xl bg-white border-2 border-amber-400 text-center space-y-4">
+          <div class="text-4xl">🏆</div>
+          <h4 class="text-2xl font-black text-amber-950">特訓圓滿達成！</h4>
+          <div id="drill-rank-badge" class="px-4 py-1.5 rounded-full text-sm font-black bg-amber-500 text-slate-950 inline-block shadow-xs">
+            名偵探級別：高中生名偵探
+          </div>
+          <div class="grid grid-cols-3 gap-3 max-w-sm mx-auto text-center">
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <div class="text-xs text-slate-500">答對題數</div>
+              <div id="drill-result-correct" class="text-xl font-black text-indigo-950 mt-1">0</div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <div class="text-xs text-slate-500">最高連擊</div>
+              <div id="drill-result-combo" class="text-xl font-black text-amber-600 mt-1">0</div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <div class="text-xs text-slate-500">總破案分</div>
+              <div id="drill-result-score" class="text-xl font-black text-emerald-600 mt-1">0</div>
+            </div>
+          </div>
+          <div class="pt-2">
+            <button onclick="startSpeedDrill()" class="px-6 py-2.5 rounded-xl font-black bg-indigo-600 hover:bg-indigo-500 text-white shadow-md transition-all">
+              <i class="fa-solid fa-rotate-right mr-1"></i>再挑戰一次
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部關閉按鈕 -->
+      <div class="mt-5 pt-3 border-t border-slate-200 flex justify-end shrink-0">
+        <button onclick="closeLabModal()" class="px-5 py-2 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-white hover:bg-slate-700 transition-colors">
+          關閉實驗室 (ESC)
         </button>
       </div>
     </div>

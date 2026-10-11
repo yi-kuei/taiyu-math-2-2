@@ -757,18 +757,97 @@ function closeCheatsheetModal() {
 }
 
 // ==========================================
-// 8. 阿笠博士動態幾何實驗室 (直角三角形三角比)
+// 8. 阿笠博士動態探案實驗室 (3 大互動學習模組)
 // ==========================================
+let currentLabTab = 'triangle';
+let currentHexagonMode = 'reciprocal';
+let selectedHexVertex = 'sin';
+
+// 60秒特別角速算挑戰狀態
+let drillTimer = null;
+let drillSecondsLeft = 60;
+let drillScore = 0;
+let drillCombo = 0;
+let drillMaxCombo = 0;
+let drillCorrectCount = 0;
+let currentDrillQuestion = null;
+
+const DRILL_QUESTION_POOL = [
+    { q: 'sin 30°', a: '1/2', latex: '\\frac{1}{2}' },
+    { q: 'cos 30°', a: '√3/2', latex: '\\frac{\\sqrt{3}}{2}' },
+    { q: 'tan 30°', a: '√3/3', latex: '\\frac{\\sqrt{3}}{3}' },
+    { q: 'cot 30°', a: '√3', latex: '\\sqrt{3}' },
+    { q: 'sec 30°', a: '2√3/3', latex: '\\frac{2\\sqrt{3}}{3}' },
+    { q: 'csc 30°', a: '2', latex: '2' },
+
+    { q: 'sin 45°', a: '√2/2', latex: '\\frac{\\sqrt{2}}{2}' },
+    { q: 'cos 45°', a: '√2/2', latex: '\\frac{\\sqrt{2}}{2}' },
+    { q: 'tan 45°', a: '1', latex: '1' },
+    { q: 'cot 45°', a: '1', latex: '1' },
+    { q: 'sec 45°', a: '√2', latex: '\\sqrt{2}' },
+    { q: 'csc 45°', a: '√2', latex: '\\sqrt{2}' },
+
+    { q: 'sin 60°', a: '√3/2', latex: '\\frac{\\sqrt{3}}{2}' },
+    { q: 'cos 60°', a: '1/2', latex: '\\frac{1}{2}' },
+    { q: 'tan 60°', a: '√3', latex: '\\sqrt{3}' },
+    { q: 'cot 60°', a: '√3/3', latex: '\\frac{\\sqrt{3}}{3}' },
+    { q: 'sec 60°', a: '2', latex: '2' },
+    { q: 'csc 60°', a: '2√3/3', latex: '\\frac{2\\sqrt{3}}{3}' }
+];
+
+const DRILL_OPTIONS = [
+    { label: '1/2', val: '1/2' },
+    { label: '√2/2', val: '√2/2' },
+    { label: '√3/2', val: '√3/2' },
+    { label: '1', val: '1' },
+    { label: '√3/3', val: '√3/3' },
+    { label: '√3', val: '√3' },
+    { label: '√2', val: '√2' },
+    { label: '2', val: '2' }
+];
+
 function openLabModal() {
     recordInteraction();
     const modal = document.getElementById('lab-modal');
     if (modal) modal.classList.remove('hidden');
-    updateTrigLab(currentLabAngle);
+    switchLabTab(currentLabTab);
 }
 
 function closeLabModal() {
     const modal = document.getElementById('lab-modal');
     if (modal) modal.classList.add('hidden');
+    if (drillTimer) {
+        clearInterval(drillTimer);
+        drillTimer = null;
+    }
+}
+
+function switchLabTab(tabName) {
+    currentLabTab = tabName;
+    recordInteraction();
+
+    const tabs = ['triangle', 'hexagon', 'speeddrill'];
+    tabs.forEach(t => {
+        const pane = document.getElementById(`lab-tab-pane-${t}`);
+        const btn = document.getElementById(`lab-tab-btn-${t}`);
+        if (pane) {
+            if (t === tabName) pane.classList.remove('hidden');
+            else pane.classList.add('hidden');
+        }
+        if (btn) {
+            if (t === tabName) {
+                btn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-1.5 bg-indigo-600 text-white shadow-xs";
+            } else {
+                btn.className = "flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-1.5 text-slate-600 hover:text-indigo-600";
+            }
+        }
+    });
+
+    if (tabName === 'triangle') {
+        updateTrigLab(currentLabAngle);
+    } else if (tabName === 'hexagon') {
+        renderSuperHexagon();
+    }
 }
 
 function initLab() {
@@ -781,6 +860,13 @@ function initLab() {
     }
 }
 
+function setLabAngle(deg) {
+    currentLabAngle = deg;
+    const slider = document.getElementById('lab-angle-slider');
+    if (slider) slider.value = deg;
+    updateTrigLab(deg);
+}
+
 function updateTrigLab(deg) {
     const rad = deg * (Math.PI / 180);
     const sinVal = Math.sin(rad);
@@ -790,41 +876,321 @@ function updateTrigLab(deg) {
     const cscVal = 1 / sinVal;
     const cotVal = 1 / tanVal;
 
-    document.getElementById('lab-deg-display').innerText = `${deg.toFixed(1)}°`;
-    document.getElementById('lab-sin-val').innerText = sinVal.toFixed(4);
-    document.getElementById('lab-cos-val').innerText = cosVal.toFixed(4);
-    document.getElementById('lab-tan-val').innerText = tanVal.toFixed(4);
+    const degDisplay = document.getElementById('lab-deg-display');
+    if (degDisplay) degDisplay.innerText = `${deg.toFixed(1)}°`;
+
+    const setTxt = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val;
+    };
+
+    setTxt('lab-sin-val', sinVal.toFixed(4));
+    setTxt('lab-cos-val', cosVal.toFixed(4));
+    setTxt('lab-tan-val', tanVal.toFixed(4));
+    setTxt('lab-csc-val', cscVal.toFixed(4));
+    setTxt('lab-sec-val', secVal.toFixed(4));
+    setTxt('lab-cot-val', cotVal.toFixed(4));
 
     const pythagoras = (sinVal * sinVal + cosVal * cosVal).toFixed(6);
-    document.getElementById('lab-pythagoras-val').innerText = pythagoras;
+    setTxt('lab-pythagoras-val', `${pythagoras}`);
+    setTxt('lab-quotient-val', `${(sinVal / cosVal).toFixed(4)} (＝ tan θ)`);
 
     // 動態繪製直角三角形 SVG
     const svgContainer = document.getElementById('lab-svg-stage');
     if (svgContainer) {
-        const cx = 50;
-        const cy = 200;
-        const r = 180; // 斜邊放大比例
+        const cx = 45;
+        const cy = 220;
+        const r = 210; // 斜邊放大比例
         const bx = cx + cosVal * r;
         const by = cy;
         const ax = bx;
         const ay = cy - sinVal * r;
 
         svgContainer.innerHTML = `
-        <svg viewBox="0 0 320 240" class="w-full h-full">
-            <rect width="320" height="240" fill="#f8fafc" rx="12"/>
+        <svg viewBox="0 0 340 250" class="w-full h-full">
+            <rect width="340" height="250" fill="#f8fafc" rx="14"/>
+            <!-- 直角三角形著色底色 -->
             <polygon points="${cx},${cy} ${bx},${by} ${ax},${ay}" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+            
             <!-- 直角記號 -->
             <rect x="${bx - 14}" y="${by - 14}" width="14" height="14" fill="none" stroke="#2563eb" stroke-width="1.5"/>
-            <!-- 角度弧線 -->
-            <path d="M ${cx + 30} ${cy} A 30 30 0 0 0 ${cx + 30 * cosVal} ${cy - 30 * sinVal}" fill="none" stroke="#dc2626" stroke-width="2"/>
-            <text x="${cx + 35}" y="${cy - 8}" font-size="12" font-weight="bold" fill="#dc2626">${deg.toFixed(0)}°</text>
+            <circle cx="${bx - 7}" cy="${by - 7}" r="1.5" fill="#2563eb"/>
+
+            <!-- 銳角 θ 弧線與標註 -->
+            <path d="M ${cx + 34} ${cy} A 34 34 0 0 0 ${cx + 34 * cosVal} ${cy - 34 * sinVal}" fill="none" stroke="#dc2626" stroke-width="2.2"/>
+            <text x="${cx + 42}" y="${cy - 9}" font-size="13" font-weight="bold" fill="#dc2626">θ = ${deg.toFixed(1)}°</text>
+            
+            <!-- 頂點標記 -->
+            <circle cx="${cx}" cy="${cy}" r="3.5" fill="#1e40af"/>
+            <text x="${cx - 15}" y="${cy + 5}" font-size="14" font-weight="bold" fill="#1e40af">A</text>
+
+            <circle cx="${bx}" cy="${by}" r="3.5" fill="#2563eb"/>
+            <text x="${bx + 8}" y="${by + 16}" font-size="14" font-weight="bold" fill="#2563eb">C(90°)</text>
+
+            <circle cx="${ax}" cy="${ay}" r="3.5" fill="#dc2626"/>
+            <text x="${ax + 8}" y="${ay - 6}" font-size="14" font-weight="bold" fill="#dc2626">B</text>
+
             <!-- 三邊長標記 -->
-            <text x="${(cx + bx) / 2}" y="${cy + 18}" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">鄰邊 x = ${cosVal.toFixed(3)}</text>
-            <text x="${bx + 10}" y="${(by + ay) / 2 + 4}" font-size="12" font-weight="bold" fill="#dc2626">對邊 y = ${sinVal.toFixed(3)}</text>
-            <text x="${(cx + ax) / 2 - 14}" y="${(cy + ay) / 2 - 10}" font-size="12" font-weight="bold" fill="#16a34a">斜邊 r = 1.000</text>
+            <text x="${(cx + bx) / 2}" y="${cy + 18}" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">鄰邊 x = cos θ = ${cosVal.toFixed(3)}</text>
+            <text x="${bx + 8}" y="${(by + ay) / 2}" font-size="12" font-weight="bold" fill="#dc2626">對邊 y = sin θ = ${sinVal.toFixed(3)}</text>
+            <text x="${(cx + ax) / 2 - 14}" y="${(cy + ay) / 2 - 12}" font-size="12" font-weight="bold" fill="#16a34a">斜邊 r = 1.000</text>
         </svg>
         `;
     }
+}
+
+// ------------------------------------------
+// 魔法六角密碼盤 (Magic Super Hexagon)
+// ------------------------------------------
+const HEX_VERTICES = {
+    sin: { name: 'sin θ', x: 100, y: 55, partner: 'csc', adjRight: 'cos', adjLeft: 'tan' },
+    cos: { name: 'cos θ', x: 240, y: 55, partner: 'sec', adjRight: 'cot', adjLeft: 'sin' },
+    cot: { name: 'cot θ', x: 285, y: 135, partner: 'tan', adjRight: 'csc', adjLeft: 'cos' },
+    csc: { name: 'csc θ', x: 240, y: 215, partner: 'sin', adjRight: 'sec', adjLeft: 'cot' },
+    sec: { name: 'sec θ', x: 100, y: 215, partner: 'cos', adjRight: 'tan', adjLeft: 'csc' },
+    tan: { name: 'tan θ', x: 55, y: 135, partner: 'cot', adjRight: 'sin', adjLeft: 'sec' }
+};
+
+function setHexagonMode(mode) {
+    currentHexagonMode = mode;
+    recordInteraction();
+
+    const modes = ['reciprocal', 'quotient', 'pythagorean'];
+    modes.forEach(m => {
+        const btn = document.getElementById(`hex-mode-${m}-btn`);
+        if (btn) {
+            if (m === mode) {
+                btn.className = "px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow-xs border border-amber-600 transition-all";
+            } else {
+                btn.className = "px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-all";
+            }
+        }
+    });
+
+    renderSuperHexagon();
+}
+
+function selectHexVertex(v) {
+    selectedHexVertex = v;
+    recordInteraction();
+    renderSuperHexagon();
+}
+
+function renderSuperHexagon() {
+    const container = document.getElementById('hexagon-svg-container');
+    if (!container) return;
+
+    const centerX = 170;
+    const centerY = 135;
+
+    let highlightLines = '';
+    let highlightTriangles = '';
+    let badgeTitle = '';
+    let formulaDisplay = '';
+    let explanationText = '';
+
+    const v = HEX_VERTICES[selectedHexVertex];
+
+    if (currentHexagonMode === 'reciprocal') {
+        const partner = HEX_VERTICES[v.partner];
+        highlightLines = `
+            <line x1="${v.x}" y1="${v.y}" x2="${partner.x}" y2="${partner.y}" stroke="#f59e0b" stroke-width="4" stroke-dasharray="6 3"/>
+            <circle cx="${centerX}" cy="${centerY}" r="18" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+        `;
+        badgeTitle = '【對角互倒關係】穿透中心 1 的倒數伴侶';
+        formulaDisplay = `${v.name} · ${partner.name} = 1`;
+        explanationText = `穿過中央的「1」，對角線兩端的三角函數互為倒數伴侶！例如：sin 與 csc 互為倒數，cos 與 sec 互為倒數，tan 與 cot 互為倒數！乘積恆等於 1！`;
+    } else if (currentHexagonMode === 'quotient') {
+        const next1 = HEX_VERTICES[v.adjRight];
+        const next2 = HEX_VERTICES[HEX_VERTICES[v.adjRight].adjRight];
+        highlightLines = `
+            <line x1="${v.x}" y1="${v.y}" x2="${next1.x}" y2="${next1.y}" stroke="#38bdf8" stroke-width="3"/>
+            <line x1="${next1.x}" y1="${next1.y}" x2="${next2.x}" y2="${next2.y}" stroke="#38bdf8" stroke-width="3"/>
+        `;
+        badgeTitle = '【相鄰商數關係】順時針/逆時針皆成立';
+        formulaDisplay = `${v.name} = \\frac{${next1.name}}{${next2.name}}`;
+        explanationText = `在六角形中，任意一個頂點等於它相鄰兩點之商！例如 tan = sin / cos，cot = cos / sin，sin = cos / cot 等，順逆時針環繞皆成立！`;
+    } else if (currentHexagonMode === 'pythagorean') {
+        highlightTriangles = `
+            <!-- 頂部三角形 sin² + cos² = 1 -->
+            <polygon points="100,55 240,55 170,135" fill="rgba(245, 158, 11, 0.25)" stroke="#f59e0b" stroke-width="2"/>
+            <!-- 左下三角形 1 + tan² = sec² -->
+            <polygon points="170,135 55,135 100,215" fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2"/>
+            <!-- 右下三角形 1 + cot² = csc² -->
+            <polygon points="170,135 285,135 240,215" fill="rgba(99, 102, 241, 0.25)" stroke="#6366f1" stroke-width="2"/>
+        `;
+        badgeTitle = '【倒三角平方關係】上兩端平方和等於底端';
+        formulaDisplay = `sin²θ + cos²θ = 1   ·   1 + tan²θ = sec²θ   ·   1 + cot²θ = csc²θ`;
+        explanationText = `觀察三個帶陰影的「倒三角形」：上面兩個頂點的平方和，等於底端頂點的平方！<br>
+        1. sin²θ + cos²θ = 1² = 1<br>
+        2. 1² + tan²θ = sec²θ (1 + tan² = sec²)<br>
+        3. 1² + cot²θ = csc²θ (1 + cot² = csc²)`;
+    }
+
+    const setTxt = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = val;
+    };
+    setTxt('hex-badge-title', badgeTitle);
+    setTxt('hex-formula-display', formulaDisplay);
+    setTxt('hex-explanation-text', explanationText);
+    if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById('hex-formula-display'), {
+            delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }]
+        });
+    }
+
+    // 繪製六角星 SVG
+    container.innerHTML = `
+    <svg viewBox="0 0 340 270" class="w-full h-full select-none cursor-pointer">
+        <!-- 外圍正六邊形連線 -->
+        <polygon points="100,55 240,55 285,135 240,215 100,215 55,135" fill="none" stroke="#475569" stroke-width="2"/>
+        
+        <!-- 對角線灰色底線 -->
+        <line x1="100" y1="55" x2="240" y2="215" stroke="#334155" stroke-width="1.5"/>
+        <line x1="240" y1="55" x2="100" y2="215" stroke="#334155" stroke-width="1.5"/>
+        <line x1="55" y1="135" x2="285" y2="135" stroke="#334155" stroke-width="1.5"/>
+
+        ${highlightTriangles}
+        ${highlightLines}
+
+        <!-- 中心點 1 -->
+        <circle cx="${centerX}" cy="${centerY}" r="17" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+        <text x="${centerX}" y="${centerY + 5}" text-anchor="middle" font-size="14" font-weight="900" fill="#f59e0b">1</text>
+
+        <!-- 6 個頂點節點 -->
+        ${Object.keys(HEX_VERTICES).map(key => {
+            const item = HEX_VERTICES[key];
+            const isSel = (key === selectedHexVertex);
+            const fillCol = isSel ? '#f59e0b' : '#1e293b';
+            const textCol = isSel ? '#0f172a' : '#ffffff';
+            const strokeCol = isSel ? '#ffffff' : '#38bdf8';
+            return `
+            <g onclick="selectHexVertex('${key}')" class="transition-transform hover:scale-110">
+                <circle cx="${item.x}" cy="${item.y}" r="22" fill="${fillCol}" stroke="${strokeCol}" stroke-width="${isSel ? '3' : '2'}"/>
+                <text x="${item.x}" y="${item.y + 5}" text-anchor="middle" font-size="12" font-weight="900" fill="${textCol}">${item.name.split(' ')[0]}</text>
+            </g>
+            `;
+        }).join('')}
+    </svg>
+    `;
+}
+
+// ------------------------------------------
+// 60秒特別角速算破案挑戰 (Speed Drill)
+// ------------------------------------------
+function startSpeedDrill() {
+    recordInteraction();
+    drillSecondsLeft = 60;
+    drillScore = 0;
+    drillCombo = 0;
+    drillMaxCombo = 0;
+    drillCorrectCount = 0;
+
+    const startView = document.getElementById('speeddrill-start-view');
+    const gameView = document.getElementById('speeddrill-game-view');
+    const resultView = document.getElementById('speeddrill-result-view');
+
+    if (startView) startView.classList.add('hidden');
+    if (resultView) resultView.classList.add('hidden');
+    if (gameView) gameView.classList.remove('hidden');
+
+    renderDrillOptionsGrid();
+    nextDrillQuestion();
+
+    if (drillTimer) clearInterval(drillTimer);
+    drillTimer = setInterval(() => {
+        drillSecondsLeft--;
+        const timerEl = document.getElementById('drill-timer-text');
+        if (timerEl) timerEl.innerText = `${drillSecondsLeft}s`;
+
+        if (drillSecondsLeft <= 0) {
+            clearInterval(drillTimer);
+            drillTimer = null;
+            finishSpeedDrill();
+        }
+    }, 1000);
+}
+
+function nextDrillQuestion() {
+    const randIdx = Math.floor(Math.random() * DRILL_QUESTION_POOL.length);
+    currentDrillQuestion = DRILL_QUESTION_POOL[randIdx];
+
+    const card = document.getElementById('drill-question-card');
+    if (card) {
+        card.innerHTML = `${currentDrillQuestion.q} = ?`;
+    }
+}
+
+function renderDrillOptionsGrid() {
+    const grid = document.getElementById('drill-options-grid');
+    if (!grid) return;
+
+    grid.innerHTML = DRILL_OPTIONS.map(opt => `
+        <button onclick="handleDrillAnswer('${opt.val}')" class="p-3 bg-white hover:bg-indigo-600 hover:text-white rounded-xl font-black text-lg border-2 border-slate-200 hover:border-indigo-600 shadow-sm transition-all active:scale-95 text-slate-800">
+            ${opt.label}
+        </button>
+    `).join('');
+}
+
+function handleDrillAnswer(userVal) {
+    recordInteraction();
+    if (!currentDrillQuestion) return;
+
+    const isCorrect = (userVal === currentDrillQuestion.a);
+    const overlay = document.getElementById('drill-feedback-overlay');
+
+    if (isCorrect) {
+        drillCombo++;
+        if (drillCombo > drillMaxCombo) drillMaxCombo = drillCombo;
+        drillCorrectCount++;
+        const addScore = 100 + (drillCombo * 20);
+        drillScore += addScore;
+
+        if (overlay) {
+            overlay.innerHTML = '<span class="text-emerald-600 bg-white/90 px-4 py-2 rounded-xl shadow-lg border border-emerald-400">正確！ +'+addScore+'</span>';
+            overlay.style.opacity = '1';
+            setTimeout(() => { overlay.style.opacity = '0'; }, 350);
+        }
+    } else {
+        drillCombo = 0;
+        if (overlay) {
+            overlay.innerHTML = '<span class="text-rose-600 bg-white/90 px-4 py-2 rounded-xl shadow-lg border border-rose-400">答錯！</span>';
+            overlay.style.opacity = '1';
+            setTimeout(() => { overlay.style.opacity = '0'; }, 350);
+        }
+    }
+
+    const comboEl = document.getElementById('drill-combo-badge');
+    const scoreEl = document.getElementById('drill-score-badge');
+    if (comboEl) comboEl.innerText = `Combo x${drillCombo}`;
+    if (scoreEl) scoreEl.innerText = `Score: ${drillScore}`;
+
+    nextDrillQuestion();
+}
+
+function finishSpeedDrill() {
+    const gameView = document.getElementById('speeddrill-game-view');
+    const resultView = document.getElementById('speeddrill-result-view');
+    if (gameView) gameView.classList.add('hidden');
+    if (resultView) resultView.classList.remove('hidden');
+
+    const setTxt = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val;
+    };
+
+    setTxt('drill-result-correct', `${drillCorrectCount} 題`);
+    setTxt('drill-result-combo', `${drillMaxCombo} 連擊`);
+    setTxt('drill-result-score', `${drillScore} 分`);
+
+    let rank = '見習搜查員 🕵️';
+    if (drillCorrectCount >= 18) rank = '高中生名偵探工藤新一 🏆';
+    else if (drillCorrectCount >= 12) rank = '高木警官的好搭檔 🎖️';
+    else if (drillCorrectCount >= 6) rank = '少年偵探團精英 🔍';
+
+    const rankEl = document.getElementById('drill-rank-badge');
+    if (rankEl) rankEl.innerText = `名偵探級別：${rank}`;
 }
 
 // ==========================================
