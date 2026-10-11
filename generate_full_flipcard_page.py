@@ -429,7 +429,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         </div>
 
         <div class="mt-4">
-          <div id="modal-svg-container" class="min-h-[180px] h-52 bg-slate-50 rounded-xl p-2 border border-slate-200 flex items-center justify-center mb-3">
+          <div id="modal-svg-container" class="min-h-[180px] h-52 bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center justify-center mb-3 overflow-hidden">
             <!-- SVG -->
           </div>
 

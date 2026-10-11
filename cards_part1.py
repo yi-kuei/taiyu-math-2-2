@@ -518,22 +518,22 @@ CARDS_PART1 = [
             }
         ],
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】熟記根號 1, 2, 3 規律，考試分秒搶分！",
-        "svg": r"""<svg viewBox="0 0 440 210" class="w-full h-full" style="max-width:100%; height:auto;">
-  <rect x="6" y="5" width="428" height="200" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="1.5"/>
-  <text x="220" y="25" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f">特別角標準分式全覽表 (分子階梯定律)</text>
+        "svg": r"""<svg viewBox="0 0 440 196" class="w-full h-full">
+  <rect x="6" y="4" width="428" height="188" rx="10" fill="#fbf9f4" stroke="#d97706" stroke-width="1.5"/>
+  <text x="220" y="23" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#78350f">特別角標準分式全覽表 (分子階梯定律)</text>
   
   <!-- sin θ row -->
-  <rect x="12" y="38" width="416" height="48" rx="8" fill="#fee2e2" stroke="#fca5a5" stroke-width="1"/>
-  <text x="36" y="67" font-size="14" font-weight="bold" fill="#991b1b">sin θ</text>
+  <rect x="12" y="33" width="416" height="46" rx="7" fill="#fee2e2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="36" y="61" font-size="13.5" font-weight="bold" fill="#991b1b">sin θ</text>
   <!-- 30°: 1 / 2 (不使用根號符號) -->
-  <g transform="translate(132, 62)">
+  <g transform="translate(132, 56)">
     <text x="0" y="-7" text-anchor="middle" font-size="13" font-weight="bold" fill="#991b1b">1</text>
     <line x1="-14" y1="0" x2="14" y2="0" stroke="#991b1b" stroke-width="1.6" stroke-linecap="round"/>
     <text x="0" y="16" text-anchor="middle" font-size="13" font-weight="bold" fill="#991b1b">2</text>
     <text x="32" y="5" font-size="11" font-weight="bold" fill="#991b1b">(30°)</text>
   </g>
   <!-- 45°: √2 / 2 -->
-  <g transform="translate(236, 62)">
+  <g transform="translate(236, 56)">
     <path d="M -14 -6 L -11 -6 L -8 -1 L -4 -16 L 8 -16" fill="none" stroke="#991b1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="2" y="-7" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#991b1b">2</text>
     <line x1="-16" y1="0" x2="16" y2="0" stroke="#991b1b" stroke-width="1.6" stroke-linecap="round"/>
@@ -541,7 +541,7 @@ CARDS_PART1 = [
     <text x="34" y="5" font-size="11" font-weight="bold" fill="#991b1b">(45°)</text>
   </g>
   <!-- 60°: √3 / 2 -->
-  <g transform="translate(340, 62)">
+  <g transform="translate(340, 56)">
     <path d="M -14 -6 L -11 -6 L -8 -1 L -4 -16 L 8 -16" fill="none" stroke="#991b1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="2" y="-7" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#991b1b">3</text>
     <line x1="-16" y1="0" x2="16" y2="0" stroke="#991b1b" stroke-width="1.6" stroke-linecap="round"/>
@@ -550,10 +550,10 @@ CARDS_PART1 = [
   </g>
   
   <!-- cos θ row -->
-  <rect x="12" y="94" width="416" height="48" rx="8" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1"/>
-  <text x="36" y="123" font-size="14" font-weight="bold" fill="#3730a3">cos θ</text>
+  <rect x="12" y="84" width="416" height="46" rx="7" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text x="36" y="112" font-size="13.5" font-weight="bold" fill="#3730a3">cos θ</text>
   <!-- 30°: √3 / 2 -->
-  <g transform="translate(132, 118)">
+  <g transform="translate(132, 107)">
     <path d="M -14 -6 L -11 -6 L -8 -1 L -4 -16 L 8 -16" fill="none" stroke="#3730a3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="2" y="-7" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#3730a3">3</text>
     <line x1="-16" y1="0" x2="16" y2="0" stroke="#3730a3" stroke-width="1.6" stroke-linecap="round"/>
@@ -561,7 +561,7 @@ CARDS_PART1 = [
     <text x="34" y="5" font-size="11" font-weight="bold" fill="#3730a3">(30°)</text>
   </g>
   <!-- 45°: √2 / 2 -->
-  <g transform="translate(236, 118)">
+  <g transform="translate(236, 107)">
     <path d="M -14 -6 L -11 -6 L -8 -1 L -4 -16 L 8 -16" fill="none" stroke="#3730a3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="2" y="-7" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#3730a3">2</text>
     <line x1="-16" y1="0" x2="16" y2="0" stroke="#3730a3" stroke-width="1.6" stroke-linecap="round"/>
@@ -569,7 +569,7 @@ CARDS_PART1 = [
     <text x="34" y="5" font-size="11" font-weight="bold" fill="#3730a3">(45°)</text>
   </g>
   <!-- 60°: 1 / 2 (不使用根號符號) -->
-  <g transform="translate(340, 118)">
+  <g transform="translate(340, 107)">
     <text x="0" y="-7" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">1</text>
     <line x1="-14" y1="0" x2="14" y2="0" stroke="#3730a3" stroke-width="1.6" stroke-linecap="round"/>
     <text x="0" y="16" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">2</text>
@@ -577,10 +577,10 @@ CARDS_PART1 = [
   </g>
 
   <!-- tan θ row -->
-  <rect x="12" y="150" width="416" height="48" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
-  <text x="36" y="179" font-size="14" font-weight="bold" fill="#92400e">tan θ</text>
+  <rect x="12" y="135" width="416" height="46" rx="7" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="36" y="163" font-size="13.5" font-weight="bold" fill="#92400e">tan θ</text>
   <!-- 30°: √3 / 3 -->
-  <g transform="translate(132, 174)">
+  <g transform="translate(132, 158)">
     <path d="M -14 -6 L -11 -6 L -8 -1 L -4 -16 L 8 -16" fill="none" stroke="#92400e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="2" y="-7" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#92400e">3</text>
     <line x1="-16" y1="0" x2="16" y2="0" stroke="#92400e" stroke-width="1.6" stroke-linecap="round"/>
@@ -588,12 +588,12 @@ CARDS_PART1 = [
     <text x="34" y="5" font-size="11" font-weight="bold" fill="#92400e">(30°)</text>
   </g>
   <!-- 45°: 1 -->
-  <g transform="translate(236, 174)">
+  <g transform="translate(236, 158)">
     <text x="0" y="5" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">1</text>
     <text x="28" y="5" font-size="11" font-weight="bold" fill="#92400e">(45°)</text>
   </g>
   <!-- 60°: √3 -->
-  <g transform="translate(340, 174)">
+  <g transform="translate(340, 158)">
     <path d="M -14 0 L -11 0 L -8 5 L -4 -10 L 8 -10" fill="none" stroke="#92400e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="2" y="2" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">3</text>
     <text x="32" y="5" font-size="11" font-weight="bold" fill="#92400e">(60°)</text>

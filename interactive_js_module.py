@@ -178,7 +178,7 @@ function renderCards() {
         const isConclusionBlur = (curStep > 0 && curStep < card.steps.length);
 
         return `
-        <div class="card-item perspective relative min-h-[700px] h-[745px]" data-card-index="${cardRealIndex}">
+        <div class="card-item perspective relative min-h-[710px] h-[755px]" data-card-index="${cardRealIndex}">
             <div id="flipper-${cardRealIndex}" class="flipper w-full h-full relative transition-transform duration-500 transform-style-3d">
                 
                 <!-- 卡片正面 (題幹、幾何模型與破案導引) -->
@@ -196,8 +196,8 @@ function renderCards() {
                             ${card.front_content}
                         </div>
 
-                        <!-- 正面幾何模型圖形展示 (向下移位以留出充足邊距，徹底杜絕方框重疊) -->
-                        <div class="h-44 sm:h-48 bg-amber-50/60 rounded-xl p-2 border border-amber-200/70 flex items-center justify-center mt-3 mb-2 shadow-2xs">
+                        <!-- 正面幾何模型圖形展示 (黃色方框容器，高度充裕、溢出保護，圖表完全置入內部) -->
+                        <div class="h-48 sm:h-52 bg-amber-50/70 rounded-xl p-2.5 border-2 border-amber-300/90 flex items-center justify-center mt-4 mb-3 shadow-2xs overflow-hidden">
                             ${card.svg}
                         </div>
                     </div>
