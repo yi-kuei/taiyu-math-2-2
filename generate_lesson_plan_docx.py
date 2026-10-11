@@ -2,7 +2,9 @@
 """
 generate_lesson_plan_docx.py
 將《2-2_三角函數的定義與性質_四節課教學計畫與教案》
-編譯為 100% 符合微軟原生 OMML 數學方程式編輯規格的正式 A4 Word 教案文件 (.docx)
+編譯為 100% 符合微軟原生 OMML 數學方程式編輯規格之 JIS B4 直式單欄 Word 教案文件 (.docx)
+版面：JIS B4 直式單欄 (257mm x 364mm)
+字體大小：升級為大字體清晰舒適閱讀版 (內文 11~11.5pt，標題 14~22pt)
 """
 
 import os
@@ -50,7 +52,7 @@ def latex_to_omml(latex_str):
         print(f"[警告] OMML 轉換失敗: [{latex_str}] -> {e}")
         return None
 
-def add_math_runs(paragraph, text, default_color=None, bold=False, font_size=Pt(9.5)):
+def add_math_runs(paragraph, text, default_color=None, bold=False, font_size=Pt(11)):
     """切分字串並將所有 $...$ 或 $$...$$ 轉換為微軟原生 OMML 數學方程式 (<m:oMath>)"""
     parts = re.split(r'(\$\$[\s\S]+?\$\$|\$[^\$]+?\$)', text)
     for part in parts:
@@ -77,7 +79,7 @@ def add_math_runs(paragraph, text, default_color=None, bold=False, font_size=Pt(
             if default_color:
                 r.font.color.rgb = RGBColor(*default_color)
 
-def fill_cell_multiline(cell, full_text, default_color=None, bold=False, font_size=Pt(9), alignment=WD_ALIGN_PARAGRAPH.LEFT):
+def fill_cell_multiline(cell, full_text, default_color=None, bold=False, font_size=Pt(11), alignment=WD_ALIGN_PARAGRAPH.LEFT):
     """處理表格儲存格中包含多行換行符號之文字，並逐行渲染 OMML 數學方程式"""
     lines = full_text.split('\n')
     for idx, line in enumerate(lines):
@@ -86,12 +88,12 @@ def fill_cell_multiline(cell, full_text, default_color=None, bold=False, font_si
         else:
             p = cell.add_paragraph()
         p.alignment = alignment
-        p.paragraph_format.space_before = Pt(1)
-        p.paragraph_format.space_after = Pt(2)
-        p.paragraph_format.line_spacing = 1.15
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(3)
+        p.paragraph_format.line_spacing = 1.2
         add_math_runs(p, line, default_color=default_color, bold=bold, font_size=font_size)
 
-def set_cell_margins(cell, top=80, bottom=80, left=110, right=110):
+def set_cell_margins(cell, top=100, bottom=100, left=130, right=130):
     tcPr = cell._element.get_or_add_tcPr()
     tcMar = OxmlElement('w:tcMar')
     for m, val in [('w:top', top), ('w:bottom', bottom), ('w:left', left), ('w:right', right)]:
@@ -126,54 +128,65 @@ def make_lesson_plan_doc():
     total_omml_converted = 0
     doc = docx.Document()
     
-    # 版面設定：A4 直向 (210mm x 297mm)
+    # 版面設定：JIS B4 直向 (257mm x 364mm)，單欄排版
     section = doc.sections[0]
-    section.page_width = Mm(210)
-    section.page_height = Mm(297)
-    section.top_margin = Mm(18)
-    section.bottom_margin = Mm(18)
-    section.left_margin = Mm(16)
-    section.right_margin = Mm(16)
+    section.page_width = Mm(257)
+    section.page_height = Mm(364)
+    section.top_margin = Mm(20)
+    section.bottom_margin = Mm(20)
+    section.left_margin = Mm(20)
+    section.right_margin = Mm(20)
+    
+    # 確保為單欄排版
+    sectPr = section._sectPr
+    cols = sectPr.xpath('w:cols')
+    if cols:
+        cols[0].set(qn('w:num'), '1')
+    else:
+        new_cols = OxmlElement('w:cols')
+        new_cols.set(qn('w:num'), '1')
+        sectPr.append(new_cols)
     
     # 頁首
     header = section.header
     hp = header.paragraphs[0]
     hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    hrun = hp.add_run("泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質 ‧ 四節課課程計畫與教學教案 (OMML 標準版)")
+    hrun = hp.add_run("泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質 ‧ 四節課課程計畫與教學教案 (JIS B4 直式單欄 OMML 標準版)")
     hrun.font.name = "微軟正黑體"
-    hrun.font.size = Pt(8.5)
+    hrun.font.size = Pt(9.5)
     hrun.font.color.rgb = RGBColor(140, 140, 140)
     
     # 頁尾
     footer = section.footer
     fp = footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    frun = fp.add_run("PLVS 數學科教學研究會 ‧ 名偵探柯南數理探案特訓 旗艦全功能標準版 ｜ 密碼 88888888")
+    frun = fp.add_run("PLVS 數學科教學研究會 ‧ 名偵探柯南數理探案特訓 旗艦全功能標準版 ｜ 驗證授權密碼 88888888")
     frun.font.name = "微軟正黑體"
-    frun.font.size = Pt(8.5)
+    frun.font.size = Pt(9.5)
     frun.font.color.rgb = RGBColor(140, 140, 140)
 
-    # 1. 主標題
+    # 1. 主標題 (升級為 22pt)
     p_title = doc.add_paragraph()
     p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_title.paragraph_format.space_before = Pt(4)
-    p_title.paragraph_format.space_after = Pt(2)
+    p_title.paragraph_format.space_before = Pt(8)
+    p_title.paragraph_format.space_after = Pt(4)
     r1 = p_title.add_run("泰宇版 技術高中數學（第一冊）單元 2-2\n三角函數的定義與性質 課程計畫與教學教案")
     r1.font.name = "微軟正黑體"
-    r1.font.size = Pt(17)
+    r1.font.size = Pt(22)
     r1.bold = True
     r1.font.color.rgb = RGBColor(120, 53, 15) # 琥珀深棕
 
+    # 副標題 (升級為 13pt)
     p_sub = doc.add_paragraph()
     p_sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_sub.paragraph_format.space_after = Pt(12)
-    r2 = p_sub.add_run("【名偵探柯南數理探案特訓 ‧ 旗艦全功能教學標準版】（4 節課 × 50 分鐘，共 200 分鐘）\n微軟原生 OMML 數學方程式高規格編印版")
+    p_sub.paragraph_format.space_after = Pt(16)
+    r2 = p_sub.add_run("【名偵探柯南數理探案特訓 ‧ 旗艦全功能教學標準版】（4 節課 × 50 分鐘，共 200 分鐘）\n微軟原生 OMML 數學方程式高規格編印版 ｜ JIS B4 直式單欄教學手冊")
     r2.font.name = "微軟正黑體"
-    r2.font.size = Pt(10.5)
+    r2.font.size = Pt(13)
     r2.bold = True
     r2.font.color.rgb = RGBColor(180, 83, 9)
 
-    # 2. 基本資料表
+    # 2. 基本資料表 (寬度適配 B4 217mm，字體 11pt)
     info_tbl = doc.add_table(rows=4, cols=4)
     info_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     set_table_borders(info_tbl, "D97706")
@@ -185,28 +198,28 @@ def make_lesson_plan_doc():
         [("核心素養", True), ("數-U-A1 系統思考與符號運用、數-U-B1 科技資訊與幾何測距、數-U-C2 生活工程坡度素養", False), ("評量工具", True), ("60道自檢題、60秒速算PK、JIS B4 雙欄學習單", False)],
     ]
     
-    col_widths = [Mm(25), Mm(64), Mm(25), Mm(64)]
+    col_widths = [Mm(32), Mm(76), Mm(32), Mm(77)]
     for r_idx, row in enumerate(info_data):
         for c_idx, (text, is_hdr) in enumerate(row):
             cell = info_tbl.cell(r_idx, c_idx)
             cell.width = col_widths[c_idx]
-            set_cell_margins(cell, top=70, bottom=70, left=100, right=100)
+            set_cell_margins(cell, top=90, bottom=90, left=120, right=120)
             if is_hdr:
                 set_cell_shading(cell, "FEF3C7")
-                fill_cell_multiline(cell, text, default_color=(120, 53, 15), bold=True, font_size=Pt(9))
+                fill_cell_multiline(cell, text, default_color=(120, 53, 15), bold=True, font_size=Pt(11))
             else:
                 set_cell_shading(cell, "FFFFFF")
-                fill_cell_multiline(cell, text, default_color=(51, 65, 85), bold=False, font_size=Pt(9))
+                fill_cell_multiline(cell, text, default_color=(51, 65, 85), bold=False, font_size=Pt(11))
                 
-    doc.add_paragraph().paragraph_format.space_after = Pt(6)
+    doc.add_paragraph().paragraph_format.space_after = Pt(10)
 
-    # 3. 壹、總體課程計畫架構與時數分配總表
+    # 3. 壹、總體課程計畫架構與時數分配總表 (標題 16pt，表格 11~12pt)
     h1 = doc.add_paragraph()
-    h1.paragraph_format.space_before = Pt(10)
-    h1.paragraph_format.space_after = Pt(4)
+    h1.paragraph_format.space_before = Pt(14)
+    h1.paragraph_format.space_after = Pt(6)
     hr1 = h1.add_run("壹、總體課程計畫架構與時數分配總表")
     hr1.font.name = "微軟正黑體"
-    hr1.font.size = Pt(13)
+    hr1.font.size = Pt(16)
     hr1.bold = True
     hr1.font.color.rgb = RGBColor(30, 58, 138)
 
@@ -215,14 +228,14 @@ def make_lesson_plan_doc():
     set_table_borders(plan_tbl, "CBD5E1")
     
     plan_headers = ["節次", "核心主題", "課本範圍", "搭配圖解卡與工具", "核心學習目標與教學任務 (含 OMML 數學式)"]
-    plan_widths = [Mm(18), Mm(32), Mm(26), Mm(34), Mm(68)]
+    plan_widths = [Mm(24), Mm(40), Mm(34), Mm(42), Mm(77)]
     
     for c_idx, h_text in enumerate(plan_headers):
         cell = plan_tbl.cell(0, c_idx)
         cell.width = plan_widths[c_idx]
-        set_cell_margins(cell, top=90, bottom=90, left=90, right=90)
+        set_cell_margins(cell, top=110, bottom=110, left=110, right=110)
         set_cell_shading(cell, "1E3A8A")
-        fill_cell_multiline(cell, h_text, default_color=(255, 255, 255), bold=True, font_size=Pt(9), alignment=WD_ALIGN_PARAGRAPH.CENTER)
+        fill_cell_multiline(cell, h_text, default_color=(255, 255, 255), bold=True, font_size=Pt(12), alignment=WD_ALIGN_PARAGRAPH.CENTER)
         
     plan_rows = [
         (
@@ -260,71 +273,71 @@ def make_lesson_plan_doc():
         for c_idx, text in enumerate(r_data):
             cell = plan_tbl.cell(r_idx, c_idx)
             cell.width = plan_widths[c_idx]
-            set_cell_margins(cell, top=70, bottom=70, left=90, right=90)
+            set_cell_margins(cell, top=90, bottom=90, left=110, right=110)
             set_cell_shading(cell, bg_col)
             if c_idx == 0:
-                fill_cell_multiline(cell, text, default_color=(120, 53, 15), bold=True, font_size=Pt(9), alignment=WD_ALIGN_PARAGRAPH.CENTER)
+                fill_cell_multiline(cell, text, default_color=(120, 53, 15), bold=True, font_size=Pt(11.5), alignment=WD_ALIGN_PARAGRAPH.CENTER)
             elif c_idx in (1, 2, 3):
-                fill_cell_multiline(cell, text, default_color=(30, 41, 59), bold=(c_idx==1), font_size=Pt(8.5))
+                fill_cell_multiline(cell, text, default_color=(30, 41, 59), bold=(c_idx==1), font_size=Pt(11))
             else:
-                fill_cell_multiline(cell, text, default_color=(51, 65, 85), bold=False, font_size=Pt(8.5))
+                fill_cell_multiline(cell, text, default_color=(51, 65, 85), bold=False, font_size=Pt(11))
 
     doc.add_page_break()
 
-    # 4. 貳、分節詳細教學教案
+    # 4. 貳、分節詳細教學教案 (每節 50 分鐘)
     h2 = doc.add_paragraph()
-    h2.paragraph_format.space_before = Pt(8)
-    h2.paragraph_format.space_after = Pt(4)
+    h2.paragraph_format.space_before = Pt(10)
+    h2.paragraph_format.space_after = Pt(6)
     hr2 = h2.add_run("貳、分節詳細教學教案 (每節 50 分鐘，共 4 節)")
     hr2.font.name = "微軟正黑體"
-    hr2.font.size = Pt(13)
+    hr2.font.size = Pt(16)
     hr2.bold = True
     hr2.font.color.rgb = RGBColor(30, 58, 138)
 
     def add_lesson_section(lesson_num, lesson_title, lesson_desc, objectives, timeline_rows):
         lp = doc.add_paragraph()
-        lp.paragraph_format.space_before = Pt(10)
-        lp.paragraph_format.space_after = Pt(2)
+        lp.paragraph_format.space_before = Pt(14)
+        lp.paragraph_format.space_after = Pt(4)
         r = lp.add_run(f"【第 {lesson_num} 節課教案】{lesson_title}")
         r.font.name = "微軟正黑體"
-        r.font.size = Pt(11.5)
+        r.font.size = Pt(14)
         r.bold = True
         r.font.color.rgb = RGBColor(180, 83, 9)
         
-        # 目標條列
+        # 目標條列 (字體 11.5pt)
         op = doc.add_paragraph()
-        op.paragraph_format.space_after = Pt(4)
-        add_math_runs(op, "教學目標： " + " ｜ ".join(objectives), default_color=(71, 85, 105), bold=False, font_size=Pt(8.5))
+        op.paragraph_format.space_after = Pt(6)
+        add_math_runs(op, "教學目標： " + " ｜ ".join(objectives), default_color=(71, 85, 105), bold=False, font_size=Pt(11))
         
-        # 教學活動表
+        # 教學活動表 (字體 11pt，寬度 217mm)
         act_tbl = doc.add_table(rows=len(timeline_rows)+1, cols=5)
         act_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
         set_table_borders(act_tbl, "CBD5E1")
-        act_widths = [Mm(18), Mm(22), Mm(58), Mm(50), Mm(28)]
+        act_widths = [Mm(24), Mm(28), Mm(72), Mm(63), Mm(30)]
         
         act_hdrs = ["時間", "教學環節", "教師教學活動 (Teacher's Activities)", "學生學習活動 (Students' Activities)", "教學資源與工具"]
         for c_idx, h_text in enumerate(act_hdrs):
             cell = act_tbl.cell(0, c_idx)
             cell.width = act_widths[c_idx]
-            set_cell_margins(cell, top=70, bottom=70, left=80, right=80)
+            set_cell_margins(cell, top=90, bottom=90, left=90, right=90)
             set_cell_shading(cell, "D97706")
-            fill_cell_multiline(cell, h_text, default_color=(255, 255, 255), bold=True, font_size=Pt(9), alignment=WD_ALIGN_PARAGRAPH.CENTER)
+            fill_cell_multiline(cell, h_text, default_color=(255, 255, 255), bold=True, font_size=Pt(11.5), alignment=WD_ALIGN_PARAGRAPH.CENTER)
             
         for r_idx, r_data in enumerate(timeline_rows, start=1):
             bg = "FFFBEB" if r_idx % 2 == 1 else "FFFFFF"
             for c_idx, text in enumerate(r_data):
                 cell = act_tbl.cell(r_idx, c_idx)
                 cell.width = act_widths[c_idx]
-                set_cell_margins(cell, top=65, bottom=65, left=80, right=80)
+                set_cell_margins(cell, top=80, bottom=80, left=90, right=90)
                 set_cell_shading(cell, bg)
                 if c_idx == 0:
-                    fill_cell_multiline(cell, text, default_color=(180, 83, 9), bold=True, font_size=Pt(8.5), alignment=WD_ALIGN_PARAGRAPH.CENTER)
+                    fill_cell_multiline(cell, text, default_color=(180, 83, 9), bold=True, font_size=Pt(11), alignment=WD_ALIGN_PARAGRAPH.CENTER)
                 elif c_idx == 1:
-                    fill_cell_multiline(cell, text, default_color=(30, 58, 138), bold=True, font_size=Pt(8.5), alignment=WD_ALIGN_PARAGRAPH.CENTER)
+                    fill_cell_multiline(cell, text, default_color=(30, 58, 138), bold=True, font_size=Pt(11), alignment=WD_ALIGN_PARAGRAPH.CENTER)
                 else:
-                    fill_cell_multiline(cell, text, default_color=(51, 65, 85), bold=False, font_size=Pt(8))
+                    fill_cell_multiline(cell, text, default_color=(51, 65, 85), bold=False, font_size=Pt(10.5))
                     
-        doc.add_paragraph().paragraph_format.space_after = Pt(4)
+        doc.add_paragraph().paragraph_format.space_after = Pt(6)
 
     # 4.1 第一節課
     add_lesson_section(
@@ -410,32 +423,32 @@ def make_lesson_plan_doc():
 
     doc.add_page_break()
 
-    # 5. 參、多元評量策略與評分規準 (Rubrics)
+    # 5. 參、多元評量策略與評分規準 (Rubrics) (標題 16pt，內容 11pt)
     h3 = doc.add_paragraph()
-    h3.paragraph_format.space_before = Pt(8)
-    h3.paragraph_format.space_after = Pt(4)
+    h3.paragraph_format.space_before = Pt(10)
+    h3.paragraph_format.space_after = Pt(6)
     hr3 = h3.add_run("參、多元評量策略與學習單評分規準 (Rubrics)")
     hr3.font.name = "微軟正黑體"
-    hr3.font.size = Pt(13)
+    hr3.font.size = Pt(16)
     hr3.bold = True
     hr3.font.color.rgb = RGBColor(30, 58, 138)
 
     rub_intro = doc.add_paragraph()
-    rub_intro.paragraph_format.space_after = Pt(6)
-    add_math_runs(rub_intro, "本單元落實「歷程評量」與「表現任務評量」，配分比重：課堂數位速算互動（30%）、JIS B4 雙欄學習單書寫（40%）、少年偵探團 STAGE 闖關總評量（30%）。", default_color=(51, 65, 85), font_size=Pt(9))
+    rub_intro.paragraph_format.space_after = Pt(8)
+    add_math_runs(rub_intro, "本單元落實「歷程評量」與「表現任務評量」，配分比重：課堂數位速算互動（30%）、JIS B4 雙欄學習單書寫（40%）、少年偵探團 STAGE 闖關總評量（30%）。", default_color=(51, 65, 85), font_size=Pt(11))
 
     rub_tbl = doc.add_table(rows=5, cols=5)
     rub_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     set_table_borders(rub_tbl, "CBD5E1")
-    rub_widths = [Mm(26), Mm(36), Mm(36), Mm(38), Mm(38)]
+    rub_widths = [Mm(32), Mm(46), Mm(46), Mm(46), Mm(47)]
     rub_hdrs = ["評分維度", "A 優異 (90-100分)", "B 良好 (80-89分)", "C 基礎 (70-79分)", "D 待加強 (<70分)"]
     
     for c_idx, h_text in enumerate(rub_hdrs):
         cell = rub_tbl.cell(0, c_idx)
         cell.width = rub_widths[c_idx]
-        set_cell_margins(cell, top=80, bottom=80, left=80, right=80)
+        set_cell_margins(cell, top=100, bottom=100, left=100, right=100)
         set_cell_shading(cell, "1E3A8A")
-        fill_cell_multiline(cell, h_text, default_color=(255, 255, 255), bold=True, font_size=Pt(9), alignment=WD_ALIGN_PARAGRAPH.CENTER)
+        fill_cell_multiline(cell, h_text, default_color=(255, 255, 255), bold=True, font_size=Pt(11.5), alignment=WD_ALIGN_PARAGRAPH.CENTER)
         
     rub_data = [
         ("定義掌握度", "六大三角函數定義清晰，能靈活切換視角，設參數 $k$ 規範嚴謹。", "正確認出六大三角比，視角切換偶有遲疑但能自我更正。", "能認出前三大三角比，伴隨函數（餘割、正割、餘切）常混淆。", "無法正確認出對邊與鄰邊，三角比定義混亂。"),
@@ -449,22 +462,22 @@ def make_lesson_plan_doc():
         for c_idx, text in enumerate(r_vals):
             cell = rub_tbl.cell(r_idx, c_idx)
             cell.width = rub_widths[c_idx]
-            set_cell_margins(cell, top=65, bottom=65, left=80, right=80)
+            set_cell_margins(cell, top=80, bottom=80, left=100, right=100)
             set_cell_shading(cell, bg)
             if c_idx == 0:
-                fill_cell_multiline(cell, text, default_color=(120, 53, 15), bold=True, font_size=Pt(8.5), alignment=WD_ALIGN_PARAGRAPH.CENTER)
+                fill_cell_multiline(cell, text, default_color=(120, 53, 15), bold=True, font_size=Pt(11), alignment=WD_ALIGN_PARAGRAPH.CENTER)
             else:
-                fill_cell_multiline(cell, text, default_color=(51, 65, 85), font_size=Pt(8))
+                fill_cell_multiline(cell, text, default_color=(51, 65, 85), font_size=Pt(10.5))
                 
-    doc.add_paragraph().paragraph_format.space_after = Pt(8)
+    doc.add_paragraph().paragraph_format.space_after = Pt(10)
 
-    # 6. 肆、差異化教學與班級經營指引
+    # 6. 肆、差異化教學與班級經營指引 (標題 16pt，內容 11pt)
     h4 = doc.add_paragraph()
-    h4.paragraph_format.space_before = Pt(8)
-    h4.paragraph_format.space_after = Pt(4)
+    h4.paragraph_format.space_before = Pt(10)
+    h4.paragraph_format.space_after = Pt(6)
     hr4 = h4.add_run("肆、差異化教學、情境融入與班級經營指引")
     hr4.font.name = "微軟正黑體"
-    hr4.font.size = Pt(13)
+    hr4.font.size = Pt(16)
     hr4.bold = True
     hr4.font.color.rgb = RGBColor(30, 58, 138)
 
@@ -477,14 +490,14 @@ def make_lesson_plan_doc():
     
     for t_title, t_desc in tips:
         tp = doc.add_paragraph()
-        tp.paragraph_format.space_before = Pt(2)
-        tp.paragraph_format.space_after = Pt(2)
-        add_math_runs(tp, t_title + "：", default_color=(180, 83, 9), bold=True, font_size=Pt(9))
-        add_math_runs(tp, t_desc, default_color=(51, 65, 85), font_size=Pt(9))
+        tp.paragraph_format.space_before = Pt(3)
+        tp.paragraph_format.space_after = Pt(3)
+        add_math_runs(tp, t_title + "：", default_color=(180, 83, 9), bold=True, font_size=Pt(11))
+        add_math_runs(tp, t_desc, default_color=(51, 65, 85), font_size=Pt(11))
 
     out_file = "2-2_三角函數的定義與性質_四節課教學計畫與教案.docx"
     doc.save(out_file)
-    print(f"成功產出正式教案 Word 文件: {out_file} (檔案大小: {os.path.getsize(out_file):,} 位元組)")
+    print(f"成功產出 B4 直式單欄教案 Word 文件: {out_file} (檔案大小: {os.path.getsize(out_file):,} 位元組)")
     print(f"★ 成功嵌入微軟原生 OMML 數學方程式節點總數: {total_omml_converted} 個！")
     return out_file
 
