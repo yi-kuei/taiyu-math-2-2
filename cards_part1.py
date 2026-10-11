@@ -520,24 +520,69 @@ CARDS_PART1 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】熟記根號 1, 2, 3 規律，考試分秒搶分！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full" style="max-width:100%; height:auto;">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="28" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f">特別角分子階梯定律 (分母恆為 2)</text>
-  <rect x="20" y="48" width="340" height="36" rx="6" fill="#fee2e2"/>
-  <text x="45" y="71" font-size="12" font-weight="bold" fill="#991b1b">sin θ</text>
-  <text x="125" y="71" font-size="11.5" font-weight="bold" fill="#991b1b">√1/2 (30°)</text>
-  <text x="215" y="71" font-size="11.5" font-weight="bold" fill="#991b1b">√2/2 (45°)</text>
-  <text x="300" y="71" font-size="11.5" font-weight="bold" fill="#991b1b">√3/2 (60°)</text>
+  <text x="190" y="27" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f">特別角標準分式階梯表 (分母恆為 2)</text>
   
-  <rect x="20" y="96" width="340" height="36" rx="6" fill="#e0e7ff"/>
-  <text x="45" y="119" font-size="12" font-weight="bold" fill="#3730a3">cos θ</text>
-  <text x="125" y="119" font-size="11.5" font-weight="bold" fill="#3730a3">√3/2 (30°)</text>
-  <text x="215" y="119" font-size="11.5" font-weight="bold" fill="#3730a3">√2/2 (45°)</text>
-  <text x="300" y="119" font-size="11.5" font-weight="bold" fill="#3730a3">√1/2 (60°)</text>
+  <!-- sin θ row -->
+  <rect x="20" y="44" width="340" height="42" rx="6" fill="#fee2e2"/>
+  <text x="45" y="70" font-size="13" font-weight="bold" fill="#991b1b">sin θ</text>
+  <g transform="translate(125, 65)">
+    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">√1</text>
+    <line x1="-11" y1="0" x2="11" y2="0" stroke="#991b1b" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">2</text>
+    <text x="18" y="4" font-size="11" font-weight="bold" fill="#991b1b">(30°)</text>
+  </g>
+  <g transform="translate(215, 65)">
+    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">√2</text>
+    <line x1="-11" y1="0" x2="11" y2="0" stroke="#991b1b" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">2</text>
+    <text x="18" y="4" font-size="11" font-weight="bold" fill="#991b1b">(45°)</text>
+  </g>
+  <g transform="translate(305, 65)">
+    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">√3</text>
+    <line x1="-11" y1="0" x2="11" y2="0" stroke="#991b1b" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">2</text>
+    <text x="18" y="4" font-size="11" font-weight="bold" fill="#991b1b">(60°)</text>
+  </g>
+  
+  <!-- cos θ row -->
+  <rect x="20" y="93" width="340" height="42" rx="6" fill="#e0e7ff"/>
+  <text x="45" y="119" font-size="13" font-weight="bold" fill="#3730a3">cos θ</text>
+  <g transform="translate(125, 114)">
+    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">√3</text>
+    <line x1="-11" y1="0" x2="11" y2="0" stroke="#3730a3" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">2</text>
+    <text x="18" y="4" font-size="11" font-weight="bold" fill="#3730a3">(30°)</text>
+  </g>
+  <g transform="translate(215, 114)">
+    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">√2</text>
+    <line x1="-11" y1="0" x2="11" y2="0" stroke="#3730a3" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">2</text>
+    <text x="18" y="4" font-size="11" font-weight="bold" fill="#3730a3">(45°)</text>
+  </g>
+  <g transform="translate(305, 114)">
+    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">√1</text>
+    <line x1="-11" y1="0" x2="11" y2="0" stroke="#3730a3" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">2</text>
+    <text x="18" y="4" font-size="11" font-weight="bold" fill="#3730a3">(60°)</text>
+  </g>
 
-  <rect x="20" y="144" width="340" height="36" rx="6" fill="#fef3c7"/>
-  <text x="45" y="167" font-size="12" font-weight="bold" fill="#92400e">tan θ</text>
-  <text x="135" y="167" font-size="12" font-weight="bold" fill="#92400e">√3 / 3</text>
-  <text x="225" y="167" font-size="12" font-weight="bold" fill="#92400e">1</text>
-  <text x="305" y="167" font-size="12" font-weight="bold" fill="#92400e">√3</text>
+  <!-- tan θ row -->
+  <rect x="20" y="142" width="340" height="42" rx="6" fill="#fef3c7"/>
+  <text x="45" y="168" font-size="13" font-weight="bold" fill="#92400e">tan θ</text>
+  <g transform="translate(125, 163)">
+    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">√3</text>
+    <line x1="-11" y1="0" x2="11" y2="0" stroke="#92400e" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">3</text>
+    <text x="18" y="4" font-size="11" font-weight="bold" fill="#92400e">(30°)</text>
+  </g>
+  <g transform="translate(215, 163)">
+    <text x="0" y="4" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">1</text>
+    <text x="16" y="4" font-size="11" font-weight="bold" fill="#92400e">(45°)</text>
+  </g>
+  <g transform="translate(305, 163)">
+    <text x="0" y="4" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">√3</text>
+    <text x="18" y="4" font-size="11" font-weight="bold" fill="#92400e">(60°)</text>
+  </g>
 </svg>"""
     },
     {
@@ -563,14 +608,24 @@ CARDS_PART1 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】原式之值為 $1$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="45" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">sin 30° - cos 60° + tan 45°</text>
-  <text x="100" y="105" text-anchor="middle" font-size="18" fill="#dc2626">1/2</text>
-  <text x="150" y="105" text-anchor="middle" font-size="18" fill="#475569">-</text>
-  <text x="190" y="105" text-anchor="middle" font-size="18" fill="#dc2626">1/2</text>
-  <text x="235" y="105" text-anchor="middle" font-size="18" fill="#475569">+</text>
-  <text x="275" y="105" text-anchor="middle" font-size="18" fill="#16a34a">1</text>
-  <line x1="80" y1="130" x2="300" y2="130" stroke="#b45309" stroke-width="2"/>
-  <text x="190" y="165" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 1</text>
+  <text x="190" y="42" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">sin 30° - cos 60° + tan 45°</text>
+  
+  <g transform="translate(95, 100)">
+    <text x="0" y="-6" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">1</text>
+    <line x1="-12" y1="0" x2="12" y2="0" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="0" y="14" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">2</text>
+  </g>
+  <text x="145" y="105" text-anchor="middle" font-size="20" font-weight="bold" fill="#475569">-</text>
+  <g transform="translate(195, 100)">
+    <text x="0" y="-6" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">1</text>
+    <line x1="-12" y1="0" x2="12" y2="0" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="0" y="14" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">2</text>
+  </g>
+  <text x="245" y="105" text-anchor="middle" font-size="20" font-weight="bold" fill="#475569">+</text>
+  <text x="285" y="105" text-anchor="middle" font-size="18" font-weight="bold" fill="#16a34a">1</text>
+  
+  <line x1="60" y1="135" x2="320" y2="135" stroke="#b45309" stroke-width="1.5"/>
+  <text x="190" y="168" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 0 + 1 = 1</text>
 </svg>"""
     },
     {
@@ -601,13 +656,34 @@ CARDS_PART1 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】原式之值為 $3$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="45" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">2 sin²45° + cot 30° · csc 60°</text>
-  <rect x="50" y="70" width="120" height="50" rx="8" fill="#e0e7ff"/>
-  <text x="110" y="100" text-anchor="middle" font-size="15" fill="#3730a3">2 · (1/2) = 1</text>
-  <text x="190" y="100" text-anchor="middle" font-size="20" fill="#475569">+</text>
-  <rect x="210" y="70" width="120" height="50" rx="8" fill="#fef3c7"/>
-  <text x="270" y="100" text-anchor="middle" font-size="15" fill="#92400e">√3 · (2/√3) = 2</text>
-  <text x="190" y="165" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 1 + 2 = 3</text>
+  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">2 sin²45° + cot 30° · csc 60°</text>
+  
+  <rect x="35" y="66" width="140" height="58" rx="8" fill="#e0e7ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <g transform="translate(105, 95)">
+    <text x="-32" y="5" font-size="14" font-weight="bold" fill="#3730a3">2 ·</text>
+    <g transform="translate(-6, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">1</text>
+      <line x1="-9" y1="0" x2="9" y2="0" stroke="#3730a3" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">2</text>
+    </g>
+    <text x="15" y="5" font-size="14" font-weight="bold" fill="#3730a3">= 1</text>
+  </g>
+  
+  <text x="190" y="100" text-anchor="middle" font-size="22" font-weight="bold" fill="#475569">+</text>
+  
+  <rect x="205" y="66" width="140" height="58" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+  <g transform="translate(275, 95)">
+    <text x="-40" y="5" font-size="14" font-weight="bold" fill="#92400e">√3 ·</text>
+    <g transform="translate(-8, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">2</text>
+      <line x1="-11" y1="0" x2="11" y2="0" stroke="#92400e" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">√3</text>
+    </g>
+    <text x="15" y="5" font-size="14" font-weight="bold" fill="#92400e">= 2</text>
+  </g>
+  
+  <line x1="60" y1="138" x2="320" y2="138" stroke="#b45309" stroke-width="1.5"/>
+  <text x="190" y="170" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 1 + 2 = 3</text>
 </svg>"""
     },
     {
@@ -670,13 +746,53 @@ CARDS_PART1 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】原式之值為 $\\frac{11}{12}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="45" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">sin²(π/4) + cos²(π/6) - cot²(π/3)</text>
-  <text x="90" y="105" text-anchor="middle" font-size="17" fill="#dc2626">1/2</text>
-  <text x="140" y="105" text-anchor="middle" font-size="17" fill="#475569">+</text>
-  <text x="190" y="105" text-anchor="middle" font-size="17" fill="#2563eb">3/4</text>
-  <text x="240" y="105" text-anchor="middle" font-size="17" fill="#475569">-</text>
-  <text x="290" y="105" text-anchor="middle" font-size="17" fill="#b45309">1/3</text>
-  <text x="190" y="165" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 6/12 + 9/12 - 4/12 = 11/12</text>
+  <text x="190" y="38" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">sin² 45° + cos² 30° - cot² 60° (弳度特別角求值)</text>
+  
+  <g transform="translate(85, 82)">
+    <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">1</text>
+    <line x1="-10" y1="0" x2="10" y2="0" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">2</text>
+  </g>
+  <text x="135" y="87" text-anchor="middle" font-size="18" font-weight="bold" fill="#475569">+</text>
+  <g transform="translate(185, 82)">
+    <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">3</text>
+    <line x1="-10" y1="0" x2="10" y2="0" stroke="#2563eb" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">4</text>
+  </g>
+  <text x="235" y="87" text-anchor="middle" font-size="18" font-weight="bold" fill="#475569">-</text>
+  <g transform="translate(285, 82)">
+    <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">1</text>
+    <line x1="-10" y1="0" x2="10" y2="0" stroke="#b45309" stroke-width="1.5"/>
+    <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">3</text>
+  </g>
+  
+  <line x1="30" y1="112" x2="350" y2="112" stroke="#cbd5e1" stroke-width="1"/>
+  <g transform="translate(190, 150)">
+    <text x="-120" y="5" font-size="14" font-weight="bold" fill="#475569">=</text>
+    <g transform="translate(-95, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">6</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">12</text>
+    </g>
+    <text x="-70" y="5" font-size="14" font-weight="bold" fill="#475569">+</text>
+    <g transform="translate(-45, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#2563eb">9</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#2563eb" stroke-width="1.3"/>
+      <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#2563eb">12</text>
+    </g>
+    <text x="-20" y="5" font-size="14" font-weight="bold" fill="#475569">-</text>
+    <g transform="translate(5, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">4</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#b45309" stroke-width="1.3"/>
+      <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">12</text>
+    </g>
+    <text x="30" y="5" font-size="16" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(65, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="15" font-weight="bold" fill="#b91c1c">11</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#b91c1c" stroke-width="1.8"/>
+      <text x="0" y="15" text-anchor="middle" font-size="15" font-weight="bold" fill="#b91c1c">12</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -840,11 +956,27 @@ CARDS_PART1 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}, \\cot\\theta = \\frac{\\cos\\theta}{\\sin\\theta}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">商數關係結構圖</text>
-  <rect x="70" y="65" width="240" height="50" rx="8" fill="#fef3c7"/>
-  <text x="190" y="96" text-anchor="middle" font-size="16" font-weight="bold" fill="#b45309">tan θ = sin θ / cos θ</text>
-  <rect x="70" y="125" width="240" height="50" rx="8" fill="#e0e7ff"/>
-  <text x="190" y="156" text-anchor="middle" font-size="16" font-weight="bold" fill="#3730a3">cot θ = cos θ / sin θ</text>
+  <text x="190" y="38" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">商數關係標準方程式結構</text>
+  
+  <rect x="60" y="58" width="260" height="56" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+  <g transform="translate(190, 86)">
+    <text x="-65" y="5" font-size="16" font-weight="bold" fill="#b45309">tan θ =</text>
+    <g transform="translate(20, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">sin θ</text>
+      <line x1="-24" y1="0" x2="24" y2="0" stroke="#b45309" stroke-width="1.6"/>
+      <text x="0" y="15" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">cos θ</text>
+    </g>
+  </g>
+  
+  <rect x="60" y="124" width="260" height="56" rx="8" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <g transform="translate(190, 152)">
+    <text x="-65" y="5" font-size="16" font-weight="bold" fill="#3730a3">cot θ =</text>
+    <g transform="translate(20, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">cos θ</text>
+      <line x1="-24" y1="0" x2="24" y2="0" stroke="#3730a3" stroke-width="1.6"/>
+      <text x="0" y="15" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">sin θ</text>
+    </g>
+  </g>
 </svg>"""
     },
     {

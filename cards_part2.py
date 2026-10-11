@@ -140,10 +140,32 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】分式之值為 $\\frac{4}{5}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">齊次式同除 cos θ 神技</text>
-  <rect x="50" y="60" width="280" height="50" rx="8" fill="#fef3c7"/>
-  <text x="190" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#b45309">分子分母 ÷ cos θ  ⇒  (tan θ + 2) / (3 tan θ - 1)</text>
-  <text x="190" y="155" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= (2 + 2) / (6 - 1) = 4/5</text>
+  <text x="190" y="36" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">齊次式同除 cos θ 標準化簡</text>
+  
+  <rect x="35" y="52" width="310" height="62" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+  <g transform="translate(190, 83)">
+    <text x="-95" y="5" font-size="14" font-weight="bold" fill="#b45309">同除 cos θ ⇒</text>
+    <g transform="translate(45, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">tan θ + 2</text>
+      <line x1="-55" y1="0" x2="55" y2="0" stroke="#b45309" stroke-width="1.6"/>
+      <text x="0" y="16" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">3 tan θ - 1</text>
+    </g>
+  </g>
+  
+  <g transform="translate(190, 155)">
+    <text x="-70" y="5" font-size="16" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(-25, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="14" font-weight="bold" fill="#b91c1c">2 + 2</text>
+      <line x1="-28" y1="0" x2="28" y2="0" stroke="#b91c1c" stroke-width="1.5"/>
+      <text x="0" y="15" text-anchor="middle" font-size="14" font-weight="bold" fill="#b91c1c">6 - 1</text>
+    </g>
+    <text x="25" y="5" font-size="18" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(60, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">4</text>
+      <line x1="-15" y1="0" x2="15" y2="0" stroke="#b91c1c" stroke-width="1.8"/>
+      <text x="0" y="17" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">5</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -174,10 +196,33 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】分式之值為 $-\\frac{1}{9}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">同除 sin θ 化為 cot θ 破案</text>
-  <rect x="60" y="60" width="260" height="50" rx="8" fill="#e0e7ff"/>
-  <text x="190" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#3730a3">(1 - 3 cot θ) / (5 + 6 cot θ)</text>
-  <text x="190" y="155" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= (1 - 2) / (5 + 4) = -1/9</text>
+  <text x="190" y="36" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">同除 sin θ 化為 cot θ 標準方程式</text>
+  
+  <rect x="35" y="52" width="310" height="62" rx="8" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <g transform="translate(190, 83)">
+    <text x="-95" y="5" font-size="14" font-weight="bold" fill="#3730a3">同除 sin θ ⇒</text>
+    <g transform="translate(45, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">1 - 3 cot θ</text>
+      <line x1="-55" y1="0" x2="55" y2="0" stroke="#3730a3" stroke-width="1.6"/>
+      <text x="0" y="16" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">5 + 6 cot θ</text>
+    </g>
+  </g>
+  
+  <g transform="translate(190, 155)">
+    <text x="-75" y="5" font-size="16" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(-30, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="14" font-weight="bold" fill="#b91c1c">1 - 2</text>
+      <line x1="-28" y1="0" x2="28" y2="0" stroke="#b91c1c" stroke-width="1.5"/>
+      <text x="0" y="15" text-anchor="middle" font-size="14" font-weight="bold" fill="#b91c1c">5 + 4</text>
+    </g>
+    <text x="20" y="5" font-size="18" font-weight="bold" fill="#b91c1c">=</text>
+    <text x="42" y="5" font-size="18" font-weight="bold" fill="#b91c1c">-</text>
+    <g transform="translate(68, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">1</text>
+      <line x1="-15" y1="0" x2="15" y2="0" stroke="#b91c1c" stroke-width="1.8"/>
+      <text x="0" y="17" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">9</text>
+    </g>
+  </g>
 </svg>"""
     },
 
@@ -208,10 +253,19 @@ CARDS_PART2 = [
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
   <text x="190" y="35" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">三大核心三角恆等式架構</text>
-  <rect x="40" y="55" width="300" height="38" rx="6" fill="#fee2e2"/>
-  <text x="190" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="#991b1b">(sin θ ± cos θ)² = 1 ± 2 sin θ cos θ</text>
-  <rect x="40" y="105" width="300" height="38" rx="6" fill="#fef3c7"/>
-  <text x="190" y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">tan θ + cot θ = 1 / (sin θ cos θ)</text>
+  
+  <rect x="35" y="52" width="310" height="42" rx="8" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="190" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="#991b1b">(sin θ ± cos θ)² = 1 ± 2 sin θ cos θ</text>
+  
+  <rect x="35" y="105" width="310" height="58" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+  <g transform="translate(190, 134)">
+    <text x="-65" y="5" font-size="15" font-weight="bold" fill="#92400e">tan θ + cot θ =</text>
+    <g transform="translate(55, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">1</text>
+      <line x1="-48" y1="0" x2="48" y2="0" stroke="#92400e" stroke-width="1.5"/>
+      <text x="0" y="15" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">sin θ cos θ</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -242,10 +296,41 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\sin\\theta\\cos\\theta = \\frac{7}{18}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">和平方導出乘積</text>
-  <text x="190" y="80" text-anchor="middle" font-size="15" fill="#475569">(sin θ + cos θ)² = 1 + 2 sin θ cos θ = 16/9</text>
-  <text x="190" y="115" text-anchor="middle" font-size="15" fill="#dc2626">2 sin θ cos θ = 16/9 - 1 = 7/9</text>
-  <text x="190" y="160" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">sin θ cos θ = 7/18</text>
+  <text x="190" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">和平方導出乘積推導鏈</text>
+  
+  <g transform="translate(190, 72)">
+    <text x="-50" y="4" font-size="14" fill="#475569">(sin θ + cos θ)² = 1 + 2 sin θ cos θ =</text>
+    <g transform="translate(115, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">16</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">9</text>
+    </g>
+  </g>
+  
+  <g transform="translate(190, 115)">
+    <text x="-60" y="4" font-size="14" fill="#dc2626">2 sin θ cos θ =</text>
+    <g transform="translate(8, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">16</text>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">9</text>
+    </g>
+    <text x="35" y="4" font-size="14" fill="#dc2626">- 1 =</text>
+    <g transform="translate(75, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">7</text>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">9</text>
+    </g>
+  </g>
+  
+  <line x1="50" y1="140" x2="330" y2="140" stroke="#cbd5e1" stroke-width="1"/>
+  <g transform="translate(190, 168)">
+    <text x="-55" y="5" font-size="18" font-weight="bold" fill="#b91c1c">sin θ cos θ =</text>
+    <g transform="translate(45, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">7</text>
+      <line x1="-16" y1="0" x2="16" y2="0" stroke="#b91c1c" stroke-width="1.8"/>
+      <text x="0" y="16" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">18</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -271,10 +356,36 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\tan\\theta + \\cot\\theta = \\frac{18}{7}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="50" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">tan θ + cot θ 倒數秒解</text>
-  <rect x="70" y="75" width="240" height="50" rx="8" fill="#fef3c7"/>
-  <text x="190" y="106" text-anchor="middle" font-size="16" font-weight="bold" fill="#b45309">1 / (sin θ cos θ) = 1 / (7/18)</text>
-  <text x="190" y="165" text-anchor="middle" font-size="24" font-weight="bold" fill="#b91c1c">= 18/7</text>
+  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">tan θ + cot θ 倒數秒解公式</text>
+  
+  <g transform="translate(190, 95)">
+    <text x="-90" y="5" font-size="15" font-weight="bold" fill="#b45309">tan θ + cot θ =</text>
+    <g transform="translate(5, 0)">
+      <text x="0" y="-12" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">1</text>
+      <line x1="-50" y1="-4" x2="50" y2="-4" stroke="#b45309" stroke-width="1.6"/>
+      <text x="0" y="12" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">sin θ cos θ</text>
+    </g>
+    <text x="75" y="5" font-size="16" font-weight="bold" fill="#b45309">=</text>
+    <g transform="translate(110, 0)">
+      <text x="0" y="-14" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">1</text>
+      <line x1="-20" y1="-5" x2="20" y2="-5" stroke="#b45309" stroke-width="1.6"/>
+      <g transform="translate(0, 15)">
+        <text x="0" y="-4" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">7</text>
+        <line x1="-9" y1="0" x2="9" y2="0" stroke="#b45309" stroke-width="1.2"/>
+        <text x="0" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">18</text>
+      </g>
+    </g>
+  </g>
+  
+  <line x1="50" y1="135" x2="330" y2="135" stroke="#b45309" stroke-width="1.5"/>
+  <g transform="translate(190, 168)">
+    <text x="-35" y="6" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(15, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">18</text>
+      <line x1="-18" y1="0" x2="18" y2="0" stroke="#b91c1c" stroke-width="2"/>
+      <text x="0" y="18" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">7</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -305,10 +416,41 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\sin\\theta\\cos\\theta = \\frac{8}{25}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">差平方導出乘積</text>
-  <text x="190" y="80" text-anchor="middle" font-size="15" fill="#475569">(sin θ - cos θ)² = 1 - 2 sin θ cos θ = 9/25</text>
-  <text x="190" y="115" text-anchor="middle" font-size="15" fill="#dc2626">2 sin θ cos θ = 1 - 9/25 = 16/25</text>
-  <text x="190" y="160" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">sin θ cos θ = 8/25</text>
+  <text x="190" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">差平方導出乘積推導鏈</text>
+  
+  <g transform="translate(190, 72)">
+    <text x="-50" y="4" font-size="14" fill="#475569">(sin θ - cos θ)² = 1 - 2 sin θ cos θ =</text>
+    <g transform="translate(115, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">9</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">25</text>
+    </g>
+  </g>
+  
+  <g transform="translate(190, 115)">
+    <text x="-60" y="4" font-size="14" fill="#dc2626">2 sin θ cos θ = 1 -</text>
+    <g transform="translate(18, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">9</text>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">25</text>
+    </g>
+    <text x="45" y="4" font-size="14" fill="#dc2626">=</text>
+    <g transform="translate(75, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">16</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">25</text>
+    </g>
+  </g>
+  
+  <line x1="50" y1="140" x2="330" y2="140" stroke="#cbd5e1" stroke-width="1"/>
+  <g transform="translate(190, 168)">
+    <text x="-55" y="5" font-size="18" font-weight="bold" fill="#b91c1c">sin θ cos θ =</text>
+    <g transform="translate(45, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">8</text>
+      <line x1="-16" y1="0" x2="16" y2="0" stroke="#b91c1c" stroke-width="1.8"/>
+      <text x="0" y="16" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">25</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -334,10 +476,36 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\tan\\theta + \\cot\\theta = \\frac{25}{8}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="50" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">tan θ + cot θ 秒殺倒數</text>
-  <rect x="70" y="75" width="240" height="50" rx="8" fill="#e0e7ff"/>
-  <text x="190" y="106" text-anchor="middle" font-size="16" font-weight="bold" fill="#3730a3">1 / (sin θ cos θ) = 1 / (8/25)</text>
-  <text x="190" y="165" text-anchor="middle" font-size="24" font-weight="bold" fill="#b91c1c">= 25/8</text>
+  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">tan θ + cot θ 秒殺倒數運算</text>
+  
+  <g transform="translate(190, 95)">
+    <text x="-90" y="5" font-size="15" font-weight="bold" fill="#3730a3">tan θ + cot θ =</text>
+    <g transform="translate(5, 0)">
+      <text x="0" y="-12" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">1</text>
+      <line x1="-50" y1="-4" x2="50" y2="-4" stroke="#3730a3" stroke-width="1.6"/>
+      <text x="0" y="12" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">sin θ cos θ</text>
+    </g>
+    <text x="75" y="5" font-size="16" font-weight="bold" fill="#3730a3">=</text>
+    <g transform="translate(110, 0)">
+      <text x="0" y="-14" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">1</text>
+      <line x1="-20" y1="-5" x2="20" y2="-5" stroke="#3730a3" stroke-width="1.6"/>
+      <g transform="translate(0, 15)">
+        <text x="0" y="-4" text-anchor="middle" font-size="11" font-weight="bold" fill="#3730a3">8</text>
+        <line x1="-9" y1="0" x2="9" y2="0" stroke="#3730a3" stroke-width="1.2"/>
+        <text x="0" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#3730a3">25</text>
+      </g>
+    </g>
+  </g>
+  
+  <line x1="50" y1="135" x2="330" y2="135" stroke="#3730a3" stroke-width="1.5"/>
+  <g transform="translate(190, 168)">
+    <text x="-35" y="6" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(15, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">25</text>
+      <line x1="-18" y1="0" x2="18" y2="0" stroke="#b91c1c" stroke-width="2"/>
+      <text x="0" y="18" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">8</text>
+    </g>
+  </g>
 </svg>"""
     },
 
@@ -516,10 +684,48 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\tan A + \\sec A = 2$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="45" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">tan A + sec A 求值</text>
-  <text x="190" y="90" text-anchor="middle" font-size="16" fill="#475569">tan A = 3/4   ,   sec A = 5/4</text>
-  <text x="190" y="125" text-anchor="middle" font-size="18" fill="#dc2626">3/4 + 5/4 = 8/4 = 2</text>
-  <text x="190" y="165" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 2</text>
+  <text x="190" y="38" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">tan A + sec A 標準直式分數求值</text>
+  
+  <g transform="translate(190, 80)">
+    <text x="-95" y="5" font-size="15" fill="#475569">tan A =</text>
+    <g transform="translate(-50, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">3</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">4</text>
+    </g>
+    <text x="0" y="5" font-size="15" fill="#475569">，</text>
+    <text x="35" y="5" font-size="15" fill="#475569">sec A =</text>
+    <g transform="translate(80, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">5</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">4</text>
+    </g>
+  </g>
+  
+  <g transform="translate(190, 126)">
+    <g transform="translate(-65, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">3</text>
+      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">4</text>
+    </g>
+    <text x="-40" y="5" font-size="16" font-weight="bold" fill="#dc2626">+</text>
+    <g transform="translate(-15, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">5</text>
+      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">4</text>
+    </g>
+    <text x="12" y="5" font-size="16" font-weight="bold" fill="#dc2626">=</text>
+    <g transform="translate(38, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">8</text>
+      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">4</text>
+    </g>
+    <text x="65" y="5" font-size="16" font-weight="bold" fill="#dc2626">=</text>
+    <text x="85" y="5" font-size="16" font-weight="bold" fill="#dc2626">2</text>
+  </g>
+  
+  <line x1="50" y1="148" x2="330" y2="148" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="190" y="176" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 2</text>
 </svg>"""
     },
     {
@@ -545,12 +751,26 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\sin A = \\frac{12}{13}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <polygon points="60,165 240,165 240,40" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <polygon points="60,165 240,165 240,40" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
   <text x="45" y="172" font-size="14" font-weight="bold" fill="#b45309">A</text>
   <text x="140" y="184" font-size="13" font-weight="bold" fill="#1e40af">鄰 = 5k</text>
   <text x="255" y="105" font-size="13" font-weight="bold" fill="#dc2626">對 = 12k</text>
   <text x="120" y="95" font-size="13" font-weight="bold" fill="#15803d">斜 = 13k = 26</text>
-  <text x="190" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#b91c1c">sin A = 12k / 13k = 12/13</text>
+  
+  <g transform="translate(190, 26)">
+    <text x="-65" y="4" font-size="14" font-weight="bold" fill="#b91c1c">sin A =</text>
+    <g transform="translate(-15, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">12k</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#b91c1c" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">13k</text>
+    </g>
+    <text x="18" y="4" font-size="14" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(50, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#b91c1c">12</text>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#b91c1c" stroke-width="1.5"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#b91c1c">13</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -615,13 +835,25 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】原式之值為 $7$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">4 sin² 30° + 2 tan 45° + (1/3) cot² 30° · sec² 60°</text>
+  
+  <g transform="translate(190, 36)">
+    <text x="-120" y="4" font-size="14" font-weight="bold" fill="#1e40af">4 sin² 30° + 2 tan 45° +</text>
+    <g transform="translate(-8, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">1</text>
+      <line x1="-8" y1="0" x2="8" y2="0" stroke="#1e40af" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">3</text>
+    </g>
+    <text x="68" y="4" font-size="14" font-weight="bold" fill="#1e40af">cot² 30° · sec² 60°</text>
+  </g>
+  
   <text x="100" y="95" text-anchor="middle" font-size="18" fill="#dc2626">1</text>
   <text x="150" y="95" text-anchor="middle" font-size="18" fill="#475569">+</text>
   <text x="190" y="95" text-anchor="middle" font-size="18" fill="#2563eb">2</text>
   <text x="230" y="95" text-anchor="middle" font-size="18" fill="#475569">+</text>
   <text x="270" y="95" text-anchor="middle" font-size="18" fill="#16a34a">4</text>
-  <text x="190" y="155" text-anchor="middle" font-size="24" font-weight="bold" fill="#b91c1c">= 1 + 2 + 4 = 7</text>
+  
+  <line x1="60" y1="125" x2="320" y2="125" stroke="#b45309" stroke-width="1.5"/>
+  <text x="190" y="162" text-anchor="middle" font-size="24" font-weight="bold" fill="#b91c1c">= 1 + 2 + 4 = 7</text>
 </svg>"""
     },
     {
@@ -652,10 +884,48 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】原式之值為 $\\frac{7}{2}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">利用平方差 (a + b)(a - b) = a² - b²</text>
-  <text x="190" y="85" text-anchor="middle" font-size="16" fill="#475569">[ 2 + (√2/2) ] · [ 2 - (√2/2) ]</text>
-  <text x="190" y="125" text-anchor="middle" font-size="17" fill="#dc2626">= 2² - (√2/2)² = 4 - 1/2</text>
-  <text x="190" y="165" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 7/2</text>
+  <text x="190" y="36" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">平方差 (a + b)(a - b) = a² - b² 標準求值</text>
+  
+  <g transform="translate(190, 78)">
+    <text x="-90" y="5" font-size="14" fill="#475569">[ 2 +</text>
+    <g transform="translate(-60, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">√2</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">2</text>
+    </g>
+    <text x="-35" y="5" font-size="14" fill="#475569">] · [ 2 -</text>
+    <g transform="translate(20, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">√2</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">2</text>
+    </g>
+    <text x="45" y="5" font-size="14" fill="#475569">]</text>
+  </g>
+  
+  <g transform="translate(190, 120)">
+    <text x="-65" y="5" font-size="15" fill="#dc2626">= 2² - (</text>
+    <g transform="translate(-25, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">√2</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">2</text>
+    </g>
+    <text x="0" y="5" font-size="15" fill="#dc2626">)² = 4 -</text>
+    <g transform="translate(45, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">1</text>
+      <line x1="-9" y1="0" x2="9" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">2</text>
+    </g>
+  </g>
+  
+  <line x1="50" y1="145" x2="330" y2="145" stroke="#cbd5e1" stroke-width="1"/>
+  <g transform="translate(190, 172)">
+    <text x="-25" y="6" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(15, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">7</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#b91c1c" stroke-width="2"/>
+      <text x="0" y="17" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">2</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -752,10 +1022,39 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】分式之值為 $\\frac{8}{15}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">同除 sin θ 化為 cot θ</text>
-  <text x="190" y="80" text-anchor="middle" font-size="15" fill="#475569">[ 5 - 4(5/12) ] / [ 5 + 3(5/12) ]</text>
-  <text x="190" y="115" text-anchor="middle" font-size="16" fill="#dc2626">= (10/3) / (25/4) = (10/3) · (4/25)</text>
-  <text x="190" y="160" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 8/15</text>
+  <text x="190" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">同除 sin θ 化為 cot θ 繁分式求值</text>
+  
+  <g transform="translate(190, 85)">
+    <g transform="translate(0, 0)">
+      <g transform="translate(0, -18)">
+        <text x="-40" y="4" font-size="13" fill="#475569">5 - 4 ·</text>
+        <g transform="translate(0, 0)">
+          <text x="0" y="-4" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">5</text>
+          <line x1="-9" y1="0" x2="9" y2="0" stroke="#475569" stroke-width="1.2"/>
+          <text x="0" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">12</text>
+        </g>
+      </g>
+      <line x1="-65" y1="-5" x2="65" y2="-5" stroke="#475569" stroke-width="1.6"/>
+      <g transform="translate(0, 14)">
+        <text x="-40" y="4" font-size="13" fill="#475569">5 + 3 ·</text>
+        <g transform="translate(0, 0)">
+          <text x="0" y="-4" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">5</text>
+          <line x1="-9" y1="0" x2="9" y2="0" stroke="#475569" stroke-width="1.2"/>
+          <text x="0" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">12</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  
+  <line x1="50" y1="135" x2="330" y2="135" stroke="#cbd5e1" stroke-width="1"/>
+  <g transform="translate(190, 168)">
+    <text x="-35" y="6" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(15, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">8</text>
+      <line x1="-16" y1="0" x2="16" y2="0" stroke="#b91c1c" stroke-width="2"/>
+      <text x="0" y="18" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">15</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -786,10 +1085,41 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\sin\\theta\\cos\\theta = \\frac{3}{8}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">差平方求乘積</text>
-  <text x="190" y="80" text-anchor="middle" font-size="15" fill="#475569">(sin θ - cos θ)² = 1 - 2 sin θ cos θ = 1/4</text>
-  <text x="190" y="115" text-anchor="middle" font-size="15" fill="#dc2626">2 sin θ cos θ = 1 - 1/4 = 3/4</text>
-  <text x="190" y="160" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">sin θ cos θ = 3/8</text>
+  <text x="190" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">差平方求乘積標準推導</text>
+  
+  <g transform="translate(190, 72)">
+    <text x="-50" y="4" font-size="14" fill="#475569">(sin θ - cos θ)² = 1 - 2 sin θ cos θ =</text>
+    <g transform="translate(115, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">1</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">4</text>
+    </g>
+  </g>
+  
+  <g transform="translate(190, 115)">
+    <text x="-60" y="4" font-size="14" fill="#dc2626">2 sin θ cos θ = 1 -</text>
+    <g transform="translate(18, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">1</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">4</text>
+    </g>
+    <text x="45" y="4" font-size="14" fill="#dc2626">=</text>
+    <g transform="translate(75, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">3</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">4</text>
+    </g>
+  </g>
+  
+  <line x1="50" y1="140" x2="330" y2="140" stroke="#cbd5e1" stroke-width="1"/>
+  <g transform="translate(190, 168)">
+    <text x="-55" y="5" font-size="18" font-weight="bold" fill="#b91c1c">sin θ cos θ =</text>
+    <g transform="translate(45, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">3</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#b91c1c" stroke-width="1.8"/>
+      <text x="0" y="16" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">8</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -815,10 +1145,36 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\tan\\theta + \\cot\\theta = \\frac{8}{3}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="50" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">tan θ + cot θ 倒數秒解</text>
-  <rect x="70" y="75" width="240" height="50" rx="8" fill="#fef3c7"/>
-  <text x="190" y="106" text-anchor="middle" font-size="16" font-weight="bold" fill="#b45309">1 / (sin θ cos θ) = 1 / (3/8)</text>
-  <text x="190" y="165" text-anchor="middle" font-size="24" font-weight="bold" fill="#b91c1c">= 8/3</text>
+  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">tan θ + cot θ 倒數秒解公式</text>
+  
+  <g transform="translate(190, 95)">
+    <text x="-90" y="5" font-size="15" font-weight="bold" fill="#b45309">tan θ + cot θ =</text>
+    <g transform="translate(5, 0)">
+      <text x="0" y="-12" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">1</text>
+      <line x1="-50" y1="-4" x2="50" y2="-4" stroke="#b45309" stroke-width="1.6"/>
+      <text x="0" y="12" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">sin θ cos θ</text>
+    </g>
+    <text x="75" y="5" font-size="16" font-weight="bold" fill="#b45309">=</text>
+    <g transform="translate(110, 0)">
+      <text x="0" y="-14" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">1</text>
+      <line x1="-20" y1="-5" x2="20" y2="-5" stroke="#b45309" stroke-width="1.6"/>
+      <g transform="translate(0, 15)">
+        <text x="0" y="-4" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">3</text>
+        <line x1="-8" y1="0" x2="8" y2="0" stroke="#b45309" stroke-width="1.2"/>
+        <text x="0" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">8</text>
+      </g>
+    </g>
+  </g>
+  
+  <line x1="50" y1="135" x2="330" y2="135" stroke="#b45309" stroke-width="1.5"/>
+  <g transform="translate(190, 168)">
+    <text x="-35" y="6" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(15, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">8</text>
+      <line x1="-16" y1="0" x2="16" y2="0" stroke="#b91c1c" stroke-width="2"/>
+      <text x="0" y="18" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">3</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -849,10 +1205,39 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】原式之值為 $50$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">通分化簡 1/(1+sin) + 1/(1-sin)</text>
-  <text x="190" y="80" text-anchor="middle" font-size="16" fill="#475569">= 2 / (1 - sin²θ) = 2 / cos²θ</text>
-  <text x="190" y="115" text-anchor="middle" font-size="16" fill="#dc2626">= 2 / (1/5)² = 2 / (1/25)</text>
-  <text x="190" y="160" text-anchor="middle" font-size="24" font-weight="bold" fill="#b91c1c">= 2 × 25 = 50</text>
+  <text x="190" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">通分平方差求分式和標準方程式</text>
+  
+  <g transform="translate(190, 75)">
+    <text x="-90" y="4" font-size="14" fill="#475569">通分化簡 ⇒</text>
+    <g transform="translate(-15, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">2</text>
+      <line x1="-38" y1="0" x2="38" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="14" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">1 - sin²θ</text>
+    </g>
+    <text x="40" y="4" font-size="14" fill="#475569">=</text>
+    <g transform="translate(85, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">2</text>
+      <line x1="-25" y1="0" x2="25" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="14" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">cos²θ</text>
+    </g>
+  </g>
+  
+  <g transform="translate(190, 120)">
+    <text x="-70" y="4" font-size="14" fill="#dc2626">=</text>
+    <g transform="translate(-30, 0)">
+      <text x="0" y="-12" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">2</text>
+      <line x1="-22" y1="-4" x2="22" y2="-4" stroke="#dc2626" stroke-width="1.5"/>
+      <g transform="translate(0, 15)">
+        <text x="0" y="-4" text-anchor="middle" font-size="11" font-weight="bold" fill="#dc2626">1</text>
+        <line x1="-8" y1="0" x2="8" y2="0" stroke="#dc2626" stroke-width="1.2"/>
+        <text x="0" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#dc2626">25</text>
+      </g>
+    </g>
+    <text x="15" y="4" font-size="15" font-weight="bold" fill="#dc2626">= 2 × 25</text>
+  </g>
+  
+  <line x1="50" y1="145" x2="330" y2="145" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="190" y="174" text-anchor="middle" font-size="24" font-weight="bold" fill="#b91c1c">= 50</text>
 </svg>"""
     },
     {
@@ -878,10 +1263,32 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\sin x \\cos x = \\frac{12}{25}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="45" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">切和逆推乘積</text>
-  <rect x="70" y="70" width="240" height="50" rx="8" fill="#e0e7ff"/>
-  <text x="190" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="#3730a3">tan x + cot x = 1 / (sin x cos x) = 25/12</text>
-  <text x="190" y="160" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">sin x cos x = 12/25</text>
+  <text x="190" y="38" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">切和逆推乘積標準推導</text>
+  
+  <g transform="translate(190, 88)">
+    <text x="-95" y="5" font-size="14" font-weight="bold" fill="#3730a3">tan x + cot x =</text>
+    <g transform="translate(0, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">1</text>
+      <line x1="-42" y1="0" x2="42" y2="0" stroke="#3730a3" stroke-width="1.5"/>
+      <text x="0" y="15" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">sin x cos x</text>
+    </g>
+    <text x="60" y="5" font-size="16" font-weight="bold" fill="#3730a3">=</text>
+    <g transform="translate(95, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">25</text>
+      <line x1="-16" y1="0" x2="16" y2="0" stroke="#3730a3" stroke-width="1.6"/>
+      <text x="0" y="16" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">12</text>
+    </g>
+  </g>
+  
+  <line x1="50" y1="135" x2="330" y2="135" stroke="#3730a3" stroke-width="1.5"/>
+  <g transform="translate(190, 168)">
+    <text x="-55" y="5" font-size="18" font-weight="bold" fill="#b91c1c">sin x cos x =</text>
+    <g transform="translate(45, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">12</text>
+      <line x1="-16" y1="0" x2="16" y2="0" stroke="#b91c1c" stroke-width="1.8"/>
+      <text x="0" y="16" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">25</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -907,10 +1314,34 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\sin x + \\cos x = \\frac{7}{5}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="45" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">乘積開根推求和</text>
-  <text x="190" y="85" text-anchor="middle" font-size="15" fill="#475569">(sin x + cos x)² = 1 + 2(12/25) = 49/25</text>
-  <text x="190" y="125" text-anchor="middle" font-size="16" fill="#dc2626">因為 x 為銳角，取正根號 √(49/25)</text>
-  <text x="190" y="165" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">sin x + cos x = 7/5</text>
+  <text x="190" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">乘積開根推求和標準推導</text>
+  
+  <g transform="translate(190, 72)">
+    <text x="-80" y="4" font-size="14" fill="#475569">(sin x + cos x)² = 1 + 2 ·</text>
+    <g transform="translate(30, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">12</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">25</text>
+    </g>
+    <text x="65" y="4" font-size="14" fill="#475569">=</text>
+    <g transform="translate(100, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">49</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">25</text>
+    </g>
+  </g>
+  
+  <text x="190" y="118" text-anchor="middle" font-size="14" fill="#dc2626">因為 x 為銳角，取正平方根</text>
+  
+  <line x1="50" y1="140" x2="330" y2="140" stroke="#cbd5e1" stroke-width="1"/>
+  <g transform="translate(190, 168)">
+    <text x="-55" y="5" font-size="18" font-weight="bold" fill="#b91c1c">sin x + cos x =</text>
+    <g transform="translate(45, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">7</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#b91c1c" stroke-width="1.8"/>
+      <text x="0" y="16" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">5</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -941,10 +1372,46 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】$\\sin^3 x + \\cos^3 x = \\frac{91}{125}$！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">立方和公式因式分解</text>
-  <text x="190" y="80" text-anchor="middle" font-size="15" fill="#475569">sin³ x + cos³ x = (sin x + cos x)(1 - sin x cos x)</text>
-  <text x="190" y="115" text-anchor="middle" font-size="16" fill="#dc2626">= (7/5) × [ 1 - 12/25 ] = (7/5) × (13/25)</text>
-  <text x="190" y="160" text-anchor="middle" font-size="22" font-weight="bold" fill="#b91c1c">= 91/125</text>
+  <text x="190" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">立方和公式因式分解標準運算</text>
+  
+  <text x="190" y="68" text-anchor="middle" font-size="13" fill="#475569">sin³ x + cos³ x = (sin x + cos x)(1 - sin x cos x)</text>
+  
+  <g transform="translate(190, 112)">
+    <text x="-95" y="5" font-size="14" fill="#dc2626">=</text>
+    <g transform="translate(-75, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">7</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">5</text>
+    </g>
+    <text x="-48" y="5" font-size="14" fill="#dc2626">× [ 1 -</text>
+    <g transform="translate(-10, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">12</text>
+      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">25</text>
+    </g>
+    <text x="12" y="5" font-size="14" fill="#dc2626">] =</text>
+    <g transform="translate(40, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">7</text>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">5</text>
+    </g>
+    <text x="60" y="5" font-size="14" fill="#dc2626">×</text>
+    <g transform="translate(85, 0)">
+      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">13</text>
+      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">25</text>
+    </g>
+  </g>
+  
+  <line x1="50" y1="140" x2="330" y2="140" stroke="#cbd5e1" stroke-width="1"/>
+  <g transform="translate(190, 168)">
+    <text x="-35" y="6" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(15, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="17" font-weight="bold" fill="#b91c1c">91</text>
+      <line x1="-18" y1="0" x2="18" y2="0" stroke="#b91c1c" stroke-width="2"/>
+      <text x="0" y="18" text-anchor="middle" font-size="17" font-weight="bold" fill="#b91c1c">125</text>
+    </g>
+  </g>
 </svg>"""
     },
     {
@@ -975,11 +1442,19 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】全單元 60 案全部偵破！恭喜特派員晉升名偵探！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <rect x="30" y="25" width="320" height="150" rx="10" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
-  <text x="190" y="55" text-anchor="middle" font-size="16" font-weight="bold" fill="#78350f">【CASE CLOSED 真相永遠只有一個！】</text>
-  <text x="190" y="85" text-anchor="middle" font-size="14" fill="#92400e">sin²θ + cos²θ = 1   ·   tan θ + cot θ = 1/(sin θ cos θ)</text>
-  <text x="190" y="115" text-anchor="middle" font-size="14" fill="#92400e">(sin θ ± cos θ)² = 1 ± 2 sin θ cos θ</text>
-  <text x="190" y="150" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">★ 泰宇高中數學 2-2 案件圓滿結案 ★</text>
+  <text x="190" y="45" text-anchor="middle" font-size="16" font-weight="bold" fill="#78350f">【CASE CLOSED 真相永遠只有一個！】</text>
+  
+  <g transform="translate(190, 88)">
+    <text x="-120" y="5" font-size="14" fill="#92400e">sin²θ + cos²θ = 1   ·   tan θ + cot θ =</text>
+    <g transform="translate(95, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">1</text>
+      <line x1="-38" y1="0" x2="38" y2="0" stroke="#92400e" stroke-width="1.4"/>
+      <text x="0" y="14" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">sin θ cos θ</text>
+    </g>
+  </g>
+  
+  <text x="190" y="125" text-anchor="middle" font-size="14" fill="#92400e">(sin θ ± cos θ)² = 1 ± 2 sin θ cos θ</text>
+  <text x="190" y="162" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">★ 泰宇高中數學 2-2 案件圓滿結案 ★</text>
 </svg>"""
     }
 ]
