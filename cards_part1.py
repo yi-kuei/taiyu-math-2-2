@@ -525,13 +525,12 @@ CARDS_PART1 = [
   <!-- sin θ row -->
   <rect x="14" y="36" width="392" height="42" rx="7" fill="#fee2e2" stroke="#fca5a5" stroke-width="1"/>
   <text x="42" y="62" font-size="13" font-weight="bold" fill="#991b1b">sin θ</text>
-  <!-- 30°: √1 / 2 -->
+  <!-- 30°: 1 / 2 (不使用根號符號) -->
   <g transform="translate(130, 53)">
-    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#991b1b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="2" y="1" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#991b1b">1</text>
-    <line x1="-15" y1="5" x2="15" y2="5" stroke="#991b1b" stroke-width="1.5" stroke-linecap="round"/>
-    <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#991b1b">2</text>
-    <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#991b1b">(30°)</text>
+    <text x="0" y="1" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">1</text>
+    <line x1="-12" y1="5" x2="12" y2="5" stroke="#991b1b" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="18" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">2</text>
+    <text x="24" y="8" font-size="10.5" font-weight="bold" fill="#991b1b">(30°)</text>
   </g>
   <!-- 45°: √2 / 2 -->
   <g transform="translate(225, 53)">
@@ -569,13 +568,12 @@ CARDS_PART1 = [
     <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3730a3">2</text>
     <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#3730a3">(45°)</text>
   </g>
-  <!-- 60°: √1 / 2 -->
+  <!-- 60°: 1 / 2 (不使用根號符號) -->
   <g transform="translate(320, 100)">
-    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#3730a3" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="2" y="1" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3730a3">1</text>
-    <line x1="-15" y1="5" x2="15" y2="5" stroke="#3730a3" stroke-width="1.5" stroke-linecap="round"/>
-    <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3730a3">2</text>
-    <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#3730a3">(60°)</text>
+    <text x="0" y="1" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">1</text>
+    <line x1="-12" y1="5" x2="12" y2="5" stroke="#3730a3" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="18" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">2</text>
+    <text x="24" y="8" font-size="10.5" font-weight="bold" fill="#3730a3">(60°)</text>
   </g>
 
   <!-- tan θ row -->
