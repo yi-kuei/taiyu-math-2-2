@@ -55,6 +55,10 @@ def latex_to_omml(latex_str, is_teacher=False):
         omml_xml = re.sub(r'<\?xml[^>]+\?>', '', omml_xml).strip()
         
         if is_teacher:
+            omml_xml = omml_xml.replace(
+                '<m:oMath ',
+                '<m:oMath xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" '
+            )
             omml_xml = re.sub(
                 r'(<m:r>|<m:r\s+[^>]*>)',
                 r'\1<m:rPr><w:rPr><w:color w:val="DC2626"/></w:rPr></m:rPr>',
