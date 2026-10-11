@@ -773,37 +773,37 @@ let drillCorrectCount = 0;
 let currentDrillQuestion = null;
 
 const DRILL_QUESTION_POOL = [
-    { q: 'sin 30°', a: '1/2', latex: '\\frac{1}{2}' },
-    { q: 'cos 30°', a: '√3/2', latex: '\\frac{\\sqrt{3}}{2}' },
-    { q: 'tan 30°', a: '√3/3', latex: '\\frac{\\sqrt{3}}{3}' },
-    { q: 'cot 30°', a: '√3', latex: '\\sqrt{3}' },
-    { q: 'sec 30°', a: '2√3/3', latex: '\\frac{2\\sqrt{3}}{3}' },
-    { q: 'csc 30°', a: '2', latex: '2' },
+    { q: 'sin 30°', latexQ: '\\sin 30^\\circ', a: '1/2', latex: '\\frac{1}{2}' },
+    { q: 'cos 30°', latexQ: '\\cos 30^\\circ', a: '√3/2', latex: '\\frac{\\sqrt{3}}{2}' },
+    { q: 'tan 30°', latexQ: '\\tan 30^\\circ', a: '√3/3', latex: '\\frac{\\sqrt{3}}{3}' },
+    { q: 'cot 30°', latexQ: '\\cot 30^\\circ', a: '√3', latex: '\\sqrt{3}' },
+    { q: 'sec 30°', latexQ: '\\sec 30^\\circ', a: '2√3/3', latex: '\\frac{2\\sqrt{3}}{3}' },
+    { q: 'csc 30°', latexQ: '\\csc 30^\\circ', a: '2', latex: '2' },
 
-    { q: 'sin 45°', a: '√2/2', latex: '\\frac{\\sqrt{2}}{2}' },
-    { q: 'cos 45°', a: '√2/2', latex: '\\frac{\\sqrt{2}}{2}' },
-    { q: 'tan 45°', a: '1', latex: '1' },
-    { q: 'cot 45°', a: '1', latex: '1' },
-    { q: 'sec 45°', a: '√2', latex: '\\sqrt{2}' },
-    { q: 'csc 45°', a: '√2', latex: '\\sqrt{2}' },
+    { q: 'sin 45°', latexQ: '\\sin 45^\\circ', a: '√2/2', latex: '\\frac{\\sqrt{2}}{2}' },
+    { q: 'cos 45°', latexQ: '\\cos 45^\\circ', a: '√2/2', latex: '\\frac{\\sqrt{2}}{2}' },
+    { q: 'tan 45°', latexQ: '\\tan 45^\\circ', a: '1', latex: '1' },
+    { q: 'cot 45°', latexQ: '\\cot 45^\\circ', a: '1', latex: '1' },
+    { q: 'sec 45°', latexQ: '\\sec 45^\\circ', a: '√2', latex: '\\sqrt{2}' },
+    { q: 'csc 45°', latexQ: '\\csc 45^\\circ', a: '√2', latex: '\\sqrt{2}' },
 
-    { q: 'sin 60°', a: '√3/2', latex: '\\frac{\\sqrt{3}}{2}' },
-    { q: 'cos 60°', a: '1/2', latex: '\\frac{1}{2}' },
-    { q: 'tan 60°', a: '√3', latex: '\\sqrt{3}' },
-    { q: 'cot 60°', a: '√3/3', latex: '\\frac{\\sqrt{3}}{3}' },
-    { q: 'sec 60°', a: '2', latex: '2' },
-    { q: 'csc 60°', a: '2√3/3', latex: '\\frac{2\\sqrt{3}}{3}' }
+    { q: 'sin 60°', latexQ: '\\sin 60^\\circ', a: '√3/2', latex: '\\frac{\\sqrt{3}}{2}' },
+    { q: 'cos 60°', latexQ: '\\cos 60^\\circ', a: '1/2', latex: '\\frac{1}{2}' },
+    { q: 'tan 60°', latexQ: '\\tan 60^\\circ', a: '√3', latex: '\\sqrt{3}' },
+    { q: 'cot 60°', latexQ: '\\cot 60^\\circ', a: '√3/3', latex: '\\frac{\\sqrt{3}}{3}' },
+    { q: 'sec 60°', latexQ: '\\sec 60^\\circ', a: '2', latex: '2' },
+    { q: 'csc 60°', latexQ: '\\csc 60^\\circ', a: '2√3/3', latex: '\\frac{2\\sqrt{3}}{3}' }
 ];
 
 const DRILL_OPTIONS = [
-    { label: '1/2', val: '1/2' },
-    { label: '√2/2', val: '√2/2' },
-    { label: '√3/2', val: '√3/2' },
-    { label: '1', val: '1' },
-    { label: '√3/3', val: '√3/3' },
-    { label: '√3', val: '√3' },
-    { label: '√2', val: '√2' },
-    { label: '2', val: '2' }
+    { latex: '\\frac{1}{2}', val: '1/2' },
+    { latex: '\\frac{\\sqrt{2}}{2}', val: '√2/2' },
+    { latex: '\\frac{\\sqrt{3}}{2}', val: '√3/2' },
+    { latex: '1', val: '1' },
+    { latex: '\\frac{\\sqrt{3}}{3}', val: '√3/3' },
+    { latex: '\\sqrt{3}', val: '√3' },
+    { latex: '\\sqrt{2}', val: '√2' },
+    { latex: '2', val: '2' }
 ];
 
 function openLabModal() {
@@ -1134,7 +1134,16 @@ function nextDrillQuestion() {
 
     const card = document.getElementById('drill-question-card');
     if (card) {
-        card.innerHTML = `${currentDrillQuestion.q} = ?`;
+        const latexStr = `${currentDrillQuestion.latexQ || currentDrillQuestion.q} = \\ ?`;
+        if (window.katex) {
+            try {
+                katex.render(latexStr, card, { displayMode: true, throwOnError: false });
+            } catch(e) {
+                card.innerText = `${currentDrillQuestion.q} = ?`;
+            }
+        } else {
+            card.innerText = `${currentDrillQuestion.q} = ?`;
+        }
     }
 }
 
@@ -1142,11 +1151,22 @@ function renderDrillOptionsGrid() {
     const grid = document.getElementById('drill-options-grid');
     if (!grid) return;
 
-    grid.innerHTML = DRILL_OPTIONS.map(opt => `
-        <button onclick="handleDrillAnswer('${opt.val}')" class="p-3 bg-white hover:bg-indigo-600 hover:text-white rounded-xl font-black text-lg border-2 border-slate-200 hover:border-indigo-600 shadow-sm transition-all active:scale-95 text-slate-800">
-            ${opt.label}
+    grid.innerHTML = DRILL_OPTIONS.map((opt, idx) => `
+        <button onclick="handleDrillAnswer('${opt.val}')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+            <span id="drill-opt-latex-${idx}">${opt.latex}</span>
         </button>
     `).join('');
+
+    DRILL_OPTIONS.forEach((opt, idx) => {
+        const el = document.getElementById(`drill-opt-latex-${idx}`);
+        if (el && window.katex) {
+            try {
+                katex.render(opt.latex, el, { displayMode: false, throwOnError: false });
+            } catch(e) {
+                el.innerText = opt.latex;
+            }
+        }
+    });
 }
 
 function handleDrillAnswer(userVal) {
