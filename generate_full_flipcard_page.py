@@ -227,7 +227,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       <div class="w-full md:w-80 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl shadow-xl text-white">
         <h3 class="text-sm font-black text-amber-300 mb-3 flex items-center justify-between">
           <span><i class="fa-solid fa-chart-line mr-1.5"></i>即時偵查情報儀表板</span>
-          <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-400/30">即時連線</span>
+          <div class="flex items-center gap-1.5">
+            <button onclick="resetStats()" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-700/80 hover:bg-rose-600 text-slate-200 hover:text-white font-bold border border-white/20 transition-all cursor-pointer shadow-xs" title="計數器與案件進度全部歸零">
+              <i class="fa-solid fa-rotate-left mr-1"></i>歸零
+            </button>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-400/30">即時連線</span>
+          </div>
         </h3>
 
         <div class="grid grid-cols-3 gap-2 mb-4 text-center">

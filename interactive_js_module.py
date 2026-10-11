@@ -66,27 +66,53 @@ function initApp() {
 // 2. 頁面載入與統計計數器 (Core Rule 5)
 // ==========================================
 function initStats() {
-    let pageviews = parseInt(localStorage.getItem('taiyu_2_2_pageviews') || '0', 10) + 1;
+    // 檢查強制重設標記：確保現有計數器全數歸零
+    const STATS_RESET_KEY = 'taiyu_2_2_reset_zero_v2';
+    if (!localStorage.getItem(STATS_RESET_KEY)) {
+        localStorage.setItem('taiyu_2_2_pageviews', '0');
+        localStorage.setItem('taiyu_2_2_visitors', '0');
+        localStorage.setItem('taiyu_2_2_interactions', '0');
+        sessionStorage.removeItem('taiyu_2_2_session_visited');
+        // 同時清除結案進度標記
+        Object.keys(localStorage).forEach(k => {
+            if (k.startsWith('mastered_') || k.startsWith('quiz_') || k.startsWith('stage_')) {
+                localStorage.removeItem(k);
+            }
+        });
+        localStorage.setItem(STATS_RESET_KEY, 'true');
+    }
+
+    let pageviews = parseInt(localStorage.getItem('taiyu_2_2_pageviews') || '0', 10);
     let visitors = parseInt(localStorage.getItem('taiyu_2_2_visitors') || '0', 10);
     let interactions = parseInt(localStorage.getItem('taiyu_2_2_interactions') || '0', 10);
 
-    if (!sessionStorage.getItem('taiyu_2_2_session_visited')) {
-        visitors += 1;
-        sessionStorage.setItem('taiyu_2_2_session_visited', 'true');
-    }
-
-    localStorage.setItem('taiyu_2_2_pageviews', pageviews.toString());
-    localStorage.setItem('taiyu_2_2_visitors', visitors.toString());
-    localStorage.setItem('taiyu_2_2_interactions', interactions.toString());
-
     updateStatsDisplay(pageviews, visitors, interactions);
+}
+
+function resetStats(showMsg = true) {
+    localStorage.setItem('taiyu_2_2_pageviews', '0');
+    localStorage.setItem('taiyu_2_2_visitors', '0');
+    localStorage.setItem('taiyu_2_2_interactions', '0');
+    sessionStorage.removeItem('taiyu_2_2_session_visited');
+    // 清除結案進度與特訓狀態
+    Object.keys(localStorage).forEach(k => {
+        if (k.startsWith('mastered_') || k.startsWith('quiz_') || k.startsWith('stage_')) {
+            localStorage.removeItem(k);
+        }
+    });
+    updateStatsDisplay(0, 0, 0);
+    updateProgressBar();
+    renderCards();
+    if (showMsg) {
+        alert("所有搜查人次、特派員、破案互動數與結案進度已全部歸零！");
+    }
 }
 
 function recordInteraction() {
     let interactions = parseInt(localStorage.getItem('taiyu_2_2_interactions') || '0', 10) + 1;
     localStorage.setItem('taiyu_2_2_interactions', interactions.toString());
-    let pageviews = parseInt(localStorage.getItem('taiyu_2_2_pageviews') || '1', 10);
-    let visitors = parseInt(localStorage.getItem('taiyu_2_2_visitors') || '1', 10);
+    let pageviews = parseInt(localStorage.getItem('taiyu_2_2_pageviews') || '0', 10);
+    let visitors = parseInt(localStorage.getItem('taiyu_2_2_visitors') || '0', 10);
     updateStatsDisplay(pageviews, visitors, interactions);
 }
 

@@ -207,7 +207,12 @@
       <div class="w-full md:w-80 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl shadow-xl text-white">
         <h3 class="text-sm font-black text-amber-300 mb-3 flex items-center justify-between">
           <span><i class="fa-solid fa-chart-line mr-1.5"></i>即時偵查情報儀表板</span>
-          <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-400/30">即時連線</span>
+          <div class="flex items-center gap-1.5">
+            <button onclick="resetStats()" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-700/80 hover:bg-rose-600 text-slate-200 hover:text-white font-bold border border-white/20 transition-all cursor-pointer shadow-xs" title="計數器與案件進度全部歸零">
+              <i class="fa-solid fa-rotate-left mr-1"></i>歸零
+            </button>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-400/30">即時連線</span>
+          </div>
         </h3>
 
         <div class="grid grid-cols-3 gap-2 mb-4 text-center">
@@ -999,27 +1004,53 @@ function initApp() {
 // 2. 頁面載入與統計計數器 (Core Rule 5)
 // ==========================================
 function initStats() {
-    let pageviews = parseInt(localStorage.getItem('taiyu_2_2_pageviews') || '0', 10) + 1;
+    // 檢查強制重設標記：確保現有計數器全數歸零
+    const STATS_RESET_KEY = 'taiyu_2_2_reset_zero_v2';
+    if (!localStorage.getItem(STATS_RESET_KEY)) {
+        localStorage.setItem('taiyu_2_2_pageviews', '0');
+        localStorage.setItem('taiyu_2_2_visitors', '0');
+        localStorage.setItem('taiyu_2_2_interactions', '0');
+        sessionStorage.removeItem('taiyu_2_2_session_visited');
+        // 同時清除結案進度標記
+        Object.keys(localStorage).forEach(k => {
+            if (k.startsWith('mastered_') || k.startsWith('quiz_') || k.startsWith('stage_')) {
+                localStorage.removeItem(k);
+            }
+        });
+        localStorage.setItem(STATS_RESET_KEY, 'true');
+    }
+
+    let pageviews = parseInt(localStorage.getItem('taiyu_2_2_pageviews') || '0', 10);
     let visitors = parseInt(localStorage.getItem('taiyu_2_2_visitors') || '0', 10);
     let interactions = parseInt(localStorage.getItem('taiyu_2_2_interactions') || '0', 10);
 
-    if (!sessionStorage.getItem('taiyu_2_2_session_visited')) {
-        visitors += 1;
-        sessionStorage.setItem('taiyu_2_2_session_visited', 'true');
-    }
-
-    localStorage.setItem('taiyu_2_2_pageviews', pageviews.toString());
-    localStorage.setItem('taiyu_2_2_visitors', visitors.toString());
-    localStorage.setItem('taiyu_2_2_interactions', interactions.toString());
-
     updateStatsDisplay(pageviews, visitors, interactions);
+}
+
+function resetStats(showMsg = true) {
+    localStorage.setItem('taiyu_2_2_pageviews', '0');
+    localStorage.setItem('taiyu_2_2_visitors', '0');
+    localStorage.setItem('taiyu_2_2_interactions', '0');
+    sessionStorage.removeItem('taiyu_2_2_session_visited');
+    // 清除結案進度與特訓狀態
+    Object.keys(localStorage).forEach(k => {
+        if (k.startsWith('mastered_') || k.startsWith('quiz_') || k.startsWith('stage_')) {
+            localStorage.removeItem(k);
+        }
+    });
+    updateStatsDisplay(0, 0, 0);
+    updateProgressBar();
+    renderCards();
+    if (showMsg) {
+        alert("所有搜查人次、特派員、破案互動數與結案進度已全部歸零！");
+    }
 }
 
 function recordInteraction() {
     let interactions = parseInt(localStorage.getItem('taiyu_2_2_interactions') || '0', 10) + 1;
     localStorage.setItem('taiyu_2_2_interactions', interactions.toString());
-    let pageviews = parseInt(localStorage.getItem('taiyu_2_2_pageviews') || '1', 10);
-    let visitors = parseInt(localStorage.getItem('taiyu_2_2_visitors') || '1', 10);
+    let pageviews = parseInt(localStorage.getItem('taiyu_2_2_pageviews') || '0', 10);
+    let visitors = parseInt(localStorage.getItem('taiyu_2_2_visitors') || '0', 10);
     updateStatsDisplay(pageviews, visitors, interactions);
 }
 
