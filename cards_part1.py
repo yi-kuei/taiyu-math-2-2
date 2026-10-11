@@ -503,7 +503,7 @@ CARDS_PART1 = [
         "page": "課本 P.114 表 2-1",
         "category": "特別角彙整",
         "title": "表 2-1 特別角三角函數精確值全覽表",
-        "front_content": "全套必背特別角神技速查：<br>• $30^\\circ = \\frac{\\pi}{6}$：$\\sin=\\frac{1}{2}, \\cos=\\frac{\\sqrt{3}}{2}, \\tan=\\frac{\\sqrt{3}}{3}, \\cot=\\sqrt{3}, \\sec=\\frac{2\\sqrt{3}}{3}, \\csc=2$<br>• $45^\\circ = \\frac{\\pi}{4}$：$\\sin=\\frac{\\sqrt{2}}{2}, \\cos=\\frac{\\sqrt{2}}{2}, \\tan=1, \\cot=1, \\sec=\\sqrt{2}, \\csc=\\sqrt{2}$<br>• $60^\\circ = \\frac{\\pi}{3}$：$\\sin=\\frac{\\sqrt{3}}{2}, \\cos=\\frac{1}{2}, \\tan=\\sqrt{3}, \\cot=\\frac{\\sqrt{3}}{3}, \\sec=2, \\csc=\\frac{2\\sqrt{3}}{3}$",
+        "front_content": "<b>【特別角三角函數精確值全覽】</b><br>熟記 $30^\\circ\\left(\\frac{\\pi}{6}\\right)$、$45^\\circ\\left(\\frac{\\pi}{4}\\right)$、$60^\\circ\\left(\\frac{\\pi}{3}\\right)$ 之正弦、餘弦與正切精確值。<br>由下圖分子階梯定律可秒記數值規律：",
         "front_tip": "🕵️ 柯南破案導引：正弦隨角度遞增（$\\frac{1}{2} < \\frac{\\sqrt{2}}{2} < \\frac{\\sqrt{3}}{2}$），餘弦隨角度遞減！",
         "steps": [
             {
@@ -518,70 +518,87 @@ CARDS_PART1 = [
             }
         ],
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】熟記根號 1, 2, 3 規律，考試分秒搶分！",
-        "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full" style="max-width:100%; height:auto;">
-  <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="27" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f">特別角標準分式階梯表 (分母恆為 2)</text>
+        "svg": r"""<svg viewBox="0 0 420 185" class="w-full h-full" style="max-width:100%; height:auto;">
+  <rect x="6" y="5" width="408" height="175" rx="10" fill="#fbf9f4" stroke="#d97706" stroke-width="1.5"/>
+  <text x="210" y="24" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f">特別角標準分式全覽表 (分子階梯定律)</text>
   
   <!-- sin θ row -->
-  <rect x="20" y="44" width="340" height="42" rx="6" fill="#fee2e2"/>
-  <text x="45" y="70" font-size="13" font-weight="bold" fill="#991b1b">sin θ</text>
-  <g transform="translate(125, 65)">
-    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">√1</text>
-    <line x1="-11" y1="0" x2="11" y2="0" stroke="#991b1b" stroke-width="1.5"/>
-    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">2</text>
-    <text x="18" y="4" font-size="11" font-weight="bold" fill="#991b1b">(30°)</text>
+  <rect x="14" y="36" width="392" height="42" rx="7" fill="#fee2e2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="42" y="62" font-size="13" font-weight="bold" fill="#991b1b">sin θ</text>
+  <!-- 30°: √1 / 2 -->
+  <g transform="translate(130, 53)">
+    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#991b1b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="2" y="1" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#991b1b">1</text>
+    <line x1="-15" y1="5" x2="15" y2="5" stroke="#991b1b" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#991b1b">2</text>
+    <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#991b1b">(30°)</text>
   </g>
-  <g transform="translate(215, 65)">
-    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">√2</text>
-    <line x1="-11" y1="0" x2="11" y2="0" stroke="#991b1b" stroke-width="1.5"/>
-    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">2</text>
-    <text x="18" y="4" font-size="11" font-weight="bold" fill="#991b1b">(45°)</text>
+  <!-- 45°: √2 / 2 -->
+  <g transform="translate(225, 53)">
+    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#991b1b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="2" y="1" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#991b1b">2</text>
+    <line x1="-15" y1="5" x2="15" y2="5" stroke="#991b1b" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#991b1b">2</text>
+    <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#991b1b">(45°)</text>
   </g>
-  <g transform="translate(305, 65)">
-    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">√3</text>
-    <line x1="-11" y1="0" x2="11" y2="0" stroke="#991b1b" stroke-width="1.5"/>
-    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">2</text>
-    <text x="18" y="4" font-size="11" font-weight="bold" fill="#991b1b">(60°)</text>
+  <!-- 60°: √3 / 2 -->
+  <g transform="translate(320, 53)">
+    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#991b1b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="2" y="1" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#991b1b">3</text>
+    <line x1="-15" y1="5" x2="15" y2="5" stroke="#991b1b" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#991b1b">2</text>
+    <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#991b1b">(60°)</text>
   </g>
   
   <!-- cos θ row -->
-  <rect x="20" y="93" width="340" height="42" rx="6" fill="#e0e7ff"/>
-  <text x="45" y="119" font-size="13" font-weight="bold" fill="#3730a3">cos θ</text>
-  <g transform="translate(125, 114)">
-    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">√3</text>
-    <line x1="-11" y1="0" x2="11" y2="0" stroke="#3730a3" stroke-width="1.5"/>
-    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">2</text>
-    <text x="18" y="4" font-size="11" font-weight="bold" fill="#3730a3">(30°)</text>
+  <rect x="14" y="83" width="392" height="42" rx="7" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text x="42" y="109" font-size="13" font-weight="bold" fill="#3730a3">cos θ</text>
+  <!-- 30°: √3 / 2 -->
+  <g transform="translate(130, 100)">
+    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#3730a3" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="2" y="1" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3730a3">3</text>
+    <line x1="-15" y1="5" x2="15" y2="5" stroke="#3730a3" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3730a3">2</text>
+    <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#3730a3">(30°)</text>
   </g>
-  <g transform="translate(215, 114)">
-    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">√2</text>
-    <line x1="-11" y1="0" x2="11" y2="0" stroke="#3730a3" stroke-width="1.5"/>
-    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">2</text>
-    <text x="18" y="4" font-size="11" font-weight="bold" fill="#3730a3">(45°)</text>
+  <!-- 45°: √2 / 2 -->
+  <g transform="translate(225, 100)">
+    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#3730a3" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="2" y="1" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3730a3">2</text>
+    <line x1="-15" y1="5" x2="15" y2="5" stroke="#3730a3" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3730a3">2</text>
+    <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#3730a3">(45°)</text>
   </g>
-  <g transform="translate(305, 114)">
-    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">√1</text>
-    <line x1="-11" y1="0" x2="11" y2="0" stroke="#3730a3" stroke-width="1.5"/>
-    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">2</text>
-    <text x="18" y="4" font-size="11" font-weight="bold" fill="#3730a3">(60°)</text>
+  <!-- 60°: √1 / 2 -->
+  <g transform="translate(320, 100)">
+    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#3730a3" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="2" y="1" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3730a3">1</text>
+    <line x1="-15" y1="5" x2="15" y2="5" stroke="#3730a3" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3730a3">2</text>
+    <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#3730a3">(60°)</text>
   </g>
 
   <!-- tan θ row -->
-  <rect x="20" y="142" width="340" height="42" rx="6" fill="#fef3c7"/>
-  <text x="45" y="168" font-size="13" font-weight="bold" fill="#92400e">tan θ</text>
-  <g transform="translate(125, 163)">
-    <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">√3</text>
-    <line x1="-11" y1="0" x2="11" y2="0" stroke="#92400e" stroke-width="1.5"/>
-    <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">3</text>
-    <text x="18" y="4" font-size="11" font-weight="bold" fill="#92400e">(30°)</text>
+  <rect x="14" y="130" width="392" height="42" rx="7" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="42" y="156" font-size="13" font-weight="bold" fill="#92400e">tan θ</text>
+  <!-- 30°: √3 / 3 -->
+  <g transform="translate(130, 147)">
+    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#92400e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="2" y="1" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#92400e">3</text>
+    <line x1="-15" y1="5" x2="15" y2="5" stroke="#92400e" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="18" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#92400e">3</text>
+    <text x="25" y="8" font-size="10.5" font-weight="bold" fill="#92400e">(30°)</text>
   </g>
-  <g transform="translate(215, 163)">
-    <text x="0" y="4" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">1</text>
-    <text x="16" y="4" font-size="11" font-weight="bold" fill="#92400e">(45°)</text>
+  <!-- 45°: 1 -->
+  <g transform="translate(225, 153)">
+    <text x="0" y="3" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">1</text>
+    <text x="16" y="3" font-size="10.5" font-weight="bold" fill="#92400e">(45°)</text>
   </g>
-  <g transform="translate(305, 163)">
-    <text x="0" y="4" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">√3</text>
-    <text x="18" y="4" font-size="11" font-weight="bold" fill="#92400e">(60°)</text>
+  <!-- 60°: √3 -->
+  <g transform="translate(320, 153)">
+    <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#92400e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="2" y="1" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">3</text>
+    <text x="22" y="3" font-size="10.5" font-weight="bold" fill="#92400e">(60°)</text>
   </g>
 </svg>"""
     },
@@ -673,13 +690,20 @@ CARDS_PART1 = [
   
   <rect x="205" y="66" width="140" height="58" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
   <g transform="translate(275, 95)">
-    <text x="-40" y="5" font-size="14" font-weight="bold" fill="#92400e">√3 ·</text>
-    <g transform="translate(-8, 0)">
-      <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">2</text>
-      <line x1="-11" y1="0" x2="11" y2="0" stroke="#92400e" stroke-width="1.4"/>
-      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">√3</text>
+    <g transform="translate(-40, 0)">
+      <path d="M -13 2 L -11 2 L -8 7 L -4 -7 L 8 -7" fill="none" stroke="#92400e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="2" y="1" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">3</text>
+      <text x="14" y="3" font-size="14" font-weight="bold" fill="#92400e">·</text>
     </g>
-    <text x="15" y="5" font-size="14" font-weight="bold" fill="#92400e">= 2</text>
+    <g transform="translate(-6, 0)">
+      <text x="0" y="-6" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">2</text>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#92400e" stroke-width="1.4"/>
+      <g transform="translate(0, 11)">
+        <path d="M -10 2 L -8 2 L -6 6 L -3 -5 L 6 -5" fill="none" stroke="#92400e" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="1.5" y="1" text-anchor="middle" font-size="10" font-weight="bold" fill="#92400e">3</text>
+      </g>
+    </g>
+    <text x="18" y="5" font-size="14" font-weight="bold" fill="#92400e">= 2</text>
   </g>
   
   <line x1="60" y1="138" x2="320" y2="138" stroke="#b45309" stroke-width="1.5"/>

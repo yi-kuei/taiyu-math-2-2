@@ -889,15 +889,21 @@ CARDS_PART2 = [
   <g transform="translate(190, 78)">
     <text x="-90" y="5" font-size="14" fill="#475569">[ 2 +</text>
     <g transform="translate(-60, 0)">
-      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">√2</text>
-      <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.3"/>
-      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">2</text>
+      <g transform="translate(0, -6)">
+        <path d="M -11 2 L -9 2 L -6 6 L -3 -5 L 6 -5" fill="none" stroke="#475569" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="1.5" y="1" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">2</text>
+      </g>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#475569" stroke-width="1.3"/>
+      <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">2</text>
     </g>
     <text x="-35" y="5" font-size="14" fill="#475569">] · [ 2 -</text>
     <g transform="translate(20, 0)">
-      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">√2</text>
-      <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.3"/>
-      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">2</text>
+      <g transform="translate(0, -6)">
+        <path d="M -11 2 L -9 2 L -6 6 L -3 -5 L 6 -5" fill="none" stroke="#475569" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="1.5" y="1" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">2</text>
+      </g>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#475569" stroke-width="1.3"/>
+      <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">2</text>
     </g>
     <text x="45" y="5" font-size="14" fill="#475569">]</text>
   </g>
@@ -905,9 +911,12 @@ CARDS_PART2 = [
   <g transform="translate(190, 120)">
     <text x="-65" y="5" font-size="15" fill="#dc2626">= 2² - (</text>
     <g transform="translate(-25, 0)">
-      <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">√2</text>
-      <line x1="-10" y1="0" x2="10" y2="0" stroke="#dc2626" stroke-width="1.3"/>
-      <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">2</text>
+      <g transform="translate(0, -6)">
+        <path d="M -11 2 L -9 2 L -6 6 L -3 -5 L 6 -5" fill="none" stroke="#dc2626" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="1.5" y="1" text-anchor="middle" font-size="11" font-weight="bold" fill="#dc2626">2</text>
+      </g>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">2</text>
     </g>
     <text x="0" y="5" font-size="15" fill="#dc2626">)² = 4 -</text>
     <g transform="translate(45, 0)">

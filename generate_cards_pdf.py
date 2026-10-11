@@ -139,8 +139,8 @@ def generate_printable_html(cards):
         </div>
 
         <div>
-          <!-- 標準 SVG 向量圖解 -->
-          <div class="h-36 my-2 flex items-center justify-center bg-slate-50 rounded-lg p-1 border border-slate-100 overflow-hidden">
+          <!-- 標準 SVG 向量圖解 (高度提升，移除裁切) -->
+          <div class="h-40 my-2 flex items-center justify-center bg-slate-50 rounded-lg p-1 border border-slate-100">
             {card['svg']}
           </div>
 
