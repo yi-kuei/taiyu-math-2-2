@@ -178,7 +178,7 @@ function renderCards() {
         const isConclusionBlur = (curStep > 0 && curStep < card.steps.length);
 
         return `
-        <div class="card-item perspective relative min-h-[680px] h-[720px]" data-card-index="${cardRealIndex}">
+        <div class="card-item perspective relative min-h-[700px] h-[745px]" data-card-index="${cardRealIndex}">
             <div id="flipper-${cardRealIndex}" class="flipper w-full h-full relative transition-transform duration-500 transform-style-3d">
                 
                 <!-- 卡片正面 (題幹、幾何模型與破案導引) -->
@@ -192,12 +192,12 @@ function renderCards() {
                             </button>
                         </div>
                         <h3 class="text-lg sm:text-xl font-black text-amber-950 mb-2 leading-snug tracking-tight">${card.title}</h3>
-                        <div class="text-sm sm:text-base text-slate-800 leading-relaxed bg-white/90 p-3 rounded-xl border border-amber-200/80 max-h-40 overflow-y-auto font-medium">
+                        <div class="text-sm sm:text-base text-slate-800 leading-relaxed bg-white/90 p-3 rounded-xl border border-amber-200/80 max-h-40 overflow-y-auto font-medium mb-3">
                             ${card.front_content}
                         </div>
 
-                        <!-- 正面幾何模型圖形展示 (高度提升至 44~48，移除裁切) -->
-                        <div class="h-44 sm:h-48 bg-amber-50/60 rounded-xl p-2 border border-amber-200/70 flex items-center justify-center my-2 shadow-2xs">
+                        <!-- 正面幾何模型圖形展示 (向下移位以留出充足邊距，徹底杜絕方框重疊) -->
+                        <div class="h-44 sm:h-48 bg-amber-50/60 rounded-xl p-2 border border-amber-200/70 flex items-center justify-center mt-3 mb-2 shadow-2xs">
                             ${card.svg}
                         </div>
                     </div>
