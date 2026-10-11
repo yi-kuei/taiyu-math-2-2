@@ -1355,19 +1355,20 @@ CARDS_PART2 = [
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
   <text x="190" y="32" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">乘積開根推求和標準推導</text>
   
-  <!-- 第一行：和平方計算 -->
+  <!-- 第一行：和平方計算（緊湊勻稱，居中佈局） -->
   <g transform="translate(0, 72)">
-    <text x="35" y="4" font-size="13" fill="#475569">(sin x + cos x)² = 1 + 2 ·</text>
-    <g transform="translate(212, 0)">
+    <text x="70" y="4" font-size="13.5" font-weight="bold" fill="#475569">(sin x + cos x)² = 1 + 2</text>
+    <text x="211" y="4" font-size="13.5" font-weight="bold" fill="#475569">·</text>
+    <g transform="translate(228, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">12</text>
-      <line x1="-13" y1="0" x2="13" y2="0" stroke="#475569" stroke-width="1.4"/>
-      <text x="0" y="12" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">25</text>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">25</text>
     </g>
-    <text x="238" y="4" font-size="14" fill="#475569">=</text>
-    <g transform="translate(265, 0)">
+    <text x="256" y="4" text-anchor="middle" font-size="15" font-weight="bold" fill="#475569">=</text>
+    <g transform="translate(284, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">49</text>
-      <line x1="-13" y1="0" x2="13" y2="0" stroke="#475569" stroke-width="1.4"/>
-      <text x="0" y="12" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">25</text>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">25</text>
     </g>
   </g>
   
@@ -1375,10 +1376,10 @@ CARDS_PART2 = [
   
   <line x1="40" y1="136" x2="340" y2="136" stroke="#cbd5e1" stroke-width="1"/>
   
-  <!-- 第三行：開方結果 -->
+  <!-- 第三行：開方結果（完美置中） -->
   <g transform="translate(0, 168)">
-    <text x="155" y="6" text-anchor="end" font-size="18" font-weight="bold" fill="#b91c1c">sin x + cos x =</text>
-    <g transform="translate(185, 0)">
+    <text x="160" y="6" text-anchor="end" font-size="18" font-weight="bold" fill="#b91c1c">sin x + cos x =</text>
+    <g transform="translate(195, 0)">
       <text x="0" y="-7" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">7</text>
       <line x1="-14" y1="0" x2="14" y2="0" stroke="#b91c1c" stroke-width="1.8"/>
       <text x="0" y="16" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">5</text>
