@@ -171,14 +171,14 @@ function renderCards() {
             return `
             <div id="grid-card-${cardRealIndex}-step-${s.num}" class="p-3 rounded-xl border text-sm sm:text-base mb-2 transition-all duration-300 ${isHighlight ? 'bg-amber-50 border-amber-400 shadow-xs' : 'bg-slate-50 border-slate-200'} ${isBlur ? 'blur-[1.5px] opacity-20' : ''}">
                 <div class="font-bold text-amber-900 mb-1 text-sm sm:text-base">${s.title}</div>
-                <div class="text-slate-800 leading-relaxed text-sm sm:text-base">${s.content}</div>
+                <div class="card-step-content text-slate-800 leading-[2.05] text-sm sm:text-base">${s.content}</div>
             </div>`;
         }).join('');
 
         const isConclusionBlur = (curStep > 0 && curStep < card.steps.length);
 
         return `
-        <div class="card-item perspective relative min-h-[710px] h-[755px]" data-card-index="${cardRealIndex}">
+        <div class="card-item perspective relative min-h-[730px] h-[785px]" data-card-index="${cardRealIndex}">
             <div id="flipper-${cardRealIndex}" class="flipper w-full h-full relative transition-transform duration-500 transform-style-3d">
                 
                 <!-- 卡片正面 (題幹、幾何模型與破案導引) -->
@@ -192,7 +192,7 @@ function renderCards() {
                             </button>
                         </div>
                         <h3 class="text-lg sm:text-xl font-black text-amber-950 mb-2 leading-snug tracking-tight">${card.title}</h3>
-                        <div class="text-sm sm:text-base text-slate-800 leading-relaxed bg-white/90 p-3 rounded-xl border border-amber-200/80 max-h-40 overflow-y-auto font-medium mb-3">
+                        <div class="card-front-content text-sm sm:text-base text-slate-800 leading-[2.35] bg-white/90 p-3.5 rounded-xl border border-amber-200/80 max-h-48 overflow-y-auto font-medium mb-3">
                             ${card.front_content}
                         </div>
 

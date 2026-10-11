@@ -95,6 +95,34 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       max-height: 100vh !important;
       border-radius: 0 !important;
     }
+
+    /* =================================================== */
+    /* 全站題幹與公式上下行距優化 (利於公式與分數舒適閱讀) */
+    /* =================================================== */
+    .card-front-content,
+    #modal-front-content {
+      line-height: 2.35 !important;
+    }
+    .card-front-content br,
+    #modal-front-content br {
+      display: block !important;
+      content: "" !important;
+      margin-top: 0.75rem !important;
+    }
+    .card-step-content,
+    #modal-steps-container .text-slate-800 {
+      line-height: 2.05 !important;
+    }
+    .card-step-content br,
+    #modal-steps-container br {
+      display: block !important;
+      content: "" !important;
+      margin-top: 0.5rem !important;
+    }
+    .katex {
+      font-size: 1.08em !important;
+      line-height: 1.25 !important;
+    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans">
@@ -406,7 +434,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <span class="px-3 py-1 rounded-full text-xs font-black bg-red-600 text-white mb-3 inline-block">
             案情卷宗題幹
           </span>
-          <div id="modal-front-content" class="text-xl sm:text-2xl text-slate-900 leading-relaxed font-bold mb-6">
+          <div id="modal-front-content" class="card-front-content text-xl sm:text-2xl text-slate-900 leading-[2.35] font-bold mb-6">
             <!-- 題幹 -->
           </div>
         </div>

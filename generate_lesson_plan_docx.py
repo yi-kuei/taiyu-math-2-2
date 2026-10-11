@@ -88,12 +88,12 @@ def fill_cell_multiline(cell, full_text, default_color=None, bold=False, font_si
         else:
             p = cell.add_paragraph()
         p.alignment = alignment
-        p.paragraph_format.space_before = Pt(2)
-        p.paragraph_format.space_after = Pt(3)
-        p.paragraph_format.line_spacing = 1.2
+        p.paragraph_format.space_before = Pt(3)
+        p.paragraph_format.space_after = Pt(5)
+        p.paragraph_format.line_spacing = 1.35
         add_math_runs(p, line, default_color=default_color, bold=bold, font_size=font_size)
 
-def set_cell_margins(cell, top=100, bottom=100, left=130, right=130):
+def set_cell_margins(cell, top=140, bottom=140, left=130, right=130):
     tcPr = cell._element.get_or_add_tcPr()
     tcMar = OxmlElement('w:tcMar')
     for m, val in [('w:top', top), ('w:bottom', bottom), ('w:left', left), ('w:right', right)]:

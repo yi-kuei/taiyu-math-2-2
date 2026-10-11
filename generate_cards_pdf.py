@@ -75,6 +75,14 @@ def generate_printable_html(cards):
       max-height: none !important;
       margin: 0 !important;
     }}
+    .card-front-content, .leading-relaxed {{
+      line-height: 2.35 !important;
+    }}
+    .card-front-content br, .leading-relaxed br {{
+      display: block !important;
+      content: "" !important;
+      margin-top: 0.7rem !important;
+    }}
   </style>
 </head>
 <body>

@@ -144,13 +144,15 @@ def add_box(doc, title, content_lines, is_teacher=False, answer_lines=None, blan
     
     for line in content_lines:
         lp = cell.add_paragraph()
-        lp.paragraph_format.space_after = Pt(2)
+        lp.paragraph_format.space_before = Pt(2)
+        lp.paragraph_format.space_after = Pt(4)
+        lp.paragraph_format.line_spacing = 1.3
         add_math_paragraph(lp, line)
         
     if is_teacher and answer_lines:
         ap = cell.add_paragraph()
-        ap.paragraph_format.space_before = Pt(4)
-        ap.paragraph_format.space_after = Pt(2)
+        ap.paragraph_format.space_before = Pt(6)
+        ap.paragraph_format.space_after = Pt(3)
         arun = ap.add_run("【👓 名偵探破案解析 ‧ CASE CLOSED】：")
         arun.font.name = "微軟正黑體"
         arun.font.size = Pt(10.5)
@@ -158,7 +160,9 @@ def add_box(doc, title, content_lines, is_teacher=False, answer_lines=None, blan
         arun.font.color.rgb = RGBColor(220, 38, 38)
         for aline in answer_lines:
             alp = cell.add_paragraph()
-            alp.paragraph_format.space_after = Pt(2)
+            alp.paragraph_format.space_before = Pt(2)
+            alp.paragraph_format.space_after = Pt(4)
+            alp.paragraph_format.line_spacing = 1.3
             add_math_paragraph(alp, aline, is_teacher=True)
     else:
         for _ in range(blank_lines):
