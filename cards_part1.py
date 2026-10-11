@@ -675,13 +675,13 @@ CARDS_PART1 = [
   
   <rect x="35" y="66" width="140" height="58" rx="8" fill="#e0e7ff" stroke="#93c5fd" stroke-width="1.5"/>
   <g transform="translate(105, 95)">
-    <text x="-32" y="5" font-size="14" font-weight="bold" fill="#3730a3">2 ·</text>
-    <g transform="translate(-6, 0)">
+    <text x="-42" y="5" font-size="14" font-weight="bold" fill="#3730a3">2 ·</text>
+    <g transform="translate(-10, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">1</text>
       <line x1="-9" y1="0" x2="9" y2="0" stroke="#3730a3" stroke-width="1.4"/>
       <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">2</text>
     </g>
-    <text x="15" y="5" font-size="14" font-weight="bold" fill="#3730a3">= 1</text>
+    <text x="14" y="5" font-size="14" font-weight="bold" fill="#3730a3">= 1</text>
   </g>
   
   <text x="190" y="100" text-anchor="middle" font-size="22" font-weight="bold" fill="#475569">+</text>
@@ -982,8 +982,8 @@ CARDS_PART1 = [
   
   <rect x="60" y="58" width="260" height="56" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
   <g transform="translate(190, 86)">
-    <text x="-65" y="5" font-size="16" font-weight="bold" fill="#b45309">tan θ =</text>
-    <g transform="translate(20, 0)">
+    <text x="-80" y="5" font-size="16" font-weight="bold" fill="#b45309">tan θ =</text>
+    <g transform="translate(25, 0)">
       <text x="0" y="-6" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">sin θ</text>
       <line x1="-24" y1="0" x2="24" y2="0" stroke="#b45309" stroke-width="1.6"/>
       <text x="0" y="15" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">cos θ</text>
@@ -992,8 +992,8 @@ CARDS_PART1 = [
   
   <rect x="60" y="124" width="260" height="56" rx="8" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1.5"/>
   <g transform="translate(190, 152)">
-    <text x="-65" y="5" font-size="16" font-weight="bold" fill="#3730a3">cot θ =</text>
-    <g transform="translate(20, 0)">
+    <text x="-80" y="5" font-size="16" font-weight="bold" fill="#3730a3">cot θ =</text>
+    <g transform="translate(25, 0)">
       <text x="0" y="-6" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">cos θ</text>
       <line x1="-24" y1="0" x2="24" y2="0" stroke="#3730a3" stroke-width="1.6"/>
       <text x="0" y="15" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">sin θ</text>

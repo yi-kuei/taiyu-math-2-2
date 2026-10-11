@@ -144,10 +144,10 @@ CARDS_PART2 = [
   
   <rect x="35" y="52" width="310" height="62" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
   <g transform="translate(190, 83)">
-    <text x="-95" y="5" font-size="14" font-weight="bold" fill="#b45309">同除 cos θ ⇒</text>
-    <g transform="translate(45, 0)">
+    <text x="-120" y="5" font-size="13.5" font-weight="bold" fill="#b45309">同除 cos θ ⇒</text>
+    <g transform="translate(55, 0)">
       <text x="0" y="-7" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">tan θ + 2</text>
-      <line x1="-55" y1="0" x2="55" y2="0" stroke="#b45309" stroke-width="1.6"/>
+      <line x1="-48" y1="0" x2="48" y2="0" stroke="#b45309" stroke-width="1.6"/>
       <text x="0" y="16" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">3 tan θ - 1</text>
     </g>
   </g>
@@ -200,10 +200,10 @@ CARDS_PART2 = [
   
   <rect x="35" y="52" width="310" height="62" rx="8" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1.5"/>
   <g transform="translate(190, 83)">
-    <text x="-95" y="5" font-size="14" font-weight="bold" fill="#3730a3">同除 sin θ ⇒</text>
-    <g transform="translate(45, 0)">
+    <text x="-120" y="5" font-size="13.5" font-weight="bold" fill="#3730a3">同除 sin θ ⇒</text>
+    <g transform="translate(55, 0)">
       <text x="0" y="-7" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">1 - 3 cot θ</text>
-      <line x1="-55" y1="0" x2="55" y2="0" stroke="#3730a3" stroke-width="1.6"/>
+      <line x1="-48" y1="0" x2="48" y2="0" stroke="#3730a3" stroke-width="1.6"/>
       <text x="0" y="16" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">5 + 6 cot θ</text>
     </g>
   </g>
@@ -259,10 +259,10 @@ CARDS_PART2 = [
   
   <rect x="35" y="105" width="310" height="58" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
   <g transform="translate(190, 134)">
-    <text x="-65" y="5" font-size="15" font-weight="bold" fill="#92400e">tan θ + cot θ =</text>
-    <g transform="translate(55, 0)">
+    <text x="-115" y="5" font-size="14.5" font-weight="bold" fill="#92400e">tan θ + cot θ =</text>
+    <g transform="translate(60, 0)">
       <text x="0" y="-6" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">1</text>
-      <line x1="-48" y1="0" x2="48" y2="0" stroke="#92400e" stroke-width="1.5"/>
+      <line x1="-42" y1="0" x2="42" y2="0" stroke="#92400e" stroke-width="1.5"/>
       <text x="0" y="15" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">sin θ cos θ</text>
     </g>
   </g>
@@ -700,42 +700,44 @@ CARDS_PART2 = [
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
   <text x="190" y="38" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">tan A + sec A 標準直式分數求值</text>
   
-  <g transform="translate(190, 80)">
-    <text x="-95" y="5" font-size="15" fill="#475569">tan A =</text>
-    <g transform="translate(-50, 0)">
+  <!-- 第一行：tan A = 3/4 ， sec A = 5/4 -->
+  <g transform="translate(0, 78)">
+    <text x="75" y="5" font-size="15" font-weight="bold" fill="#475569">tan A =</text>
+    <g transform="translate(142, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">3</text>
-      <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#475569" stroke-width="1.5"/>
       <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">4</text>
     </g>
-    <text x="0" y="5" font-size="15" fill="#475569">，</text>
-    <text x="35" y="5" font-size="15" fill="#475569">sec A =</text>
-    <g transform="translate(80, 0)">
+    <text x="175" y="5" font-size="15" font-weight="bold" fill="#475569">，</text>
+    <text x="205" y="5" font-size="15" font-weight="bold" fill="#475569">sec A =</text>
+    <g transform="translate(275, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">5</text>
-      <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#475569" stroke-width="1.5"/>
       <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">4</text>
     </g>
   </g>
   
-  <g transform="translate(190, 126)">
-    <g transform="translate(-65, 0)">
+  <!-- 第二行：分式相加計算過程 -->
+  <g transform="translate(0, 122)">
+    <g transform="translate(85, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">3</text>
-      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.5"/>
       <text x="0" y="13" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">4</text>
     </g>
-    <text x="-40" y="5" font-size="16" font-weight="bold" fill="#dc2626">+</text>
-    <g transform="translate(-15, 0)">
+    <text x="115" y="5" text-anchor="middle" font-size="16" font-weight="bold" fill="#dc2626">+</text>
+    <g transform="translate(145, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">5</text>
-      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.5"/>
       <text x="0" y="13" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">4</text>
     </g>
-    <text x="12" y="5" font-size="16" font-weight="bold" fill="#dc2626">=</text>
-    <g transform="translate(38, 0)">
+    <text x="175" y="5" text-anchor="middle" font-size="16" font-weight="bold" fill="#dc2626">=</text>
+    <g transform="translate(205, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">8</text>
-      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.4"/>
+      <line x1="-11" y1="0" x2="11" y2="0" stroke="#dc2626" stroke-width="1.5"/>
       <text x="0" y="13" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">4</text>
     </g>
-    <text x="65" y="5" font-size="16" font-weight="bold" fill="#dc2626">=</text>
-    <text x="85" y="5" font-size="16" font-weight="bold" fill="#dc2626">2</text>
+    <text x="235" y="5" text-anchor="middle" font-size="16" font-weight="bold" fill="#dc2626">=</text>
+    <text x="260" y="5" text-anchor="middle" font-size="16" font-weight="bold" fill="#dc2626">2</text>
   </g>
   
   <line x1="50" y1="148" x2="330" y2="148" stroke="#cbd5e1" stroke-width="1"/>
@@ -771,15 +773,15 @@ CARDS_PART2 = [
   <text x="255" y="105" font-size="13" font-weight="bold" fill="#dc2626">對 = 12k</text>
   <text x="120" y="95" font-size="13" font-weight="bold" fill="#15803d">斜 = 13k = 26</text>
   
-  <g transform="translate(190, 26)">
-    <text x="-65" y="4" font-size="14" font-weight="bold" fill="#b91c1c">sin A =</text>
-    <g transform="translate(-15, 0)">
+  <g transform="translate(260, 32)">
+    <text x="-88" y="4" font-size="15" font-weight="bold" fill="#b91c1c">sin A =</text>
+    <g transform="translate(-25, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">12k</text>
-      <line x1="-14" y1="0" x2="14" y2="0" stroke="#b91c1c" stroke-width="1.3"/>
+      <line x1="-13" y1="0" x2="13" y2="0" stroke="#b91c1c" stroke-width="1.4"/>
       <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">13k</text>
     </g>
-    <text x="18" y="4" font-size="14" font-weight="bold" fill="#b91c1c">=</text>
-    <g transform="translate(50, 0)">
+    <text x="0" y="4" font-size="16" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(25, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="13" font-weight="bold" fill="#b91c1c">12</text>
       <line x1="-12" y1="0" x2="12" y2="0" stroke="#b91c1c" stroke-width="1.5"/>
       <text x="0" y="13" text-anchor="middle" font-size="13" font-weight="bold" fill="#b91c1c">13</text>
@@ -900,50 +902,52 @@ CARDS_PART2 = [
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
   <text x="190" y="36" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">平方差 (a + b)(a - b) = a² - b² 標準求值</text>
   
-  <g transform="translate(190, 78)">
-    <text x="-90" y="5" font-size="14" fill="#475569">[ 2 +</text>
-    <g transform="translate(-60, 0)">
+  <!-- 第一行：[ 2 + √2/2 ] · [ 2 - √2/2 ] -->
+  <g transform="translate(0, 78)">
+    <text x="60" y="5" font-size="14" font-weight="bold" fill="#475569">[ 2 +</text>
+    <g transform="translate(122, 0)">
       <g transform="translate(0, -6)">
         <path d="M -11 2 L -9 2 L -6 6 L -3 -5 L 6 -5" fill="none" stroke="#475569" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
         <text x="1.5" y="1" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">2</text>
       </g>
-      <line x1="-12" y1="0" x2="12" y2="0" stroke="#475569" stroke-width="1.3"/>
+      <line x1="-13" y1="0" x2="13" y2="0" stroke="#475569" stroke-width="1.4"/>
       <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">2</text>
     </g>
-    <text x="-35" y="5" font-size="14" fill="#475569">] · [ 2 -</text>
-    <g transform="translate(20, 0)">
+    <text x="152" y="5" font-size="14" font-weight="bold" fill="#475569">] · [ 2 -</text>
+    <g transform="translate(224, 0)">
       <g transform="translate(0, -6)">
         <path d="M -11 2 L -9 2 L -6 6 L -3 -5 L 6 -5" fill="none" stroke="#475569" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
         <text x="1.5" y="1" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">2</text>
       </g>
-      <line x1="-12" y1="0" x2="12" y2="0" stroke="#475569" stroke-width="1.3"/>
+      <line x1="-13" y1="0" x2="13" y2="0" stroke="#475569" stroke-width="1.4"/>
       <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">2</text>
     </g>
-    <text x="45" y="5" font-size="14" fill="#475569">]</text>
+    <text x="248" y="5" font-size="14" font-weight="bold" fill="#475569">]</text>
   </g>
   
-  <g transform="translate(190, 120)">
-    <text x="-65" y="5" font-size="15" fill="#dc2626">= 2² - (</text>
-    <g transform="translate(-25, 0)">
+  <!-- 第二行：= 2² - ( √2/2 )² = 4 - 1/2 -->
+  <g transform="translate(0, 120)">
+    <text x="60" y="5" font-size="14" font-weight="bold" fill="#dc2626">= 2² - (</text>
+    <g transform="translate(135, 0)">
       <g transform="translate(0, -6)">
         <path d="M -11 2 L -9 2 L -6 6 L -3 -5 L 6 -5" fill="none" stroke="#dc2626" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
         <text x="1.5" y="1" text-anchor="middle" font-size="11" font-weight="bold" fill="#dc2626">2</text>
       </g>
-      <line x1="-12" y1="0" x2="12" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <line x1="-13" y1="0" x2="13" y2="0" stroke="#dc2626" stroke-width="1.4"/>
       <text x="0" y="13" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">2</text>
     </g>
-    <text x="0" y="5" font-size="15" fill="#dc2626">)² = 4 -</text>
-    <g transform="translate(45, 0)">
+    <text x="156" y="5" font-size="14" font-weight="bold" fill="#dc2626">)² = 4 -</text>
+    <g transform="translate(230, 0)">
       <text x="0" y="-5" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">1</text>
-      <line x1="-9" y1="0" x2="9" y2="0" stroke="#dc2626" stroke-width="1.3"/>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#dc2626" stroke-width="1.4"/>
       <text x="0" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#dc2626">2</text>
     </g>
   </g>
   
   <line x1="50" y1="145" x2="330" y2="145" stroke="#cbd5e1" stroke-width="1"/>
-  <g transform="translate(190, 172)">
-    <text x="-25" y="6" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
-    <g transform="translate(15, 0)">
+  <g transform="translate(0, 172)">
+    <text x="160" y="6" text-anchor="end" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(195, 0)">
       <text x="0" y="-7" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">7</text>
       <line x1="-14" y1="0" x2="14" y2="0" stroke="#b91c1c" stroke-width="2"/>
       <text x="0" y="17" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">2</text>
@@ -1050,19 +1054,19 @@ CARDS_PART2 = [
   <g transform="translate(190, 85)">
     <g transform="translate(0, 0)">
       <g transform="translate(0, -18)">
-        <text x="-40" y="4" font-size="13" fill="#475569">5 - 4 ·</text>
-        <g transform="translate(0, 0)">
+        <text x="-46" y="4" font-size="13" font-weight="bold" fill="#475569">5 - 4 ·</text>
+        <g transform="translate(12, 0)">
           <text x="0" y="-4" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">5</text>
-          <line x1="-9" y1="0" x2="9" y2="0" stroke="#475569" stroke-width="1.2"/>
+          <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.3"/>
           <text x="0" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">12</text>
         </g>
       </g>
-      <line x1="-65" y1="-5" x2="65" y2="-5" stroke="#475569" stroke-width="1.6"/>
+      <line x1="-55" y1="-5" x2="35" y2="-5" stroke="#475569" stroke-width="1.6"/>
       <g transform="translate(0, 14)">
-        <text x="-40" y="4" font-size="13" fill="#475569">5 + 3 ·</text>
-        <g transform="translate(0, 0)">
+        <text x="-46" y="4" font-size="13" font-weight="bold" fill="#475569">5 + 3 ·</text>
+        <g transform="translate(12, 0)">
           <text x="0" y="-4" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">5</text>
-          <line x1="-9" y1="0" x2="9" y2="0" stroke="#475569" stroke-width="1.2"/>
+          <line x1="-10" y1="0" x2="10" y2="0" stroke="#475569" stroke-width="1.3"/>
           <text x="0" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">12</text>
         </g>
       </g>
@@ -1070,9 +1074,9 @@ CARDS_PART2 = [
   </g>
   
   <line x1="50" y1="135" x2="330" y2="135" stroke="#cbd5e1" stroke-width="1"/>
-  <g transform="translate(190, 168)">
-    <text x="-35" y="6" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
-    <g transform="translate(15, 0)">
+  <g transform="translate(0, 168)">
+    <text x="160" y="6" text-anchor="end" font-size="22" font-weight="bold" fill="#b91c1c">=</text>
+    <g transform="translate(195, 0)">
       <text x="0" y="-7" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">8</text>
       <line x1="-16" y1="0" x2="16" y2="0" stroke="#b91c1c" stroke-width="2"/>
       <text x="0" y="18" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">15</text>
@@ -1237,33 +1241,35 @@ CARDS_PART2 = [
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
   <text x="190" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">通分平方差求分式和標準方程式</text>
   
-  <g transform="translate(190, 75)">
-    <text x="-90" y="4" font-size="14" fill="#475569">通分化簡 ⇒</text>
-    <g transform="translate(-15, 0)">
+  <!-- 第一行：通分化簡 ⇒ 2 / (1 - sin²θ) = 2 / cos²θ -->
+  <g transform="translate(0, 75)">
+    <text x="35" y="4" font-size="14" font-weight="bold" fill="#475569">通分化簡 ⇒</text>
+    <g transform="translate(170, 0)">
       <text x="0" y="-6" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">2</text>
-      <line x1="-38" y1="0" x2="38" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <line x1="-36" y1="0" x2="36" y2="0" stroke="#475569" stroke-width="1.5"/>
       <text x="0" y="14" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">1 - sin²θ</text>
     </g>
-    <text x="40" y="4" font-size="14" fill="#475569">=</text>
-    <g transform="translate(85, 0)">
+    <text x="225" y="4" font-size="16" font-weight="bold" fill="#475569">=</text>
+    <g transform="translate(275, 0)">
       <text x="0" y="-6" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">2</text>
-      <line x1="-25" y1="0" x2="25" y2="0" stroke="#475569" stroke-width="1.4"/>
+      <line x1="-25" y1="0" x2="25" y2="0" stroke="#475569" stroke-width="1.5"/>
       <text x="0" y="14" text-anchor="middle" font-size="13" font-weight="bold" fill="#475569">cos²θ</text>
     </g>
   </g>
   
-  <g transform="translate(190, 120)">
-    <text x="-70" y="4" font-size="14" fill="#dc2626">=</text>
-    <g transform="translate(-30, 0)">
+  <!-- 第二行：= 2 / (1/25) = 2 × 25 -->
+  <g transform="translate(0, 120)">
+    <text x="110" y="4" font-size="16" font-weight="bold" fill="#dc2626">=</text>
+    <g transform="translate(160, 0)">
       <text x="0" y="-12" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">2</text>
-      <line x1="-22" y1="-4" x2="22" y2="-4" stroke="#dc2626" stroke-width="1.5"/>
+      <line x1="-20" y1="-4" x2="20" y2="-4" stroke="#dc2626" stroke-width="1.6"/>
       <g transform="translate(0, 15)">
         <text x="0" y="-4" text-anchor="middle" font-size="11" font-weight="bold" fill="#dc2626">1</text>
-        <line x1="-8" y1="0" x2="8" y2="0" stroke="#dc2626" stroke-width="1.2"/>
+        <line x1="-9" y1="0" x2="9" y2="0" stroke="#dc2626" stroke-width="1.2"/>
         <text x="0" y="10" text-anchor="middle" font-size="11" font-weight="bold" fill="#dc2626">25</text>
       </g>
     </g>
-    <text x="15" y="4" font-size="15" font-weight="bold" fill="#dc2626">= 2 × 25</text>
+    <text x="205" y="4" font-size="16" font-weight="bold" fill="#dc2626">= 2 × 25</text>
   </g>
   
   <line x1="50" y1="145" x2="330" y2="145" stroke="#cbd5e1" stroke-width="1"/>
@@ -1481,19 +1487,23 @@ CARDS_PART2 = [
         "conclusion": "【CASE CLOSED 真相永遠只有一個！】全單元 60 案全部偵破！恭喜特派員晉升名偵探！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
-  <text x="190" y="45" text-anchor="middle" font-size="16" font-weight="bold" fill="#78350f">【CASE CLOSED 真相永遠只有一個！】</text>
+  <text x="190" y="38" text-anchor="middle" font-size="16" font-weight="bold" fill="#78350f">【CASE CLOSED 真相永遠只有一個！】</text>
   
-  <g transform="translate(190, 88)">
-    <text x="-120" y="5" font-size="14" fill="#92400e">sin²θ + cos²θ = 1   ·   tan θ + cot θ =</text>
-    <g transform="translate(95, 0)">
-      <text x="0" y="-6" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">1</text>
-      <line x1="-38" y1="0" x2="38" y2="0" stroke="#92400e" stroke-width="1.4"/>
-      <text x="0" y="14" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">sin θ cos θ</text>
+  <!-- 第一行：平方關係與和差平方 -->
+  <text x="190" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">sin²θ + cos²θ = 1   ·   (sin θ ± cos θ)² = 1 ± 2 sin θ cos θ</text>
+  
+  <!-- 第二行：切和恆等倒數關係居中 -->
+  <g transform="translate(0, 114)">
+    <text x="145" y="5" text-anchor="end" font-size="15" font-weight="bold" fill="#92400e">tan θ + cot θ =</text>
+    <g transform="translate(195, 0)">
+      <text x="0" y="-7" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">1</text>
+      <line x1="-42" y1="-1" x2="42" y2="-1" stroke="#92400e" stroke-width="1.6"/>
+      <text x="0" y="14" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#92400e">sin θ cos θ</text>
     </g>
   </g>
   
-  <text x="190" y="125" text-anchor="middle" font-size="14" fill="#92400e">(sin θ ± cos θ)² = 1 ± 2 sin θ cos θ</text>
-  <text x="190" y="162" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">★ 泰宇高中數學 2-2 案件圓滿結案 ★</text>
+  <line x1="40" y1="145" x2="340" y2="145" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="190" y="174" text-anchor="middle" font-size="18" font-weight="bold" fill="#b91c1c">★ 泰宇高中數學 2-2 案件圓滿結案 ★</text>
 </svg>"""
     }
 ]
