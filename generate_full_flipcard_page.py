@@ -176,11 +176,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             <span>警視廳機密解答卷宗</span>
           </button>
 
-          <button onclick="downloadPptx()" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-md flex items-center gap-2">
-            <i class="fa-solid fa-file-powerpoint text-amber-300"></i>
-            <span>16:9 教學簡報</span>
-          </button>
-
           <a href="2-2_三角函數的定義與性質_全套60張圖解學習卡.pdf" download class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-400/50 transition-all shadow-md flex items-center gap-2">
             <i class="fa-solid fa-file-pdf text-red-400"></i>
             <span>全套圖解卡 PDF</span>
@@ -725,7 +720,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     window.CHALLENGE_STAGES = __STAGES_JSON__;
     window.STUDENT_DOCX_B64 = "__STUDENT_DOCX_B64__";
     window.TEACHER_DOCX_B64 = "__TEACHER_DOCX_B64__";
-    window.PPTX_B64 = "__PPTX_B64__";
   </script>
 
   <!-- 前端主邏輯 JS -->
@@ -747,7 +741,6 @@ def generate_index_html():
     html = html.replace('__STAGES_JSON__', stages_json)
     html = html.replace('__STUDENT_DOCX_B64__', docx_b64.STUDENT_DOCX_B64)
     html = html.replace('__TEACHER_DOCX_B64__', docx_b64.TEACHER_DOCX_B64)
-    html = html.replace('__PPTX_B64__', docx_b64.PPTX_B64)
     html = html.replace('__INTERACTIVE_JS_CODE__', interactive_js_module.INTERACTIVE_JS_CODE)
     return html
 

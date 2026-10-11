@@ -1186,16 +1186,6 @@ function downloadTeacherDocx() {
     }
 }
 
-function downloadPptx() {
-    recordInteraction();
-    if (window.PPTX_B64 || window.B64_PPTX) {
-        const b64 = window.PPTX_B64 || window.B64_PPTX;
-        downloadBase64File(b64, "2-2_三角函數的定義與性質_教學簡報.pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
-    } else {
-        alert("找不到 PPTX 簡報資源！");
-    }
-}
-
 function downloadBase64File(base64Data, fileName, mimeType) {
     const byteCharacters = atob(base64Data);
     const byteNumbers = new Array(byteCharacters.length);
