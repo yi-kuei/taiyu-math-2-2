@@ -640,7 +640,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               <span id="hex-badge-title" class="px-3 py-1 rounded-full text-xs font-black bg-amber-600 text-white inline-block mb-3">
                 【對角互倒關係】穿透中心的倒數伴侶
               </span>
-              <div id="hex-formula-display" class="text-xl font-black text-amber-950 mb-3 leading-relaxed">
+              <div id="hex-formula-display" class="text-base sm:text-lg font-black text-amber-950 mb-3 leading-relaxed overflow-x-auto max-w-full text-center py-1">
                 sin θ · csc θ = 1
               </div>
               <p id="hex-explanation-text" class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">

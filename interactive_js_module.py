@@ -1020,7 +1020,7 @@ function renderSuperHexagon() {
             <polygon points="170,135 285,135 240,215" fill="rgba(99, 102, 241, 0.25)" stroke="#6366f1" stroke-width="2"/>
         `;
         badgeTitle = '【倒三角平方關係】上兩端平方和等於底端';
-        formulaLaTeX = `\\sin^2\\theta + \\cos^2\\theta = 1 \\quad,\\quad 1 + \\tan^2\\theta = \\sec^2\\theta \\quad,\\quad 1 + \\cot^2\\theta = \\csc^2\\theta`;
+        formulaLaTeX = `\\begin{gathered} \\sin^2\\theta + \\cos^2\\theta = 1 \\\\[4pt] 1 + \\tan^2\\theta = \\sec^2\\theta \\\\[4pt] 1 + \\cot^2\\theta = \\csc^2\\theta \\end{gathered}`;
         explanationText = `觀察三個帶陰影的「倒三角形」：上面兩個頂點的平方和，等於底端頂點的平方！<br>
         1. $\\sin^2\\theta + \\cos^2\\theta = 1^2 = 1$<br>
         2. $1^2 + \\tan^2\\theta = \\sec^2\\theta$ ($1 + \\tan^2 = \\sec^2$)<br>
