@@ -704,9 +704,32 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             </div>
           </div>
 
-          <!-- 8 大候選答案快速點選按鈕網格 -->
-          <div id="drill-options-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            <!-- JS 動態生成選項按鈕 -->
+          <!-- 8 大候選答案快速點選按鈕網格 (標準直式分式與高對比排版) -->
+          <div id="drill-options-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <button onclick="handleDrillAnswer('1/2')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+              $\frac{1}{2}$
+            </button>
+            <button onclick="handleDrillAnswer('√2/2')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+              $\frac{\sqrt{2}}{2}$
+            </button>
+            <button onclick="handleDrillAnswer('√3/2')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+              $\frac{\sqrt{3}}{2}$
+            </button>
+            <button onclick="handleDrillAnswer('1')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+              $1$
+            </button>
+            <button onclick="handleDrillAnswer('√3/3')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+              $\frac{\sqrt{3}}{3}$
+            </button>
+            <button onclick="handleDrillAnswer('√3')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+              $\sqrt{3}$
+            </button>
+            <button onclick="handleDrillAnswer('√2')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+              $\sqrt{2}$
+            </button>
+            <button onclick="handleDrillAnswer('2')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+              $2$
+            </button>
           </div>
         </div>
 

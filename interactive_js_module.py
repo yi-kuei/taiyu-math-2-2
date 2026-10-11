@@ -1150,23 +1150,11 @@ function nextDrillQuestion() {
 function renderDrillOptionsGrid() {
     const grid = document.getElementById('drill-options-grid');
     if (!grid) return;
-
-    grid.innerHTML = DRILL_OPTIONS.map((opt, idx) => `
-        <button onclick="handleDrillAnswer('${opt.val}')" class="min-h-[64px] p-2 bg-white hover:bg-amber-400 text-slate-900 hover:text-slate-950 rounded-2xl font-black text-xl border-2 border-slate-300 hover:border-amber-500 shadow-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer">
-            <span id="drill-opt-latex-${idx}">${opt.latex}</span>
-        </button>
-    `).join('');
-
-    DRILL_OPTIONS.forEach((opt, idx) => {
-        const el = document.getElementById(`drill-opt-latex-${idx}`);
-        if (el && window.katex) {
-            try {
-                katex.render(opt.latex, el, { displayMode: false, throwOnError: false });
-            } catch(e) {
-                el.innerText = opt.latex;
-            }
-        }
-    });
+    if (window.renderMathInElement) {
+        renderMathInElement(grid, {
+            delimiters: [{ left: '$', right: '$', display: false }]
+        });
+    }
 }
 
 function handleDrillAnswer(userVal) {
