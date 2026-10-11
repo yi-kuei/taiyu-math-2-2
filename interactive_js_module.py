@@ -461,7 +461,7 @@ function renderModalContent(cardIdx) {
 
     // 頂部標題
     document.getElementById('modal-case-tag').innerText = card.tag;
-    document.getElementById('modal-case-title').innerText = card.title;
+    document.getElementById('modal-case-title').innerHTML = card.title;
     document.getElementById('modal-case-page').innerText = card.page;
 
     // 左欄題幹與破案導引

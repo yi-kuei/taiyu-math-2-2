@@ -122,18 +122,18 @@ CARDS_PART2 = [
         "tag": "CASE 34",
         "page": "課本 P.121 例題 8",
         "category": "齊次商數轉化",
-        "title": "例題 8：已知 tan θ = 2，求一次齊次分式之值",
+        "title": "例題 8：已知 $\\tan\\theta = 2$，求一次齊次分式之值",
         "front_content": "已知 $\\theta$ 為銳角，且 $\\tan\\theta = 2$。<br>試求下列分式之值：<br>$$\\frac{\\sin\\theta + 2\\cos\\theta}{3\\sin\\theta - \\cos\\theta}$$",
         "front_tip": "🕵️ 柯南破案導引：齊次式神技！分子分母同除以 $\\cos\\theta$，立刻將全部 $\\sin\\theta$ 轉化為 $\\tan\\theta$！完全不必求斜邊！",
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：分子分母同除以 cos θ",
+                "title": "線索 1：分子分母同除以 $\\cos\\theta$",
                 "content": "原式 $= \\frac{\\frac{\\sin\\theta}{\\cos\\theta} + 2}{\\frac{3\\sin\\theta}{\\cos\\theta} - 1} = \\frac{\\tan\\theta + 2}{3\\tan\\theta - 1}$。"
             },
             {
                 "num": 2,
-                "title": "線索 2：代入 tan θ = 2 計算",
+                "title": "線索 2：代入 $\\tan\\theta = 2$ 計算",
                 "content": "原式 $= \\frac{2 + 2}{3(2) - 1} = \\frac{4}{6 - 1} = \\frac{4}{5}$。"
             }
         ],
@@ -173,18 +173,18 @@ CARDS_PART2 = [
         "tag": "CASE 35",
         "page": "課本 P.121 隨堂 8",
         "category": "齊次商數轉化",
-        "title": "隨堂練習 8：已知 cot θ = 2/3，求一次齊次分式之值",
+        "title": "隨堂練習 8：已知 $\\cot\\theta = \\frac{2}{3}$，求一次齊次分式之值",
         "front_content": "已知 $\\theta$ 為銳角，且 $\\cot\\theta = \\frac{2}{3}$。<br>試求下列分式之值：<br>$$\\frac{\\sin\\theta - 3\\cos\\theta}{5\\sin\\theta + 6\\cos\\theta}$$",
         "front_tip": "🕵️ 柯南破案導引：法一：分子分母同除以 $\\sin\\theta$ 轉化為 $\\cot\\theta$！法二：由 $\\cot\\theta = \\frac{2}{3} \\implies \\tan\\theta = \\frac{3}{2}$，同除 $\\cos\\theta$！",
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：分子分母同除以 sin θ",
+                "title": "線索 1：分子分母同除以 $\\sin\\theta$",
                 "content": "原式 $= \\frac{1 - 3\\left(\\frac{\\cos\\theta}{\\sin\\theta}\\right)}{5 + 6\\left(\\frac{\\cos\\theta}{\\sin\\theta}\\right)} = \\frac{1 - 3\\cot\\theta}{5 + 6\\cot\\theta}$。"
             },
             {
                 "num": 2,
-                "title": "線索 2：代入 cot θ = 2/3 計算",
+                "title": "線索 2：代入 $\\cot\\theta = \\frac{2}{3}$ 計算",
                 "content": "分子 $= 1 - 3\\left(\\frac{2}{3}\\right) = 1 - 2 = -1$。<br>分母 $= 5 + 6\\left(\\frac{2}{3}\\right) = 5 + 4 = 9$。"
             },
             {
@@ -245,11 +245,11 @@ CARDS_PART2 = [
             },
             {
                 "num": 2,
-                "title": "線索 2：tan + cot 通分證明",
+                "title": "線索 2：$\\tan\\theta + \\cot\\theta$ 通分證明",
                 "content": "$\\tan\\theta + \\cot\\theta = \\frac{\\sin\\theta}{\\cos\\theta} + \\frac{\\cos\\theta}{\\sin\\theta} = \\frac{\\sin^2\\theta + \\cos^2\\theta}{\\sin\\theta\\cos\\theta} = \\frac{1}{\\sin\\theta\\cos\\theta}$。"
             }
         ],
-        "conclusion": "【CASE CLOSED 真相永遠只有一個！】見和差必平方、見 tan+cot 必通分倒數！",
+        "conclusion": "【CASE CLOSED 真相永遠只有一個！】見和差必平方、見 $\\tan\\theta + \\cot\\theta$ 必通分倒數！",
         "svg": r"""<svg viewBox="0 0 380 200" class="w-full h-full">
   <rect x="8" y="6" width="364" height="188" rx="12" fill="#fbf9f4" stroke="#d97706" stroke-width="2"/>
   <text x="190" y="35" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">三大核心三角恆等式架構</text>
@@ -273,7 +273,7 @@ CARDS_PART2 = [
         "tag": "CASE 37",
         "page": "課本 P.122 例題 9(1)",
         "category": "恆等式求乘積",
-        "title": "例題 9(1)：已知 sin θ + cos θ = 4/3，求 sin θ cos θ",
+        "title": "例題 9(1)：已知 $\\sin\\theta + \\cos\\theta = \\frac{4}{3}$，求 $\\sin\\theta\\cos\\theta$",
         "front_content": "已知 $\\theta$ 為銳角，若 $\\sin\\theta + \\cos\\theta = \\frac{4}{3}$。<br>試求：<br>$$\\sin\\theta \\cos\\theta$$",
         "front_tip": "🕵️ 柯南破案導引：見和必平方！等式兩邊同時平方，利用 $(\\sin\\theta+\\cos\\theta)^2 = 1 + 2\\sin\\theta\\cos\\theta$ 破案！",
         "steps": [
@@ -284,7 +284,7 @@ CARDS_PART2 = [
             },
             {
                 "num": 2,
-                "title": "線索 2：展開恆等式求 2sin cos",
+                "title": "線索 2：展開恆等式求 $2\\sin\\theta\\cos\\theta$",
                 "content": "$1 + 2\\sin\\theta\\cos\\theta = \\frac{16}{9} \\implies 2\\sin\\theta\\cos\\theta = \\frac{16}{9} - 1 = \\frac{7}{9}$。"
             },
             {
@@ -342,7 +342,7 @@ CARDS_PART2 = [
         "tag": "CASE 38",
         "page": "課本 P.122 例題 9(2)",
         "category": "恆等式求切和",
-        "title": "例題 9(2)：已知 sin θ + cos θ = 4/3，求 tan θ + cot θ",
+        "title": "例題 9(2)：已知 $\\sin\\theta + \\cos\\theta = \\frac{4}{3}$，求 $\\tan\\theta + \\cot\\theta$",
         "front_content": "已知 $\\theta$ 為銳角，若 $\\sin\\theta + \\cos\\theta = \\frac{4}{3}$。<br>承上題（已求得 $\\sin\\theta\\cos\\theta = \\frac{7}{18}$），<br>試求：<br>$$\\tan\\theta + \\cot\\theta$$",
         "front_tip": "🕵️ 柯南破案導引：調用恆等式 $\\tan\\theta + \\cot\\theta = \\frac{1}{\\sin\\theta\\cos\\theta}$，直接取上一題答案的倒數！",
         "steps": [
@@ -400,7 +400,7 @@ CARDS_PART2 = [
         "tag": "CASE 39",
         "page": "課本 P.122 隨堂 9(1)",
         "category": "恆等式求差平方",
-        "title": "隨堂練習 9(1)：已知 sin θ - cos θ = 3/5，求 sin θ cos θ",
+        "title": "隨堂練習 9(1)：已知 $\\sin\\theta - \\cos\\theta = \\frac{3}{5}$，求 $\\sin\\theta\\cos\\theta$",
         "front_content": "已知 $\\theta$ 為銳角，若 $\\sin\\theta - \\cos\\theta = \\frac{3}{5}$。<br>試求：<br>$$\\sin\\theta \\cos\\theta$$",
         "front_tip": "🕵️ 柯南破案導引：見差亦平方！$(\\sin\\theta - \\cos\\theta)^2 = 1 - 2\\sin\\theta\\cos\\theta$！注意負號移項！",
         "steps": [
@@ -469,7 +469,7 @@ CARDS_PART2 = [
         "tag": "CASE 40",
         "page": "課本 P.122 隨堂 9(2)",
         "category": "恆等式求切和",
-        "title": "隨堂練習 9(2)：已知 sin θ - cos θ = 3/5，求 tan θ + cot θ",
+        "title": "隨堂練習 9(2)：已知 $\\sin\\theta - \\cos\\theta = \\frac{3}{5}$，求 $\\tan\\theta + \\cot\\theta$",
         "front_content": "已知 $\\theta$ 為銳角，若 $\\sin\\theta - \\cos\\theta = \\frac{3}{5}$。<br>承上題（已求得 $\\sin\\theta\\cos\\theta = \\frac{8}{25}$），<br>試求：<br>$$\\tan\\theta + \\cot\\theta$$",
         "front_tip": "🕵️ 柯南破案導引：恆等式 $\\tan\\theta + \\cot\\theta = \\frac{1}{\\sin\\theta\\cos\\theta}$，取 $\\frac{8}{25}$ 的倒數即答案！",
         "steps": [
@@ -559,7 +559,7 @@ CARDS_PART2 = [
         "tag": "CASE 42",
         "page": "課本 P.123 觀念 (2)",
         "category": "觀念是非判定",
-        "title": "習題 觀念 (2)：已知 sin A = 3/5 是否可求出三邊長度？",
+        "title": "習題 觀念 (2)：已知 $\\sin A = \\frac{3}{5}$ 是否可求出三邊長度？",
         "front_content": "試判斷下列敘述之對錯（正確畫「○」，錯誤畫「×」）：<br>「直角三角形 $ABC$ 中，$\\angle C = 90^\\circ$。<br>若 $\\sin A = \\frac{3}{5}$，則可求出 $AB$、$BC$、$CA$ 的長度。」",
         "front_tip": "🕵️ 柯南破案導引：名偵探破案焦點：比例 $\\ne$ 實際長度！三角形可以放大縮小，沒有任何實際邊長條件，無法得知絕對長度！",
         "steps": [
@@ -615,7 +615,7 @@ CARDS_PART2 = [
         "tag": "CASE 44",
         "page": "課本 P.123 觀念 (4)",
         "category": "觀念是非判定",
-        "title": "習題 觀念 (4)：銳角 sin θ × cos θ 是否必等於 1？",
+        "title": "習題 觀念 (4)：銳角 $\\sin\\theta \\times \\cos\\theta$ 是否必等於 1？",
         "front_content": "試判斷下列敘述之對錯（正確畫「○」，錯誤畫「×」）：<br>「若 $\\theta$ 為銳角，<br>則 $\\sin\\theta \\times \\cos\\theta = 1$。」",
         "front_tip": "🕵️ 柯南破案導引：混淆倒數伴侶！倒數為 1 的是 $\\sin\\theta \\times \\csc\\theta = 1$；$\\sin$ 與 $\\cos$ 乘積絕不等於 1！",
         "steps": [
@@ -675,7 +675,7 @@ CARDS_PART2 = [
         "tag": "CASE 46",
         "page": "課本 P.123 基礎 1",
         "category": "基礎實戰求值",
-        "title": "基礎題 1：已知直角三角形 sin A = 3/5，求 tan A + sec A",
+        "title": "基礎題 1：已知直角三角形 $\\sin A = \\frac{3}{5}$，求 $\\tan A + \\sec A$",
         "front_content": "已知直角三角形 $ABC$ 中，$\\angle C$ 為直角，<br>$\\sin A = \\frac{3}{5}$。<br>試求：<br>$$\\tan A + \\sec A$$",
         "front_tip": "🕵️ 柯南破案導引：由 $\\sin A = \\frac{3}{5}$，知直角三角形三邊為 3-4-5！對邊 3、鄰邊 4、斜邊 5！",
         "steps": [
@@ -686,7 +686,7 @@ CARDS_PART2 = [
             },
             {
                 "num": 2,
-                "title": "線索 2：計算 tan A 與 sec A",
+                "title": "線索 2：計算 $\\tan A$ 與 $\\sec A$",
                 "content": "$\\tan A = \\frac{\\text{對}}{\\text{鄰}} = \\frac{3}{4}$ ； $\\sec A = \\frac{\\text{斜}}{\\text{鄰}} = \\frac{5}{4}$。"
             },
             {
@@ -749,7 +749,7 @@ CARDS_PART2 = [
         "tag": "CASE 47",
         "page": "課本 P.123 基礎 2(1)",
         "category": "基礎實戰求值",
-        "title": "基礎題 2(1)：tan A = 12/5 且 AB = 26，求 sin A",
+        "title": "基礎題 2(1)：$\\tan A = \\frac{12}{5}$ 且 $AB = 26$，求 $\\sin A$",
         "front_content": "直角三角形 $ABC$ 中，$\\angle C$ 為直角，且 $\\tan A = \\frac{12}{5}$。<br>若 $AB = 26$，<br>試求：<br>$$\\sin A$$",
         "front_tip": "🕵️ 柯南破案導引：$\\tan A = \\frac{12}{5}$，形成 5-12-13 比例！求 $\\sin A$ 只看比例，與實際長度無關！",
         "steps": [
@@ -794,7 +794,7 @@ CARDS_PART2 = [
         "tag": "CASE 48",
         "page": "課本 P.123 基礎 2(2)",
         "category": "基礎實戰求長",
-        "title": "基礎題 2(2)：tan A = 12/5 且 AB = 26，求邊長 AC",
+        "title": "基礎題 2(2)：$\\tan A = \\frac{12}{5}$ 且 $AB = 26$，求邊長 $AC$",
         "front_content": "直角三角形 $ABC$ 中，$\\angle C$ 為直角，且 $\\tan A = \\frac{12}{5}$。<br>若 $AB = 26$，<br>試求邊長：<br>$$AC$$",
         "front_tip": "🕵️ 柯南破案導引：比例斜邊為 $13k$，實際長度 $AB = 26$，立即可解出放大倍率 $k = 2$！",
         "steps": [
@@ -829,17 +829,17 @@ CARDS_PART2 = [
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：第一部分 4 sin² 30°",
+                "title": "線索 1：第一部分 $4\\sin^2 30^\\circ$",
                 "content": "$4 \\times \\left(\\frac{1}{2}\\right)^2 = 4 \\times \\frac{1}{4} = 1$。"
             },
             {
                 "num": 2,
-                "title": "線索 2：第二部分 2 tan 45°",
+                "title": "線索 2：第二部分 $2\\tan 45^\\circ$",
                 "content": "$2 \\times 1 = 2$。"
             },
             {
                 "num": 3,
-                "title": "線索 3：第三部分 1/3 cot² 30° · sec² 60°",
+                "title": "線索 3：第三部分 $\\frac{1}{3}\\cot^2 30^\\circ \\cdot \\sec^2 60^\\circ$",
                 "content": "$\\frac{1}{3} \\times (\\sqrt{3})^2 \\times 2^2 = \\frac{1}{3} \\times 3 \\times 4 = 4$。"
             },
             {
@@ -966,7 +966,7 @@ CARDS_PART2 = [
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：全數轉化為 20°",
+                "title": "線索 1：全數轉化為 $20^\\circ$",
                 "content": "$\\cos 70^\\circ = \\sin 20^\\circ \\implies \\cos^2 70^\\circ = \\sin^2 20^\\circ$。<br>$\\csc 70^\\circ = \\sec 20^\\circ \\implies \\csc^2 70^\\circ = \\sec^2 20^\\circ$。"
             },
             {
@@ -1026,18 +1026,18 @@ CARDS_PART2 = [
         "tag": "CASE 53",
         "page": "課本 P.124 基礎 6",
         "category": "齊次商數轉化",
-        "title": "基礎題 6：已知 cot θ = 5/12，求齊次分式之值",
+        "title": "基礎題 6：已知 $\\cot\\theta = \\frac{5}{12}$，求齊次分式之值",
         "front_content": "若 $\\theta$ 為銳角，且 $\\cot\\theta = \\frac{5}{12}$。<br>試求：<br>$$\\frac{5\\sin\\theta - 4\\cos\\theta}{5\\sin\\theta + 3\\cos\\theta}$$",
         "front_tip": "🕵️ 柯南破案導引：齊次式同除神法！分子分母同除以 $\\sin\\theta$，立即化為 $\\cot\\theta$ 代入！",
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：分子分母同除以 sin θ",
+                "title": "線索 1：分子分母同除以 $\\sin\\theta$",
                 "content": "原式 $= \\frac{5 - 4\\left(\\frac{\\cos\\theta}{\\sin\\theta}\\right)}{5 + 3\\left(\\frac{\\cos\\theta}{\\sin\\theta}\\right)} = \\frac{5 - 4\\cot\\theta}{5 + 3\\cot\\theta}$。"
             },
             {
                 "num": 2,
-                "title": "線索 2：代入 cot θ = 5/12 計算",
+                "title": "線索 2：代入 $\\cot\\theta = \\frac{5}{12}$ 計算",
                 "content": "分子 $= 5 - 4\\left(\\frac{5}{12}\\right) = 5 - \\frac{5}{3} = \\frac{10}{3}$。<br>分母 $= 5 + 3\\left(\\frac{5}{12}\\right) = 5 + \\frac{5}{4} = \\frac{25}{4}$。"
             },
             {
@@ -1089,7 +1089,7 @@ CARDS_PART2 = [
         "tag": "CASE 54",
         "page": "課本 P.124 基礎 7(1)",
         "category": "恆等式求乘積",
-        "title": "基礎題 7(1)：已知 sin θ - cos θ = 1/2，求 sin θ cos θ",
+        "title": "基礎題 7(1)：已知 $\\sin\\theta - \\cos\\theta = \\frac{1}{2}$，求 $\\sin\\theta\\cos\\theta$",
         "front_content": "已知 $\\sin\\theta - \\cos\\theta = \\frac{1}{2}$。<br>試求：<br>$$\\sin\\theta \\cdot \\cos\\theta$$",
         "front_tip": "🕵️ 柯南破案導引：見差必平方！$(\\sin\\theta - \\cos\\theta)^2 = 1 - 2\\sin\\theta\\cos\\theta = \\left(\\frac{1}{2}\\right)^2 = \\frac{1}{4}$！",
         "steps": [
@@ -1100,7 +1100,7 @@ CARDS_PART2 = [
             },
             {
                 "num": 2,
-                "title": "線索 2：移項求 2sin cos",
+                "title": "線索 2：移項求 $2\\sin\\theta\\cos\\theta$",
                 "content": "$1 - 2\\sin\\theta\\cos\\theta = \\frac{1}{4} \\implies 2\\sin\\theta\\cos\\theta = 1 - \\frac{1}{4} = \\frac{3}{4}$。"
             },
             {
@@ -1158,7 +1158,7 @@ CARDS_PART2 = [
         "tag": "CASE 55",
         "page": "課本 P.124 基礎 7(2)",
         "category": "恆等式求切和",
-        "title": "基礎題 7(2)：已知 sin θ - cos θ = 1/2，求 tan θ + cot θ",
+        "title": "基礎題 7(2)：已知 $\\sin\\theta - \\cos\\theta = \\frac{1}{2}$，求 $\\tan\\theta + \\cot\\theta$",
         "front_content": "已知 $\\sin\\theta - \\cos\\theta = \\frac{1}{2}$。<br>承上題（已求得 $\\sin\\theta\\cos\\theta = \\frac{3}{8}$），<br>試求：<br>$$\\tan\\theta + \\cot\\theta$$",
         "front_tip": "🕵️ 柯南破案導引：利用 $\\tan\\theta + \\cot\\theta = \\frac{1}{\\sin\\theta\\cos\\theta}$，取 $\\frac{3}{8}$ 的倒數秒殺！",
         "steps": [
@@ -1227,12 +1227,12 @@ CARDS_PART2 = [
             },
             {
                 "num": 2,
-                "title": "線索 2：分母由平方關係轉為 cos²",
+                "title": "線索 2：分母由平方關係轉為 $\\cos^2\\theta$",
                 "content": "因為 $1 - \\sin^2\\theta = \\cos^2\\theta$，故原式 $= \\frac{2}{\\cos^2\\theta}$。"
             },
             {
                 "num": 3,
-                "title": "線索 3：代入 cos θ = 1/5 計算",
+                "title": "線索 3：代入 $\\cos\\theta = \\frac{1}{5}$ 計算",
                 "content": "原式 $= \\frac{2}{(1/5)^2} = \\frac{2}{1/25} = 2 \\times 25 = 50$。"
             }
         ],
@@ -1281,7 +1281,7 @@ CARDS_PART2 = [
         "tag": "CASE 57",
         "page": "課本 P.124 進階 9(1)",
         "category": "進階對稱式",
-        "title": "進階題 9(1)：已知 tan x + cot x = 25/12，求 sin x cos x",
+        "title": "進階題 9(1)：已知 $\\tan x + \\cot x = \\frac{25}{12}$，求 $\\sin x\\cos x$",
         "front_content": "已知 $x$ 為銳角，$\\tan x + \\cot x = \\frac{25}{12}$。<br>試求：<br>$$\\sin x \\cdot \\cos x$$",
         "front_tip": "🕵️ 柯南破案導引：逆向倒數思維！$\\tan x + \\cot x = \\frac{1}{\\sin x \\cos x}$，故乘積就是它的倒數！",
         "steps": [
@@ -1335,7 +1335,7 @@ CARDS_PART2 = [
         "tag": "CASE 58",
         "page": "課本 P.124 進階 9(2)",
         "category": "進階對稱式",
-        "title": "進階題 9(2)：已知 tan x + cot x = 25/12，求 sin x + cos x",
+        "title": "進階題 9(2)：已知 $\\tan x + \\cot x = \\frac{25}{12}$，求 $\\sin x + \\cos x$",
         "front_content": "已知 $x$ 為銳角，$\\tan x + \\cot x = \\frac{25}{12}$。<br>承上題（已求得 $\\sin x \\cos x = \\frac{12}{25}$），<br>試求：<br>$$\\sin x + \\cos x$$",
         "front_tip": "🕵️ 柯南破案導引：和平方開根號！$(\\sin x + \\cos x)^2 = 1 + 2\\sin x \\cos x$！銳角開根號取正值！",
         "steps": [
@@ -1392,7 +1392,7 @@ CARDS_PART2 = [
         "tag": "CASE 59",
         "page": "課本 P.124 進階 9(3)",
         "category": "進階立方和",
-        "title": "進階題 9(3)：已知 tan x + cot x = 25/12，求 sin³ x + cos³ x",
+        "title": "進階題 9(3)：已知 $\\tan x + \\cot x = \\frac{25}{12}$，求 $\\sin^3 x + \\cos^3 x$",
         "front_content": "已知 $x$ 為銳角，$\\tan x + \\cot x = \\frac{25}{12}$。<br>承前兩小題：$\\sin x \\cos x = \\frac{12}{25}$ 且 $\\sin x + \\cos x = \\frac{7}{5}$。<br>試求：<br>$$\\sin^3 x + \\cos^3 x$$<br>（提示：$a^3 + b^3 = (a + b)(a^2 - ab + b^2)$）",
         "front_tip": "🕵️ 柯南破案導引：立方和公式：$a^3 + b^3 = (a + b)(1 - ab)$！和乘積均已破案，直接代入！",
         "steps": [

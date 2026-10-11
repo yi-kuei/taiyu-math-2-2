@@ -64,7 +64,7 @@ CARDS_PART1 = [
         "category": "六大函數定義",
         "title": "銳角三角函數的六大嚴格定義",
         "front_content": "在直角 $\\triangle$ 中，角 $\\theta$ 的斜邊為 $r$、對邊為 $y$、鄰邊為 $x$：<br>$\\sin\\theta = \\frac{y}{r} = \\frac{\\text{對邊}}{\\text{斜邊}}$（正弦） ； $\\csc\\theta = \\frac{r}{y} = \\frac{\\text{斜邊}}{\\text{對邊}}$（餘割）<br>$\\cos\\theta = \\frac{x}{r} = \\frac{\\text{鄰邊}}{\\text{斜邊}}$（餘弦） ； $\\sec\\theta = \\frac{r}{x} = \\frac{\\text{斜邊}}{\\text{鄰邊}}$（正割）<br>$\\tan\\theta = \\frac{y}{x} = \\frac{\\text{對邊}}{\\text{鄰邊}}$（正切） ； $\\cot\\theta = \\frac{x}{y} = \\frac{\\text{鄰邊}}{\\text{對邊}}$（餘切）",
-        "front_tip": "🕵️ 柯南破案導引：牢記三原形（sin、cos、tan），再取倒數就是另外三個（csc、sec、cot）！",
+        "front_tip": "🕵️ 柯南破案導引：牢記三原形（$\\sin$、$\\cos$、$\\tan$），再取倒數就是另外三個（$\\csc$、$\\sec$、$\\cot$）！",
         "steps": [
             {
                 "num": 1,
@@ -100,7 +100,7 @@ CARDS_PART1 = [
         "category": "倒數關係記憶",
         "title": "倒數關係與英文字母字首記憶法",
         "front_content": "銳角三角函數中，存在三對天生倒數伴侶：<br>1. $\\sin\\theta \\cdot \\csc\\theta = 1 \\iff \\csc\\theta = \\frac{1}{\\sin\\theta}$<br>2. $\\cos\\theta \\cdot \\sec\\theta = 1 \\iff \\sec\\theta = \\frac{1}{\\cos\\theta}$<br>3. $\\tan\\theta \\cdot \\cot\\theta = 1 \\iff \\cot\\theta = \\frac{1}{\\tan\\theta}$<br>記憶訣竅：以「S 配 C，T 配 T」辨認對應組合！",
-        "front_tip": "🕵️ 柯南破案導引：正弦 (sin, s開頭) 倒數是 cosecant (csc, c開頭)；餘弦 (cos, c開頭) 倒數是 secant (sec, s開頭)；首字必互換！",
+        "front_tip": "🕵️ 柯南破案導引：正弦 ($\\sin$，s開頭) 倒數是餘割 ($\\csc$，c開頭)；餘弦 ($\\cos$，c開頭) 倒數是正割 ($\\sec$，s開頭)；首字必互換！",
         "steps": [
             {
                 "num": 1,
@@ -138,13 +138,13 @@ CARDS_PART1 = [
         "tag": "CASE 04",
         "page": "課本 P.109 例題 1(1)",
         "category": "邊長比求值",
-        "title": "例題 1(1)：8-15-17 直角三角形求 ∠A 之六個函數值",
+        "title": "例題 1(1)：8-15-17 直角三角形求 $\\angle A$ 之六個函數值",
         "front_content": "在直角 $\\triangle ABC$ 中，$\\angle C = 90^\\circ$。<br>已知 $AC = 8$、$BC = 15$、$AB = 17$。<br>試求出 $\\angle A$ 的六個三角函數值。",
         "front_tip": "🕵️ 柯南破案導引：站在 $\\angle A$ 視角審視三邊：對邊 $BC = 15$、鄰邊 $AC = 8$、斜邊 $AB = 17$！",
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：鎖定 ∠A 視角之三邊長",
+                "title": "線索 1：鎖定 $\\angle A$ 視角之三邊長",
                 "content": "斜邊 $r = 17$，對邊 $y = 15$，鄰邊 $x = 8$。"
             },
             {
@@ -176,7 +176,7 @@ CARDS_PART1 = [
         "tag": "CASE 05",
         "page": "課本 P.110 例題 1(2)",
         "category": "邊長比求值",
-        "title": "例題 1(2)：5-12-13 直角三角形求 ∠A 之六個函數值",
+        "title": "例題 1(2)：5-12-13 直角三角形求 $\\angle A$ 之六個函數值",
         "front_content": "在直角 $\\triangle ABC$ 中，$\\angle C = 90^\\circ$。<br>已知 $AC = 5$、$BC = 12$、$AB = 13$。<br>試求出 $\\angle A$ 的六個三角函數值。",
         "front_tip": "🕵️ 柯南破案導引：確認邊長角色：$\\angle A$ 的對邊為 $12$，鄰邊為 $5$，斜邊為 $13$！",
         "steps": [
@@ -187,12 +187,12 @@ CARDS_PART1 = [
             },
             {
                 "num": 2,
-                "title": "線索 2：求 sin A、cos A、tan A",
+                "title": "線索 2：求 $\\sin A$、$\\cos A$、$\\tan A$",
                 "content": "$\\sin A = \\frac{12}{13}$ ； $\\cos A = \\frac{5}{13}$ ； $\\tan A = \\frac{12}{5}$。"
             },
             {
                 "num": 3,
-                "title": "線索 3：倒數求 csc A、sec A、cot A",
+                "title": "線索 3：倒數求 $\\csc A$、$\\sec A$、$\\cot A$",
                 "content": "$\\csc A = \\frac{13}{12}$ ； $\\sec A = \\frac{13}{5}$ ； $\\cot A = \\frac{5}{12}$。"
             }
         ],
@@ -214,23 +214,23 @@ CARDS_PART1 = [
         "tag": "CASE 06",
         "page": "課本 P.110 隨堂 1(1)",
         "category": "視角切換實戰",
-        "title": "隨堂練習 1(1)：8-15-17 直角三角形求 ∠B 之六個函數值",
+        "title": "隨堂練習 1(1)：8-15-17 直角三角形求 $\\angle B$ 之六個函數值",
         "front_content": "在直角 $\\triangle ABC$ 中，$\\angle C = 90^\\circ$。<br>$AC = 8$、$BC = 15$、$AB = 17$。<br>試求出 <b>$\\angle B$</b> 的六個三角函數值。",
         "front_tip": "🕵️ 柯南破案導引：警惕盲點！視角轉移到 $\\angle B$：現在對邊是 $AC = 8$，鄰邊變成 $BC = 15$！",
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：以 ∠B 為基準重定三邊",
+                "title": "線索 1：以 $\\angle B$ 為基準重定三邊",
                 "content": "斜邊仍為 $AB = 17$；但 $\\angle B$ 的對邊變為 $AC = 8$，鄰邊變為 $BC = 15$。"
             },
             {
                 "num": 2,
-                "title": "線索 2：計算 sin B、cos B、tan B",
+                "title": "線索 2：計算 $\\sin B$、$\\cos B$、$\\tan B$",
                 "content": "$\\sin B = \\frac{\\text{對}}{\\text{斜}} = \\frac{8}{17}$ ； $\\cos B = \\frac{\\text{鄰}}{\\text{斜}} = \\frac{15}{17}$ ； $\\tan B = \\frac{\\text{對}}{\\text{鄰}} = \\frac{8}{15}$。"
             },
             {
                 "num": 3,
-                "title": "線索 3：計算倒數 csc B、sec B、cot B",
+                "title": "線索 3：計算倒數 $\\csc B$、$\\sec B$、$\\cot B$",
                 "content": "$\\csc B = \\frac{17}{8}$ ； $\\sec B = \\frac{17}{15}$ ； $\\cot B = \\frac{15}{8}$。"
             }
         ],
@@ -249,23 +249,23 @@ CARDS_PART1 = [
         "tag": "CASE 07",
         "page": "課本 P.110 隨堂 1(2)",
         "category": "視角切換實戰",
-        "title": "隨堂練習 1(2)：5-12-13 直角三角形求 ∠B 之六個函數值",
+        "title": "隨堂練習 1(2)：5-12-13 直角三角形求 $\\angle B$ 之六個函數值",
         "front_content": "在直角 $\\triangle ABC$ 中，$\\angle C = 90^\\circ$。<br>$AC = 5$、$BC = 12$、$AB = 13$。<br>試求出 <b>$\\angle B$</b> 的六個三角函數值。",
         "front_tip": "🕵️ 柯南破案導引：站在 $\\angle B$ 前看：對邊是 $5$，鄰邊是 $12$，斜邊為 $13$！",
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：重新確認 ∠B 之三邊位置",
+                "title": "線索 1：重新確認 $\\angle B$ 之三邊位置",
                 "content": "斜邊 $r = 13$，$\\angle B$ 的對邊 $y = AC = 5$，鄰邊 $x = BC = 12$。"
             },
             {
                 "num": 2,
-                "title": "線索 2：求 sin B、cos B、tan B",
+                "title": "線索 2：求 $\\sin B$、$\\cos B$、$\\tan B$",
                 "content": "$\\sin B = \\frac{5}{13}$ ； $\\cos B = \\frac{12}{13}$ ； $\\tan B = \\frac{5}{12}$。"
             },
             {
                 "num": 3,
-                "title": "線索 3：求 csc B、sec B、cot B",
+                "title": "線索 3：求 $\\csc B$、$\\sec B$、$\\cot B$",
                 "content": "$\\csc B = \\frac{13}{5}$ ； $\\sec B = \\frac{13}{12}$ ； $\\cot B = \\frac{12}{5}$。"
             }
         ],
@@ -284,7 +284,7 @@ CARDS_PART1 = [
         "tag": "CASE 08",
         "page": "課本 P.111 例題 2",
         "category": "知一求其餘",
-        "title": "例題 2：已知 cos A = 5/13，求其餘各三角函數值",
+        "title": "例題 2：已知 $\\cos A = \\frac{5}{13}$，求其餘各三角函數值",
         "front_content": "已知直角三角形 $ABC$ 中，$\\angle C$ 為直角，<br>且 $\\cos A = \\frac{5}{13}$。<br>試求 $\\angle A$ 其餘各三角函數值。",
         "front_tip": "🕵️ 柯南破案導引：畫出輔助直角三角形！設鄰邊 $5k$、斜邊 $13k$，用畢氏定理緝拿對邊！",
         "steps": [
@@ -321,7 +321,7 @@ CARDS_PART1 = [
         "tag": "CASE 09",
         "page": "課本 P.111 隨堂 2",
         "category": "知一求其餘",
-        "title": "隨堂練習 2：已知 tan A = 24/7，求其餘各三角函數值",
+        "title": "隨堂練習 2：已知 $\\tan A = \\frac{24}{7}$，求其餘各三角函數值",
         "front_content": "已知直角三角形 $ABC$ 中，$\\angle C = 90^\\circ$，<br>且 $\\tan A = \\frac{24}{7}$。<br>試求 $\\angle A$ 其餘各三角函數值。",
         "front_tip": "🕵️ 柯南破案導引：$\\tan A = \\frac{\\text{對}}{\\text{鄰}}$！設對邊 $24k$、鄰邊 $7k$，用畢氏定理算出斜邊！",
         "steps": [
@@ -356,13 +356,13 @@ CARDS_PART1 = [
         "tag": "CASE 10",
         "page": "課本 P.112 例題 3",
         "category": "比例放大解邊長",
-        "title": "例題 3：已知 sin A = 4/5 且 AB = 15，求邊長與各函數值",
+        "title": "例題 3：已知 $\\sin A = \\frac{4}{5}$ 且 $AB = 15$，求邊長與各函數值",
         "front_content": "直角三角形 $ABC$ 中，$\\angle C$ 為直角，且 $\\sin A = \\frac{4}{5}$。<br>若 $AB = 15$，<br>試求 $\\cos A$、$\\tan A$、$BC$ 與 $AC$ 之長。",
         "front_tip": "🕵️ 柯南破案導引：比例放大！斜邊原本是 $5k$，已知實際長度 $15$，立即可解出放大倍率 $k = 3$！",
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：由比例比值求 cos A 與 tan A",
+                "title": "線索 1：由比例比值求 $\\cos A$ 與 $\\tan A$",
                 "content": "$\\sin A = \\frac{4}{5}$，形成經典 (3, 4, 5) 比例。得 $\\cos A = \\frac{3}{5}$、$\\tan A = \\frac{4}{3}$。"
             },
             {
@@ -391,7 +391,7 @@ CARDS_PART1 = [
         "tag": "CASE 11",
         "page": "課本 P.112 隨堂 3",
         "category": "比例放大解邊長",
-        "title": "隨堂練習 3：已知 csc A = 17/15 且 AC = 40，求邊長與各值",
+        "title": "隨堂練習 3：已知 $\\csc A = \\frac{17}{15}$ 且 $AC = 40$，求邊長與各值",
         "front_content": "直角三角形 $ABC$ 中，$\\angle C = 90^\\circ$，且 $\\csc A = \\frac{17}{15}$。<br>若 $AC = 40$，<br>試求 $\\tan A$、$\\sec A$、$AB$ 與 $BC$ 之長。",
         "front_tip": "🕵️ 柯南破案導引：$\\csc A = \\frac{\\text{斜}}{\\text{對}} = \\frac{17}{15}$，鄰邊即為 $8k$！已知 $AC = 40$，求出 $k = 5$！",
         "steps": [
@@ -430,18 +430,18 @@ CARDS_PART1 = [
         "tag": "CASE 12",
         "page": "課本 P.113 概念 1",
         "category": "特別角推導",
-        "title": "30° 與 60° 特別角的六大三角函數值推導",
+        "title": "$30^\\circ$ 與 $60^\\circ$ 特別角的六大三角函數值推導",
         "front_content": "由正三角形對折所得 $30^\\circ-60^\\circ-90^\\circ$ 直角三角形，<br>三邊長比為 $1 : \\sqrt{3} : 2$。<br>$\\sin 30^\\circ = \\frac{1}{2}$ ； $\\cos 30^\\circ = \\frac{\\sqrt{3}}{2}$ ； $\\tan 30^\\circ = \\frac{1}{\\sqrt{3}} = \\frac{\\sqrt{3}}{3}$<br>$\\sin 60^\\circ = \\frac{\\sqrt{3}}{2}$ ； $\\cos 60^\\circ = \\frac{1}{2}$ ； $\\tan 60^\\circ = \\sqrt{3}$",
         "front_tip": "🕵️ 柯南破案導引：記住口訣：『$30^\\circ$ 對 $1$、$60^\\circ$ 對 $\\sqrt{3}$、$90^\\circ$ 對 $2$』！斜邊恆為 $2$！",
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：30° 視角推導",
+                "title": "線索 1：$30^\\circ$ 視角推導",
                 "content": "面對 $30^\\circ$：對邊 $1$、鄰邊 $\\sqrt{3}$、斜邊 $2$。$\\sin 30^\\circ = \\frac{1}{2}, \\cos 30^\\circ = \\frac{\\sqrt{3}}{2}, \\tan 30^\\circ = \\frac{\\sqrt{3}}{3}$。"
             },
             {
                 "num": 2,
-                "title": "線索 2：60° 視角推導",
+                "title": "線索 2：$60^\\circ$ 視角推導",
                 "content": "面對 $60^\\circ$：對邊 $\\sqrt{3}$、鄰邊 $1$、斜邊 $2$。$\\sin 60^\\circ = \\frac{\\sqrt{3}}{2}, \\cos 60^\\circ = \\frac{1}{2}, \\tan 60^\\circ = \\sqrt{3}$。"
             },
             {
@@ -466,7 +466,7 @@ CARDS_PART1 = [
         "tag": "CASE 13",
         "page": "課本 P.113 概念 2",
         "category": "特別角推導",
-        "title": "45° 特別角的六大三角函數值推導",
+        "title": "$45^\\circ$ 特別角的六大三角函數值推導",
         "front_content": "在兩股長均為 $1$ 的等腰直角三角形中，<br>由畢氏定理可得斜邊長為 $\\sqrt{1^2 + 1^2} = \\sqrt{2}$。<br>此時三邊比例為 $1 : 1 : \\sqrt{2}$：<br>$\\sin 45^\\circ = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$ ； $\\cos 45^\\circ = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$<br>$\\tan 45^\\circ = 1$ ； $\\cot 45^\\circ = 1$ ； $\\sec 45^\\circ = \\csc 45^\\circ = \\sqrt{2}$",
         "front_tip": "🕵️ 柯南破案導引：等腰直角三角形兩股相等，因此 $\\sin 45^\\circ = \\cos 45^\\circ$，且正切值剛好為 $1$！",
         "steps": [
@@ -477,7 +477,7 @@ CARDS_PART1 = [
             },
             {
                 "num": 2,
-                "title": "線索 2：計算 45° 各三角函數值",
+                "title": "線索 2：計算 $45^\\circ$ 各三角函數值",
                 "content": "$\\sin 45^\\circ = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$；$\\cos 45^\\circ = \\frac{\\sqrt{2}}{2}$；$\\tan 45^\\circ = \\frac{1}{1} = 1$。"
             },
             {
@@ -897,7 +897,7 @@ CARDS_PART1 = [
         "category": "恆等關係全覽",
         "title": "神奇魔法六角形四大破案星陣全覽",
         "front_content": "六角形頂點排列順序：左上 $\\sin$、右上 $\\cos$；<br>左中 $\\tan$、右中 $\\cot$；左下 $\\sec$、右下 $\\csc$；中央放數字 $1$。<br>具備四大神奇性質：<br>1. 對角線互為倒數 ； 2. 倒三角形平方和等於下方頂點<br>3. 每個頂點等於相鄰兩頂點之積（商數） ； 4. 每條橫線端點互為餘角",
-        "front_tip": "🕵️ 柯南破案導引：記住左側無『co』(sin, tan, sec)，右側全帶『co』(cos, cot, csc)！",
+        "front_tip": "🕵️ 柯南破案導引：記住左側無『co』($\\sin, \\tan, \\sec$)，右側全帶『co』($\\cos, \\cot, \\csc$)！",
         "steps": [
             {
                 "num": 1,
@@ -1012,7 +1012,7 @@ CARDS_PART1 = [
         "steps": [
             {
                 "num": 1,
-                "title": "線索 1：畢氏定理證明 sin² + cos² = 1",
+                "title": "線索 1：畢氏定理證明 $\\sin^2\\theta + \\cos^2\\theta = 1$",
                 "content": "$\\sin^2\\theta + \\cos^2\\theta = \\left(\\frac{y}{r}\\right)^2 + \\left(\\frac{x}{r}\\right)^2 = \\frac{y^2 + x^2}{r^2} = \\frac{r^2}{r^2} = 1$。"
             },
             {

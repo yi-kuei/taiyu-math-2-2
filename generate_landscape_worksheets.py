@@ -244,7 +244,7 @@ def create_worksheet(is_teacher=False):
     
     add_box(
         doc,
-        "重點 2：特別角 30°、45°、60° 精確值速記表",
+        "重點 2：特別角 $30^\\circ$、$45^\\circ$、$60^\\circ$ 精確值速記表",
         [
             "1. $30^\\circ = \\frac{\\pi}{6}$：$\\sin 30^\\circ = $___________，$\\cos 30^\\circ = $___________，$\\tan 30^\\circ = $___________",
             "2. $45^\\circ = \\frac{\\pi}{4}$：$\\sin 45^\\circ = $___________，$\\cos 45^\\circ = $___________，$\\tan 45^\\circ = $___________",
@@ -379,8 +379,8 @@ def create_worksheet(is_teacher=False):
         is_teacher=is_teacher,
         answer_lines=[
             "(1) 倒數關係：原式 $= 1$。",
-            "(2) 平方關係：$1 + \\tan^2 = \\sec^2 \\implies \\sec^2 - \\tan^2 = 1$。",
-            "(3) 平方關係：$1 + \\cot^2 = \\csc^2 \\implies \\cot^2 - \\csc^2 = -1$。"
+            "(2) 平方關係：$1 + \\tan^2\\theta = \\sec^2\\theta \\implies \\sec^2\\theta - \\tan^2\\theta = 1$。",
+            "(3) 平方關係：$1 + \\cot^2\\theta = \\csc^2\\theta \\implies \\cot^2\\theta - \\csc^2\\theta = -1$。"
         ] if is_teacher else None,
         blank_lines=3
     )
@@ -412,7 +412,7 @@ def create_worksheet(is_teacher=False):
         is_teacher=is_teacher,
         answer_lines=[
             "(1) 分子分母同除以 $\\cos\\theta$ 得 $\\frac{\\tan\\theta + 2}{3\\tan\\theta - 1} = \\frac{2 + 2}{3(2) - 1} = \\frac{4}{5}$。",
-            "(2) 分子分母同除以 $\\sin\\theta$ 得 $\\frac{1 - 3\\cot\\theta}{5 + 6\\cot\\theta} = \\frac{1 - 3(2/3)}{5 + 6(2/3)} = \\frac{1 - 2}{5 + 4} = -\\frac{1}{9}$。"
+            "(2) 分子分母同除以 $\\sin\\theta$ 得 $\\frac{1 - 3\\cot\\theta}{5 + 6\\cot\\theta} = \\frac{1 - 3(\\frac{2}{3})}{5 + 6(\\frac{2}{3})} = \\frac{1 - 2}{5 + 4} = -\\frac{1}{9}$。"
         ] if is_teacher else None,
         blank_lines=4
     )
@@ -427,8 +427,8 @@ def create_worksheet(is_teacher=False):
         ],
         is_teacher=is_teacher,
         answer_lines=[
-            "(1) 兩邊平方：$1 + 2\\sin\\cos = \\frac{16}{9} \\implies \\sin\\theta\\cos\\theta = \\frac{7}{18}$；$\\tan\\theta + \\cot\\theta = \\frac{1}{\\sin\\cos} = \\frac{18}{7}$。",
-            "(2) 兩邊平方：$1 - 2\\sin\\cos = \\frac{9}{25} \\implies \\sin\\theta\\cos\\theta = \\frac{8}{25}$；$\\tan\\theta + \\cot\\theta = \\frac{1}{\\sin\\cos} = \\frac{25}{8}$。"
+            "(1) 兩邊平方：$1 + 2\\sin\\theta\\cos\\theta = \\frac{16}{9} \\implies \\sin\\theta\\cos\\theta = \\frac{7}{18}$；$\\tan\\theta + \\cot\\theta = \\frac{1}{\\sin\\theta\\cos\\theta} = \\frac{18}{7}$。",
+            "(2) 兩邊平方：$1 - 2\\sin\\theta\\cos\\theta = \\frac{9}{25} \\implies \\sin\\theta\\cos\\theta = \\frac{8}{25}$；$\\tan\\theta + \\cot\\theta = \\frac{1}{\\sin\\theta\\cos\\theta} = \\frac{25}{8}$。"
         ] if is_teacher else None,
         blank_lines=4
     )
@@ -454,7 +454,7 @@ def create_worksheet(is_teacher=False):
             "(×)(2) 錯誤！三角函數是比值而非實際長度，無邊長數據無法得知實際長度。",
             "(×)(3) 錯誤！平方關係嚴格限定同角，角度不同不保證等於 1。",
             "(×)(4) 錯誤！倒數關係為 $\\sin\\theta \\times \\csc\\theta = 1$。",
-            "(×)(5) 錯誤！遺漏交叉項：$(\\sin+\\cos)^2 = 1 + 2\\sin\\cos > 1$。"
+            "(×)(5) 錯誤！遺漏交叉項：$(\\sin\\theta+\\cos\\theta)^2 = 1 + 2\\sin\\theta\\cos\\theta > 1$。"
         ] if is_teacher else None,
         blank_lines=2
     )
@@ -488,8 +488,8 @@ def create_worksheet(is_teacher=False):
         ],
         is_teacher=is_teacher,
         answer_lines=[
-            "(1) 通分得 $\\frac{2}{1 - \\sin^2\\theta} = \\frac{2}{\\cos^2\\theta} = \\frac{2}{(1/5)^2} = 2 \\times 25 = 50$。",
-            "(2) $\\sin x\\cos x = \\frac{12}{25}$ ； $(\\sin+\\cos)^2 = 1 + 2(12/25) = \\frac{49}{25} \\implies \\sin x+\\cos x = \\frac{7}{5}$。<br>由立方和公式：$(\\frac{7}{5})(1 - \\frac{12}{25}) = \\frac{7}{5} \\times \\frac{13}{25} = \\frac{91}{125}$。"
+            "(1) 通分得 $\\frac{2}{1 - \\sin^2\\theta} = \\frac{2}{\\cos^2\\theta} = \\frac{2}{(\\frac{1}{5})^2} = 2 \\times 25 = 50$。",
+            "(2) $\\sin x\\cos x = \\frac{12}{25}$ ； $(\\sin x+\\cos x)^2 = 1 + 2(\\frac{12}{25}) = \\frac{49}{25} \\implies \\sin x+\\cos x = \\frac{7}{5}$。<br>由立方和公式：$(\\frac{7}{5})(1 - \\frac{12}{25}) = \\frac{7}{5} \\times \\frac{13}{25} = \\frac{91}{125}$。"
         ] if is_teacher else None,
         blank_lines=4
     )
