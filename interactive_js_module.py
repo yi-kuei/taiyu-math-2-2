@@ -182,7 +182,7 @@ function renderCards() {
             <div id="flipper-${cardRealIndex}" class="flipper w-full h-full relative transition-transform duration-500 transform-style-3d">
                 
                 <!-- 卡片正面 (題幹與破案導引) -->
-                <div class="card-front absolute inset-0 w-full h-full bg-[#fbf9f4] border-2 border-amber-300 rounded-2xl p-5 flex flex-col justify-between backface-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div onclick="if(!event.target.closest('button, a, input')) flipCard(${cardRealIndex}, event)" class="card-front cursor-pointer absolute inset-0 w-full h-full bg-[#fbf9f4] border-2 border-amber-300 rounded-2xl p-5 flex flex-col justify-between backface-hidden shadow-sm hover:shadow-md transition-shadow">
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="px-2.5 py-0.5 text-xs font-black rounded-full bg-amber-600 text-white">${card.tag}</span>
@@ -220,7 +220,7 @@ function renderCards() {
                 </div>
 
                 <!-- 卡片背面 (推理筆記與 SVG 圖解) -->
-                <div class="card-back absolute inset-0 w-full h-full bg-white border-2 border-amber-400 rounded-2xl p-4 flex flex-col justify-between rotate-y-180 backface-hidden shadow-md">
+                <div onclick="if(!event.target.closest('button, a, input')) flipCard(${cardRealIndex}, event)" class="card-back cursor-pointer absolute inset-0 w-full h-full bg-white border-2 border-amber-400 rounded-2xl p-4 flex flex-col justify-between rotate-y-180 backface-hidden shadow-md">
                     <div>
                         <div class="flex items-center justify-between pb-2 border-b border-slate-200 mb-2">
                             <div class="flex items-center gap-1.5">

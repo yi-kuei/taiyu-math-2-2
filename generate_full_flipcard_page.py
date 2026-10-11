@@ -40,30 +40,32 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
-    .perspective {{
+    .perspective {
       perspective: 1200px;
-    }}
-    .transform-style-3d {{
+    }
+    .transform-style-3d {
       transform-style: preserve-3d;
-    }}
-    .backface-hidden {{
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-    }}
-    .rotate-y-180 {{
-      transform: rotateY(180deg);
-    }}
+      -webkit-transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden !important;
+      -webkit-backface-visibility: hidden !important;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg) !important;
+      -webkit-transform: rotateY(180deg) !important;
+    }
 
-    .katex, .katex-html, .katex-display {{
+    .katex, .katex-html, .katex-display {
       white-space: nowrap !important;
-    }}
-    .katex-display {{
+    }
+    .katex-display {
       margin: 0.2em 0 !important;
       display: inline-block !important;
       max-width: 100% !important;
-    }}
+    }
     .katex svg,
-    #fullscreen-modal .katex svg {{
+    #fullscreen-modal .katex svg {
       display: block !important;
       position: absolute !important;
       width: 100% !important;
@@ -72,10 +74,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       stroke: currentColor !important;
       max-height: none !important;
       margin: 0 !important;
-    }}
+    }
 
     #fullscreen-modal:fullscreen,
-    #fullscreen-modal:-webkit-full-screen {{
+    #fullscreen-modal:-webkit-full-screen {
       width: 100vw !important;
       height: 100vh !important;
       max-width: 100vw !important;
@@ -83,16 +85,16 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       padding: 0 !important;
       margin: 0 !important;
       border-radius: 0 !important;
-    }}
+    }
 
     #mindmap-modal-dialog:fullscreen,
-    #mindmap-modal-dialog:-webkit-full-screen {{
+    #mindmap-modal-dialog:-webkit-full-screen {
       max-width: 100vw !important;
       width: 100vw !important;
       height: 100vh !important;
       max-height: 100vh !important;
       border-radius: 0 !important;
-    }}
+    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans">
