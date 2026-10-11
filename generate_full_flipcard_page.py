@@ -138,6 +138,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <span>破案心智圖</span>
         </button>
 
+        <button onclick="togglePageFullscreen()" id="fullscreen-toggle-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-xs flex items-center gap-1.5" title="首頁全螢幕投影 (快捷鍵 F)">
+          <i id="fullscreen-toggle-icon" class="fa-solid fa-expand"></i>
+          <span id="fullscreen-toggle-text">全螢幕投影</span>
+        </button>
+
         <button onclick="openQrcodeModal()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors text-sm" title="手機掃碼連線">
           <i class="fa-solid fa-qrcode"></i>
         </button>

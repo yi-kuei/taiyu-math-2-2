@@ -159,9 +159,9 @@ function renderCards() {
         const curStep = cardStepStates[cardRealIndex] || 0;
 
         // 生成步驟導引按鈕 (動態匹配步驟數)
-        let stepButtonsHtml = `<button onclick="showStep(${cardRealIndex}, 0, event)" class="step-btn px-2 py-0.5 text-xs rounded font-bold ${curStep===0?'bg-amber-600 text-white':'bg-slate-100 text-slate-600 hover:bg-slate-200'}">全部</button>`;
+        let stepButtonsHtml = `<button onclick="showStep(${cardRealIndex}, 0, event)" class="step-btn px-2.5 py-1 text-xs sm:text-sm rounded-lg font-bold ${curStep===0?'bg-amber-600 text-white':'bg-slate-100 text-slate-600 hover:bg-slate-200'}">全部</button>`;
         card.steps.forEach(s => {
-            stepButtonsHtml += `<button onclick="showStep(${cardRealIndex}, ${s.num}, event)" class="step-btn px-2 py-0.5 text-xs rounded font-bold ${curStep===s.num?'bg-amber-600 text-white':'bg-slate-100 text-slate-600 hover:bg-slate-200'}">線索${s.num}</button>`;
+            stepButtonsHtml += `<button onclick="showStep(${cardRealIndex}, ${s.num}, event)" class="step-btn px-2.5 py-1 text-xs sm:text-sm rounded-lg font-bold ${curStep===s.num?'bg-amber-600 text-white':'bg-slate-100 text-slate-600 hover:bg-slate-200'}">線索${s.num}</button>`;
         });
 
         // 生成步驟內容 (含模糊遮蔽)
@@ -169,49 +169,54 @@ function renderCards() {
             const isBlur = (curStep > 0 && s.num > curStep);
             const isHighlight = (curStep > 0 && s.num === curStep);
             return `
-            <div id="grid-card-${cardRealIndex}-step-${s.num}" class="p-2.5 rounded-lg border text-xs mb-1.5 transition-all duration-300 ${isHighlight ? 'bg-amber-50 border-amber-400 shadow-xs' : 'bg-slate-50 border-slate-200'} ${isBlur ? 'blur-[1.5px] opacity-20' : ''}">
-                <div class="font-bold text-amber-900 mb-0.5">${s.title}</div>
-                <div class="text-slate-700 leading-relaxed">${s.content}</div>
+            <div id="grid-card-${cardRealIndex}-step-${s.num}" class="p-3 rounded-xl border text-sm sm:text-base mb-2 transition-all duration-300 ${isHighlight ? 'bg-amber-50 border-amber-400 shadow-xs' : 'bg-slate-50 border-slate-200'} ${isBlur ? 'blur-[1.5px] opacity-20' : ''}">
+                <div class="font-bold text-amber-900 mb-1 text-sm sm:text-base">${s.title}</div>
+                <div class="text-slate-800 leading-relaxed text-sm sm:text-base">${s.content}</div>
             </div>`;
         }).join('');
 
         const isConclusionBlur = (curStep > 0 && curStep < card.steps.length);
 
         return `
-        <div class="card-item perspective relative h-[520px]" data-card-index="${cardRealIndex}">
+        <div class="card-item perspective relative min-h-[600px] h-[640px]" data-card-index="${cardRealIndex}">
             <div id="flipper-${cardRealIndex}" class="flipper w-full h-full relative transition-transform duration-500 transform-style-3d">
                 
-                <!-- 卡片正面 (題幹與破案導引) -->
+                <!-- 卡片正面 (題幹、幾何模型與破案導引) -->
                 <div onclick="if(!event.target.closest('button, a, input')) flipCard(${cardRealIndex}, event)" class="card-front cursor-pointer absolute inset-0 w-full h-full bg-[#fbf9f4] border-2 border-amber-300 rounded-2xl p-5 flex flex-col justify-between backface-hidden shadow-sm hover:shadow-md transition-shadow">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="px-2.5 py-0.5 text-xs font-black rounded-full bg-amber-600 text-white">${card.tag}</span>
-                            <span class="text-xs font-semibold text-slate-500">${card.page}</span>
-                            <button onclick="toggleMastered(${card.id}, event)" class="text-xs px-2 py-0.5 rounded-full border ${isMastered ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-slate-100 text-slate-500 border-slate-200'}">
+                            <span class="px-3 py-1 text-xs sm:text-sm font-black rounded-full bg-amber-600 text-white shadow-2xs">${card.tag}</span>
+                            <span class="text-xs sm:text-sm font-bold text-slate-500">${card.page}</span>
+                            <button onclick="toggleMastered(${card.id}, event)" class="text-xs sm:text-sm px-2.5 py-1 rounded-full font-bold border transition-colors ${isMastered ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-slate-100 text-slate-500 border-slate-200'}">
                                 <i class="fa-solid ${isMastered ? 'fa-check' : 'fa-circle-question'} mr-1"></i>${isMastered ? '已結案' : '未結案'}
                             </button>
                         </div>
-                        <h3 class="text-base font-black text-amber-950 mb-2 leading-snug">${card.title}</h3>
-                        <div class="text-sm text-slate-800 leading-relaxed bg-white/80 p-3 rounded-xl border border-amber-200/60 max-h-48 overflow-y-auto">
+                        <h3 class="text-lg sm:text-xl font-black text-amber-950 mb-2 leading-snug tracking-tight">${card.title}</h3>
+                        <div class="text-sm sm:text-base text-slate-800 leading-relaxed bg-white/90 p-3.5 rounded-xl border border-amber-200/80 max-h-44 overflow-y-auto font-medium">
                             ${card.front_content}
+                        </div>
+
+                        <!-- 正面幾何模型圖形展示 -->
+                        <div class="h-32 sm:h-36 bg-amber-50/60 rounded-xl p-1.5 border border-amber-200/70 flex items-center justify-center overflow-hidden my-2 shadow-2xs">
+                            ${card.svg}
                         </div>
                     </div>
 
                     <div>
-                        <div class="bg-red-50/90 border border-red-200 p-2.5 rounded-xl text-xs text-red-900 mb-3 font-medium">
+                        <div class="bg-red-50/95 border border-red-200 p-3 rounded-xl text-xs sm:text-sm text-red-950 mb-3 font-semibold shadow-2xs">
                             ${card.front_tip}
                         </div>
 
                         <!-- 正面互動作答抽屜 -->
                         <div class="pt-2 border-t border-slate-200 flex items-center justify-between">
-                            <button onclick="openCardQuiz(${card.id}, event)" class="px-3 py-1 rounded-lg text-xs font-bold bg-amber-100 text-amber-900 hover:bg-amber-200 transition-colors">
-                                <i class="fa-solid fa-bullseye mr-1"></i>破案自檢抽屜
+                            <button onclick="openCardQuiz(${card.id}, event)" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-100 text-amber-900 hover:bg-amber-200 transition-colors shadow-2xs">
+                                <i class="fa-solid fa-bullseye mr-1 text-red-600"></i>破案自檢抽屜
                             </button>
-                            <div class="flex items-center gap-1.5">
-                                <button onclick="openFullscreenModal(${cardRealIndex}, event)" class="p-1.5 text-slate-500 hover:text-amber-600 rounded-lg hover:bg-amber-50 text-sm" title="全螢幕投影劇院">
+                            <div class="flex items-center gap-2">
+                                <button onclick="openFullscreenModal(${cardRealIndex}, event)" class="p-2 text-slate-500 hover:text-amber-600 rounded-xl hover:bg-amber-50 text-base" title="全螢幕投影劇院">
                                     <i class="fa-solid fa-expand"></i>
                                 </button>
-                                <button onclick="flipCard(${cardRealIndex}, event)" class="px-3 py-1 rounded-lg text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 transition-colors">
+                                <button onclick="flipCard(${cardRealIndex}, event)" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-600 text-white hover:bg-amber-700 transition-colors shadow-2xs">
                                     <i class="fa-solid fa-rotate mr-1"></i>翻轉查線索
                                 </button>
                             </div>
@@ -224,8 +229,8 @@ function renderCards() {
                     <div>
                         <div class="flex items-center justify-between pb-2 border-b border-slate-200 mb-2">
                             <div class="flex items-center gap-1.5">
-                                <span class="px-2 py-0.5 text-xs font-black rounded bg-amber-600 text-white">${card.tag}</span>
-                                <span class="text-xs font-bold text-amber-900">👓 名偵探推理筆記</span>
+                                <span class="px-2.5 py-0.5 text-xs sm:text-sm font-black rounded-lg bg-amber-600 text-white">${card.tag}</span>
+                                <span class="text-sm sm:text-base font-black text-amber-900">👓 名偵探推理筆記</span>
                             </div>
                             <div class="flex items-center gap-1">
                                 ${stepButtonsHtml}
@@ -238,19 +243,19 @@ function renderCards() {
                     </div>
 
                     <div>
-                        <div class="h-28 bg-slate-50 rounded-xl p-1 border border-slate-200 flex items-center justify-center overflow-hidden my-1">
+                        <div class="h-32 sm:h-36 bg-slate-50 rounded-xl p-1 border border-slate-200 flex items-center justify-center overflow-hidden my-1">
                             ${card.svg}
                         </div>
 
-                        <div id="grid-card-${cardRealIndex}-conclusion" class="p-2 rounded-lg bg-emerald-50 border-2 border-emerald-500 text-xs font-bold text-emerald-950 text-center transition-all duration-300 ${isConclusionBlur ? 'blur-[1.5px] opacity-20' : ''}">
+                        <div id="grid-card-${cardRealIndex}-conclusion" class="p-2.5 rounded-xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-950 text-center transition-all duration-300 ${isConclusionBlur ? 'blur-[1.5px] opacity-20' : ''}">
                             ${card.conclusion}
                         </div>
 
                         <div class="flex justify-between items-center pt-2 mt-1 border-t border-slate-100">
-                            <button onclick="openFullscreenModal(${cardRealIndex}, event)" class="text-xs font-bold text-amber-700 hover:underline">
+                            <button onclick="openFullscreenModal(${cardRealIndex}, event)" class="text-xs sm:text-sm font-bold text-amber-700 hover:underline">
                                 <i class="fa-solid fa-expand mr-1"></i>劇院投影模式
                             </button>
-                            <button onclick="flipCard(${cardRealIndex}, event)" class="px-3 py-1 text-xs font-bold rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300">
+                            <button onclick="flipCard(${cardRealIndex}, event)" class="px-3.5 py-1.5 text-xs sm:text-sm font-bold rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">
                                 <i class="fa-solid fa-rotate-left mr-1"></i>返回案情
                             </button>
                         </div>
@@ -1261,12 +1266,16 @@ function initKeyboardShortcuts() {
 
         // F 鍵切換全螢幕
         if (e.key === 'f' || e.key === 'F') {
+            if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
             if (!document.getElementById('mindmap-modal').classList.contains('hidden')) {
                 e.preventDefault();
                 toggleMindmapFullscreen();
             } else if (!document.getElementById('fullscreen-modal').classList.contains('hidden')) {
                 e.preventDefault();
                 toggleModalFullscreen();
+            } else {
+                e.preventDefault();
+                togglePageFullscreen();
             }
         }
 
@@ -1277,6 +1286,27 @@ function initKeyboardShortcuts() {
         }
     });
 }
+
+function togglePageFullscreen() {
+    recordInteraction();
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+        document.exitFullscreen().catch(() => {});
+    }
+}
+
+document.addEventListener('fullscreenchange', () => {
+    const icon = document.getElementById('fullscreen-toggle-icon');
+    const text = document.getElementById('fullscreen-toggle-text');
+    if (document.fullscreenElement) {
+        if (icon) { icon.classList.remove('fa-expand'); icon.classList.add('fa-compress'); }
+        if (text) text.innerText = '結束全螢幕';
+    } else {
+        if (icon) { icon.classList.remove('fa-compress'); icon.classList.add('fa-expand'); }
+        if (text) text.innerText = '全螢幕投影';
+    }
+});
 
 function toggleModalFullscreen() {
     const modal = document.getElementById('fullscreen-modal');
