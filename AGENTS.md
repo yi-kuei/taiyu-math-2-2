@@ -15,6 +15,7 @@
 - [x] 階段三：建構 AI 教學學習包內容與實作練習（圖解卡資料庫 CASE 01~60、Word 學習單、PDF 圖解卡）
 - [x] 階段四：教學資源審閱、整合與驗收發布（單檔 HTML 互動平台、離線網站部署壓縮包、手機掃碼連線伺服器）
 - [x] 階段五：教材資源純化（依指示全面取消與移除 PPT 簡報，專注於互動網頁平台、學習單與圖解卡）
+- [x] 階段六：建立通用製作標準 SOP（產出《技術高中泰宇版數學製作流程 SOP.md》，作為後續所有泰宇數學專案唯一依循標準）
 
 ## 資料夾結構
 ```
@@ -22,24 +23,29 @@
 ├── .gitignore
 ├── AGENTS.md
 ├── handoff.md
+├── 技術高中泰宇版數學製作流程 SOP.md                     # ★ 泰宇數學專案通用標準 SOP 說明書
 ├── 2-2_三角函數的定義與性質.pdf
 ├── 2-2_三角函數的定義與性質_課程教學包規劃書.md
-├── AI數位互動教材教學學習包_全功能與柯南風格標準製作流程說明書.md
-├── cards_part1.py                                       # CASE 01~30 圖解卡資料
-├── cards_part2.py                                       # CASE 31~60 圖解卡資料
+├── 2-2_三角函數的定義與性質_四節課教學計畫與教案.md
+├── 2-2_三角函數的定義與性質_四節課教學計畫與教案.docx     # JIS B4 直式單欄 OMML 教案
+├── 2-2_三角函數的定義與性質_學生學習單.docx             # JIS B4 雙欄 Word 學生版
+├── 2-2_三角函數的定義與性質_教師解答版.docx             # JIS B4 雙欄 Word 教師版（密碼 88888888）
+├── 2-2_三角函數的定義與性質_全套60張圖解學習卡.pdf       # A4 橫向列印版圖解卡
+├── index.html                                          # 單檔 466 KB 旗艦數位互動探案平台
+├── cards_part1.py                                      # CASE 01~30 圖解卡資料
+├── cards_part2.py                                      # CASE 31~60 圖解卡資料
 ├── interactive_cards_data.py                           # 60 道正面自檢題與考核模組
-├── interactive_js_module.py                            # 前端 10 大核心 JavaScript 模組
+├── interactive_js_module.py                            # 前端核心 JavaScript 模組庫
+├── docx_b64.py                                         # 內嵌 Base64 離線下載資料庫
 ├── generate_landscape_worksheets.py                    # JIS B4 橫向雙欄 Word OMML 生成器
+├── generate_lesson_plan_docx.py                        # JIS B4 直式單欄 Word OMML 教案生成器
 ├── generate_cards_pdf.py                               # A4 橫向全套圖解卡 PDF 編譯器
 ├── generate_full_flipcard_page.py                      # 旗艦互動平台 index.html 編譯器
 ├── package_for_web.py                                  # 網站上傳包與下載資料夾建置腳本
 ├── start_qr_server.py                                  # 手機掃碼連線伺服器（終端 QR Code）
 ├── 啟動手機掃碼連線伺服器.bat                           # 雙擊一鍵開跑腳本
-├── 2-2_三角函數的定義與性質_學生學習單.docx             # JIS B4 雙欄 Word 學生版
-├── 2-2_三角函數的定義與性質_教師解答版.docx             # JIS B4 雙欄 Word 教師版（密碼 88888888）
-├── 2-2_三角函數的定義與性質_全套60張圖解學習卡.pdf       # A4 橫向列印版圖解卡
-├── index.html                                          # 單檔極致 306 KB 互動探案教學平台
-└── 2-2_三角函數的定義與性質_網站上傳包.zip              # 部署壓縮包（1.60 MB）
+├── download/                                           # 實體下載檔案目錄
+└── 2-2_三角函數的定義與性質_網站上傳包.zip              # 部署壓縮包（1.71 MB）
 ```
 
 ## 同步層級（本專案初始化至第 3 層級）
