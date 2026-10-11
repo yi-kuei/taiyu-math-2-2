@@ -178,7 +178,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             <span>偵探搜查實作單 (B4)</span>
           </button>
 
-          <button onclick="openTeacherPwdModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white transition-all shadow-md flex items-center gap-2">
+          <button onclick="openTeacherPwdModal('lesson_plan')" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md flex items-center gap-2">
+            <i class="fa-solid fa-lock"></i>
+            <span>四節課教學計畫與教案 (B4)</span>
+          </button>
+
+          <button onclick="openTeacherPwdModal('teacher')" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white transition-all shadow-md flex items-center gap-2">
             <i class="fa-solid fa-lock"></i>
             <span>警視廳機密解答卷宗</span>
           </button>
@@ -319,7 +324,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         泰宇版 技術高中數學（第一冊）2-2 三角函數的定義與性質
       </div>
       <div class="text-xs text-slate-400 mb-2">
-        PLVS 數學科  教育學習用 ｜ 警視廳授權驗證密碼：88888888
+        PLVS 數學科  教育學習用
       </div>
       <div class="text-[11px] text-slate-500">
         名偵探柯南數理探案特訓 ‧ 旗艦全功能標準版 v3.0 ｜ 遵循 15 大核心製作鐵律
@@ -866,10 +871,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-3 text-xl">
         <i class="fa-solid fa-lock"></i>
       </div>
-      <h3 class="text-lg font-black text-slate-900 mb-1">警視廳機密解答卷宗驗證</h3>
-      <p class="text-xs text-slate-500 mb-4">本卷宗包含教師專用紅字 OMML 步驟解答，請輸入專業授權密碼：</p>
+      <h3 id="teacher-pwd-modal-title" class="text-lg font-black text-slate-900 mb-1">警視廳機密解答卷宗驗證</h3>
+      <p id="teacher-pwd-modal-desc" class="text-xs text-slate-500 mb-4">本卷宗包含教師專用紅字 OMML 步驟解答，請輸入專業授權密碼：</p>
 
-      <input id="teacher-pwd-input" type="password" placeholder="請輸入授權密碼" class="w-full text-center px-4 py-2.5 rounded-xl border-2 border-slate-300 focus:border-rose-500 focus:outline-hidden text-base tracking-widest font-bold mb-2">
+      <input id="teacher-pwd-input" type="password" onkeydown="if(event.key==='Enter')verifyTeacherPassword()" placeholder="請輸入授權密碼" class="w-full text-center px-4 py-2.5 rounded-xl border-2 border-slate-300 focus:border-rose-500 focus:outline-hidden text-base tracking-widest font-bold mb-2">
       <div id="teacher-pwd-error" class="text-xs font-bold text-red-600 mb-3 hidden">密碼錯誤，請重新輸入！</div>
 
       <div class="flex gap-2">
@@ -927,6 +932,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     window.CHALLENGE_STAGES = __STAGES_JSON__;
     window.STUDENT_DOCX_B64 = "__STUDENT_DOCX_B64__";
     window.TEACHER_DOCX_B64 = "__TEACHER_DOCX_B64__";
+    window.LESSON_PLAN_DOCX_B64 = "__LESSON_PLAN_DOCX_B64__";
   </script>
 
   <!-- 前端主邏輯 JS -->
@@ -948,6 +954,7 @@ def generate_index_html():
     html = html.replace('__STAGES_JSON__', stages_json)
     html = html.replace('__STUDENT_DOCX_B64__', docx_b64.STUDENT_DOCX_B64)
     html = html.replace('__TEACHER_DOCX_B64__', docx_b64.TEACHER_DOCX_B64)
+    html = html.replace('__LESSON_PLAN_DOCX_B64__', getattr(docx_b64, 'LESSON_PLAN_DOCX_B64', ''))
     html = html.replace('__INTERACTIVE_JS_CODE__', interactive_js_module.INTERACTIVE_JS_CODE)
     return html
 

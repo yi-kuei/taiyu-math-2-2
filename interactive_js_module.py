@@ -1533,16 +1533,31 @@ function renderMindmapTree() {
 // ==========================================
 // 11. 密碼驗證與檔案下載 (Core Rule 9)
 // ==========================================
-function openTeacherPwdModal() {
+let currentDownloadTarget = 'teacher';
+
+function openTeacherPwdModal(target = 'teacher') {
+    currentDownloadTarget = target;
     recordInteraction();
     const modal = document.getElementById('teacher-pwd-modal');
     if (modal) modal.classList.remove('hidden');
+
+    const titleEl = document.getElementById('teacher-pwd-modal-title');
+    const descEl = document.getElementById('teacher-pwd-modal-desc');
+    if (target === 'lesson_plan') {
+        if (titleEl) titleEl.innerText = "四節課教學計畫與教案驗證";
+        if (descEl) descEl.innerText = "本教案包含四節課完整教學目標、時間分配與微軟原生 OMML 數學式，請輸入授權密碼：";
+    } else {
+        if (titleEl) titleEl.innerText = "警視廳機密解答卷宗驗證";
+        if (descEl) descEl.innerText = "本卷宗包含教師專用紅字 OMML 步驟解答，請輸入專業授權密碼：";
+    }
+
     const input = document.getElementById('teacher-pwd-input');
     if (input) {
         input.value = '';
         input.focus();
     }
-    document.getElementById('teacher-pwd-error').classList.add('hidden');
+    const err = document.getElementById('teacher-pwd-error');
+    if (err) err.classList.add('hidden');
 }
 
 function closeTeacherPwdModal() {
@@ -1556,7 +1571,11 @@ function verifyTeacherPassword() {
     const err = document.getElementById('teacher-pwd-error');
     if (input && input.value.trim() === '88888888') {
         closeTeacherPwdModal();
-        downloadTeacherDocx();
+        if (currentDownloadTarget === 'lesson_plan') {
+            downloadLessonPlanDocx();
+        } else {
+            downloadTeacherDocx();
+        }
     } else {
         if (err) err.classList.remove('hidden');
     }
@@ -1579,6 +1598,21 @@ function downloadTeacherDocx() {
         downloadBase64File(b64, "2-2_三角函數的定義與性質_教師解答版.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
     } else {
         alert("找不到教師解答版資源！");
+    }
+}
+
+function downloadLessonPlanDocx() {
+    recordInteraction();
+    const fileName = "2-2_三角函數的定義與性質_四節課教學計畫與教案.docx";
+    if (window.LESSON_PLAN_DOCX_B64) {
+        downloadBase64File(window.LESSON_PLAN_DOCX_B64, fileName, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    } else {
+        const link = document.createElement('a');
+        link.href = fileName;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 }
 

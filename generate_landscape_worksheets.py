@@ -530,8 +530,15 @@ if __name__ == "__main__":
     with open(teacher_file, "rb") as f:
         t_b64 = base64.b64encode(f.read()).decode("utf-8")
         
+    lp_file = "2-2_三角函數的定義與性質_四節課教學計畫與教案.docx"
+    lp_b64 = ""
+    if os.path.exists(lp_file):
+        with open(lp_file, "rb") as f:
+            lp_b64 = base64.b64encode(f.read()).decode("utf-8")
+        
     with open("docx_b64.py", "w", encoding="utf-8") as f:
         f.write("# -*- coding: utf-8 -*-\n")
         f.write('STUDENT_DOCX_B64 = "' + s_b64 + '"\n')
         f.write('TEACHER_DOCX_B64 = "' + t_b64 + '"\n')
+        f.write('LESSON_PLAN_DOCX_B64 = "' + lp_b64 + '"\n')
     print("成功生成 docx_b64.py！")
