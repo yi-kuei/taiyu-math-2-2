@@ -1819,12 +1819,12 @@ function updateTrigLab(deg) {
 // 魔法六角密碼盤 (Magic Super Hexagon)
 // ------------------------------------------
 const HEX_VERTICES = {
-    sin: { name: 'sin θ', x: 100, y: 55, partner: 'csc', adjRight: 'cos', adjLeft: 'tan' },
-    cos: { name: 'cos θ', x: 240, y: 55, partner: 'sec', adjRight: 'cot', adjLeft: 'sin' },
-    cot: { name: 'cot θ', x: 285, y: 135, partner: 'tan', adjRight: 'csc', adjLeft: 'cos' },
-    csc: { name: 'csc θ', x: 240, y: 215, partner: 'sin', adjRight: 'sec', adjLeft: 'cot' },
-    sec: { name: 'sec θ', x: 100, y: 215, partner: 'cos', adjRight: 'tan', adjLeft: 'csc' },
-    tan: { name: 'tan θ', x: 55, y: 135, partner: 'cot', adjRight: 'sin', adjLeft: 'sec' }
+    sin: { name: 'sin θ', latex: '\\sin\\theta', x: 100, y: 55, partner: 'csc', adjRight: 'cos', adjLeft: 'tan' },
+    cos: { name: 'cos θ', latex: '\\cos\\theta', x: 240, y: 55, partner: 'sec', adjRight: 'cot', adjLeft: 'sin' },
+    cot: { name: 'cot θ', latex: '\\cot\\theta', x: 285, y: 135, partner: 'tan', adjRight: 'csc', adjLeft: 'cos' },
+    csc: { name: 'csc θ', latex: '\\csc\\theta', x: 240, y: 215, partner: 'sin', adjRight: 'sec', adjLeft: 'cot' },
+    sec: { name: 'sec θ', latex: '\\sec\\theta', x: 100, y: 215, partner: 'cos', adjRight: 'tan', adjLeft: 'csc' },
+    tan: { name: 'tan θ', latex: '\\tan\\theta', x: 55, y: 135, partner: 'cot', adjRight: 'sin', adjLeft: 'sec' }
 };
 
 function setHexagonMode(mode) {
@@ -1862,7 +1862,7 @@ function renderSuperHexagon() {
     let highlightLines = '';
     let highlightTriangles = '';
     let badgeTitle = '';
-    let formulaDisplay = '';
+    let formulaLaTeX = '';
     let explanationText = '';
 
     const v = HEX_VERTICES[selectedHexVertex];
@@ -1874,7 +1874,7 @@ function renderSuperHexagon() {
             <circle cx="${centerX}" cy="${centerY}" r="18" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
         `;
         badgeTitle = '【對角互倒關係】穿透中心 1 的倒數伴侶';
-        formulaDisplay = `${v.name} · ${partner.name} = 1`;
+        formulaLaTeX = `${v.latex} \\cdot ${partner.latex} = 1`;
         explanationText = `穿過中央的「1」，對角線兩端的三角函數互為倒數伴侶！例如：sin 與 csc 互為倒數，cos 與 sec 互為倒數，tan 與 cot 互為倒數！乘積恆等於 1！`;
     } else if (currentHexagonMode === 'quotient') {
         const next1 = HEX_VERTICES[v.adjRight];
@@ -1884,8 +1884,8 @@ function renderSuperHexagon() {
             <line x1="${next1.x}" y1="${next1.y}" x2="${next2.x}" y2="${next2.y}" stroke="#38bdf8" stroke-width="3"/>
         `;
         badgeTitle = '【相鄰商數關係】順時針/逆時針皆成立';
-        formulaDisplay = `${v.name} = \\frac{${next1.name}}{${next2.name}}`;
-        explanationText = `在六角形中，任意一個頂點等於它相鄰兩點之商！例如 tan = sin / cos，cot = cos / sin，sin = cos / cot 等，順逆時針環繞皆成立！`;
+        formulaLaTeX = `${v.latex} = \\frac{${next1.latex}}{${next2.latex}}`;
+        explanationText = `在六角形中，任意一個頂點等於它相鄰兩點之商！例如 $\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}$，$\\cot\\theta = \\frac{\\cos\\theta}{\\sin\\theta}$，$\\sin\\theta = \\frac{\\cos\\theta}{\\cot\\theta}$ 等，順逆時針環繞皆成立！`;
     } else if (currentHexagonMode === 'pythagorean') {
         highlightTriangles = `
             <!-- 頂部三角形 sin² + cos² = 1 -->
@@ -1896,11 +1896,11 @@ function renderSuperHexagon() {
             <polygon points="170,135 285,135 240,215" fill="rgba(99, 102, 241, 0.25)" stroke="#6366f1" stroke-width="2"/>
         `;
         badgeTitle = '【倒三角平方關係】上兩端平方和等於底端';
-        formulaDisplay = `sin²θ + cos²θ = 1   ·   1 + tan²θ = sec²θ   ·   1 + cot²θ = csc²θ`;
+        formulaLaTeX = `\\sin^2\\theta + \\cos^2\\theta = 1 \\quad,\\quad 1 + \\tan^2\\theta = \\sec^2\\theta \\quad,\\quad 1 + \\cot^2\\theta = \\csc^2\\theta`;
         explanationText = `觀察三個帶陰影的「倒三角形」：上面兩個頂點的平方和，等於底端頂點的平方！<br>
-        1. sin²θ + cos²θ = 1² = 1<br>
-        2. 1² + tan²θ = sec²θ (1 + tan² = sec²)<br>
-        3. 1² + cot²θ = csc²θ (1 + cot² = csc²)`;
+        1. $\\sin^2\\theta + \\cos^2\\theta = 1^2 = 1$<br>
+        2. $1^2 + \\tan^2\\theta = \\sec^2\\theta$ ($1 + \\tan^2 = \\sec^2$)<br>
+        3. $1^2 + \\cot^2\\theta = \\csc^2\\theta$ ($1 + \\cot^2 = \\csc^2$)`;
     }
 
     const setTxt = (id, val) => {
@@ -1908,10 +1908,26 @@ function renderSuperHexagon() {
         if (el) el.innerHTML = val;
     };
     setTxt('hex-badge-title', badgeTitle);
-    setTxt('hex-formula-display', formulaDisplay);
     setTxt('hex-explanation-text', explanationText);
-    if (window.renderMathInElement) {
-        renderMathInElement(document.getElementById('hex-formula-display'), {
+
+    // 用 KaTeX 直接高規格渲染公式
+    const formulaEl = document.getElementById('hex-formula-display');
+    if (formulaEl) {
+        if (window.katex) {
+            try {
+                katex.render(formulaLaTeX, formulaEl, { displayMode: true, throwOnError: false });
+            } catch(e) {
+                formulaEl.innerText = formulaLaTeX;
+            }
+        } else {
+            formulaEl.innerText = formulaLaTeX;
+        }
+    }
+
+    // 重新渲染說明文字中的 KaTeX
+    const expEl = document.getElementById('hex-explanation-text');
+    if (expEl && window.renderMathInElement) {
+        renderMathInElement(expEl, {
             delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }]
         });
     }
