@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>名偵探柯南數理探案：雙人極速拔河對決 (Trig Math Duel)</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -12,6 +12,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Firebase App & Database Compat SDK (v9 compat for zero-build static sites) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap');
@@ -49,6 +54,18 @@
     .neon-glow-rose {
       box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
     }
+    .neon-glow-amber {
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+    }
+    /* 搖晃動畫 (答錯) */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .animate-shake {
+      animation: shake 0.35s ease-in-out;
+    }
   </style>
 </head>
 <body class="bg-[#070f1e] text-slate-100 h-screen max-h-screen overflow-hidden flex flex-col justify-between">
@@ -68,21 +85,31 @@
     </div>
 
     <!-- 模式切換與限時倒數 -->
-    <div class="flex items-center gap-2 sm:gap-4">
+    <div class="flex items-center gap-1.5 sm:gap-3">
+      <!-- 三模式切換按鈕組 -->
       <div class="flex rounded-lg bg-slate-900 p-0.5 border border-white/10 text-xs">
-        <button id="mode-pve-btn" onclick="setMode('pve')" class="px-2.5 py-1 rounded font-bold transition-all bg-indigo-600 text-white">
+        <button id="mode-pve-btn" onclick="setMode('pve')" class="px-2 sm:px-2.5 py-1 rounded font-bold transition-all bg-indigo-600 text-white">
           人機
         </button>
-        <button id="mode-pvp-btn" onclick="setMode('pvp')" class="px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all">
+        <button id="mode-pvp-btn" onclick="setMode('pvp')" class="px-2 sm:px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all">
           同機雙人
+        </button>
+        <button id="mode-online-btn" onclick="setMode('online')" class="px-2 sm:px-2.5 py-1 rounded font-bold text-amber-400 hover:text-amber-300 transition-all flex items-center gap-1">
+          <i class="fa-solid fa-wifi text-[10px]"></i>
+          <span>雲端連線</span>
         </button>
       </div>
 
       <!-- 倒數計時器 -->
-      <div class="px-3 py-1 rounded-xl bg-slate-900 border border-amber-400/30 font-mono-code text-xs font-black text-amber-300 flex items-center gap-1.5">
+      <div class="px-2.5 sm:px-3 py-1 rounded-xl bg-slate-900 border border-amber-400/30 font-mono-code text-xs font-black text-amber-300 flex items-center gap-1.5 shrink-0">
         <i class="fa-regular fa-clock text-rose-400"></i>
         <span id="game-timer">60</span>s
       </div>
+
+      <!-- 連線設定按鈕 -->
+      <button onclick="openConfigModal()" title="Firebase 連線設定" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-300 border border-white/10 flex items-center justify-center text-xs transition-colors shrink-0">
+        <i class="fa-solid fa-gear"></i>
+      </button>
 
       <!-- 音效開關 -->
       <button onclick="toggleAudio()" id="audio-toggle-btn" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-white/10 flex items-center justify-center text-xs transition-colors shrink-0">
@@ -91,13 +118,35 @@
     </div>
   </header>
 
+  <!-- 雲端連線專屬資訊列 (當處於 online 模式時顯示) -->
+  <div id="online-banner" class="hidden bg-indigo-950/90 border-b border-indigo-500/40 px-3 py-1 text-xs flex items-center justify-between text-slate-200 shrink-0 z-20">
+    <div class="flex items-center gap-2 sm:gap-4 overflow-hidden">
+      <span class="flex items-center gap-1.5 font-bold text-amber-300 shrink-0">
+        <i class="fa-solid fa-satellite-dish animate-pulse text-emerald-400"></i>
+        <span>房號：<b id="online-room-badge" class="font-mono-code text-sm text-white bg-slate-900 px-1.5 py-0.5 rounded border border-amber-500/40">----</b></span>
+      </span>
+      <span class="hidden sm:inline-block text-slate-400">|</span>
+      <span class="truncate">身份：<b id="online-role-badge" class="text-sky-300 font-bold">房主柯南 (P1)</b></span>
+      <span class="hidden md:inline-block text-slate-400">|</span>
+      <span class="hidden md:inline truncate" id="online-peer-status"><i class="fa-solid fa-circle text-[8px] text-emerald-400 mr-1"></i>對手已就緒</span>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <button onclick="openLobbyModal()" class="px-2 py-0.5 rounded bg-indigo-800 hover:bg-indigo-700 text-amber-300 text-[11px] font-bold border border-indigo-400/30">
+        <i class="fa-solid fa-qrcode mr-1"></i>看邀請碼
+      </button>
+      <button onclick="leaveOnlineRoom()" class="px-2 py-0.5 rounded bg-rose-950/80 hover:bg-rose-900 text-rose-300 text-[11px] font-bold border border-rose-500/40">
+        <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i>退出
+      </button>
+    </div>
+  </div>
+
   <!-- 中央拔河繩指示器 (拔河指針) -->
   <div class="bg-[#0f172a] border-b border-slate-800 px-4 py-2 shrink-0 z-20">
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center justify-between text-xs font-black mb-1">
         <div class="flex items-center gap-1.5 text-sky-400">
           <i class="fa-solid fa-glasses"></i>
-          <span>柯南得分: <b id="p1-score" class="font-mono-code">0</b></span>
+          <span id="p1-label-name">柯南得分</span>: <b id="p1-score" class="font-mono-code">0</b>
         </div>
         <div class="text-[11px] text-amber-300 font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-400/30">
           拔河指針：率先拉滿 5 格勝出！
@@ -140,13 +189,13 @@
     </div>
 
     <!-- 雙方按鈕操作區 (左方 P1 柯南 / 右方 P2 基德) -->
-    <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3 min-h-0">
+    <div id="duel-boards-container" class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3 min-h-0">
       
       <!-- P1: 江戶川柯南操作板 -->
       <div id="p1-board" class="bg-slate-900/80 border-2 border-sky-500/50 rounded-2xl p-2.5 sm:p-3 flex flex-col justify-between neon-glow-blue transition-all">
         <div class="flex items-center justify-between pb-1.5 border-b border-sky-500/30 text-xs font-black text-sky-300">
-          <span class="flex items-center gap-1.5"><i class="fa-solid fa-glasses"></i>柯南控制台</span>
-          <span class="text-[10px] text-slate-400 hidden sm:inline">鍵盤快速鍵: 1 / 2 / 3 / 4</span>
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-glasses"></i><span id="p1-board-title">柯南控制台</span></span>
+          <span id="p1-shortcut-hint" class="text-[10px] text-slate-400 hidden sm:inline">鍵盤快速鍵: 1 / 2 / 3 / 4</span>
         </div>
         
         <!-- P1 四個選項按鈕 -->
@@ -163,7 +212,7 @@
       <div id="p2-board" class="bg-slate-900/80 border-2 border-rose-500/50 rounded-2xl p-2.5 sm:p-3 flex flex-col justify-between transition-all">
         <div class="flex items-center justify-between pb-1.5 border-b border-rose-500/30 text-xs font-black text-rose-300">
           <span class="flex items-center gap-1.5"><i class="fa-solid fa-hat-wizard"></i><span id="p2-board-title">怪盜基德 (AI)</span></span>
-          <span class="text-[10px] text-slate-400 hidden sm:inline">鍵盤快速鍵: 7 / 8 / 9 / 0</span>
+          <span id="p2-shortcut-hint" class="text-[10px] text-slate-400 hidden sm:inline">鍵盤快速鍵: 7 / 8 / 9 / 0</span>
         </div>
 
         <!-- P2 四個選項按鈕 -->
@@ -182,10 +231,133 @@
 
   <!-- 頁尾簡易說明 (高度 24px) -->
   <footer class="bg-[#0b172a] border-t border-slate-800 py-1 px-4 text-center text-[10px] text-slate-500 shrink-0">
-    泰宇數學 第一冊 2-2 三角函數 ｜ 雙人面對面極速拔河對決 ｜ 微軟 OMML 標準排版
+    泰宇數學 第一冊 2-2 三角函數 ｜ 雙人面對面極速拔河對決 ｜ 微軟 OMML 標準排版 ｜ 支援 Firebase 跨載具連線
   </footer>
 
-  <!-- 勝負結算彈出視窗 -->
+  <!-- ==========================================
+       彈出視窗 1：雲端連線大廳 (Lobby Modal)
+       ========================================== -->
+  <div id="lobby-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-[#0b172a] border-2 border-amber-500/80 rounded-3xl max-w-md w-full p-5 sm:p-6 text-center shadow-2xl relative">
+      <button onclick="closeLobbyModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-base">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 border border-amber-400/40 flex items-center justify-center text-2xl mx-auto mb-2">
+        <i class="fa-solid fa-wifi"></i>
+      </div>
+      <h3 class="text-lg font-black text-amber-300 mb-1">雲端跨載具即時對決</h3>
+      <p class="text-xs text-slate-400 mb-4">手機、平板、電腦掃碼連線，隨時隨地分組開打！</p>
+
+      <!-- 大廳分頁切換 -->
+      <div class="grid grid-cols-2 gap-2 p-1 bg-slate-900 rounded-xl mb-4 border border-white/10 text-xs">
+        <button id="tab-create-btn" onclick="switchLobbyTab('create')" class="py-2 rounded-lg font-black bg-amber-500 text-slate-950 transition-all">
+          <i class="fa-solid fa-house-chimney mr-1"></i>建立房間 (柯南)
+        </button>
+        <button id="tab-join-btn" onclick="switchLobbyTab('join')" class="py-2 rounded-lg font-bold text-slate-400 hover:text-white transition-all">
+          <i class="fa-solid fa-right-to-bracket mr-1"></i>加入房間 (基德)
+        </button>
+      </div>
+
+      <!-- 分頁 A：建立房間 (房主) -->
+      <div id="panel-create" class="space-y-3">
+        <div class="bg-slate-950 p-3 rounded-2xl border border-amber-500/30">
+          <div class="text-[11px] text-slate-400 mb-1">你的專屬 4 碼邀請房號</div>
+          <div id="lobby-room-code" class="text-3xl font-black font-mono-code text-amber-300 tracking-widest my-1">
+            ----
+          </div>
+          <!-- QR Code 容器 -->
+          <div class="flex justify-center my-2">
+            <div id="qrcode-box" class="p-2 bg-white rounded-xl shadow-md inline-block"></div>
+          </div>
+          <p class="text-[11px] text-slate-400">請對手使用手機相機掃描上方 QR Code 直接進房</p>
+        </div>
+
+        <div class="flex gap-2">
+          <button onclick="copyInviteLink()" class="flex-1 py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-white/10 transition-all flex items-center justify-center gap-1.5">
+            <i class="fa-regular fa-copy"></i>
+            <span>複製邀請連結</span>
+          </button>
+          <button onclick="generateNewRoom()" class="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-white/10 transition-all" title="換一個新房號">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
+        </div>
+
+        <div id="host-wait-status" class="py-2 px-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold flex items-center justify-center gap-2">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>等待基德掃碼加入對決...</span>
+        </div>
+      </div>
+
+      <!-- 分頁 B：加入房間 (訪客) -->
+      <div id="panel-join" class="space-y-4 hidden">
+        <div class="bg-slate-950 p-4 rounded-2xl border border-white/10 text-left">
+          <label class="block text-xs font-bold text-slate-300 mb-2">請輸入 4 位數對決房號：</label>
+          <input type="text" id="join-room-input" maxlength="6" placeholder="例如：2026" class="w-full bg-slate-900 border-2 border-amber-500/50 rounded-xl px-4 py-2.5 text-center text-2xl font-black font-mono-code text-amber-300 focus:outline-none focus:border-amber-400 tracking-widest">
+        </div>
+
+        <button onclick="submitJoinRoom()" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-black text-sm transition-all shadow-lg flex items-center justify-center gap-2">
+          <i class="fa-solid fa-bolt"></i>
+          <span>即刻進入戰場！</span>
+        </button>
+
+        <div id="join-status-msg" class="text-xs text-rose-400 font-bold min-h-4"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       彈出視窗 2：Firebase 連線設定 (Settings Modal)
+       ========================================== -->
+  <div id="config-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-[#0b172a] border-2 border-slate-700 rounded-3xl max-w-md w-full p-5 text-left shadow-2xl relative">
+      <button onclick="closeConfigModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-base">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-3">
+        <i class="fa-solid fa-sliders text-amber-400 text-lg"></i>
+        <h3 class="text-base font-black text-white">Firebase 雲端連線設定</h3>
+      </div>
+      <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+        本遊戲已內建專屬雲端資料庫（免註冊隨掃即玩）。老師如需更換為自己的 Firebase 專案，可於此處自訂。
+      </p>
+
+      <div class="space-y-2 text-xs font-mono-code mb-4">
+        <div>
+          <label class="block text-slate-400 mb-1">databaseURL (資料庫端點)</label>
+          <input type="text" id="cfg-databaseURL" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200 text-xs">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">projectId (專案代碼)</label>
+          <input type="text" id="cfg-projectId" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200 text-xs">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">apiKey (Web 金鑰)</label>
+          <input type="text" id="cfg-apiKey" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200 text-xs">
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="testFirebaseConnection()" class="flex-1 py-2 rounded-xl bg-indigo-700 hover:bg-indigo-600 text-white font-bold text-xs transition-all">
+          <i class="fa-solid fa-plug mr-1"></i>測試連線
+        </button>
+        <button onclick="resetFirebaseDefault()" class="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-all">
+          恢復預設值
+        </button>
+        <button onclick="saveFirebaseConfig()" class="py-2 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition-all">
+          儲存
+        </button>
+      </div>
+
+      <div id="cfg-test-result" class="text-xs font-bold text-center mt-2 min-h-4"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       彈出視窗 3：勝負結算視窗 (GameOver Modal)
+       ========================================== -->
   <div id="duel-gameover-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
     <div class="bg-[#0b172a] border-2 border-amber-500 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative">
       <div id="duel-winner-icon" class="w-16 h-16 rounded-full bg-amber-500/20 text-amber-300 border-2 border-amber-400/50 flex items-center justify-center text-3xl mx-auto mb-3">
@@ -200,7 +372,7 @@
           <span id="stat-p1-final" class="text-sky-300 font-bold">500 分</span>
         </div>
         <div class="flex justify-between text-slate-300">
-          <span>對手總得分:</span>
+          <span>基德總得分:</span>
           <span id="stat-p2-final" class="text-rose-300 font-bold">200 分</span>
         </div>
       </div>
@@ -216,7 +388,15 @@
     </div>
   </div>
 
-  <!-- 核心遊戲引擎 -->
+  <!-- Toast 浮動提示 -->
+  <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 border border-amber-400/60 text-amber-300 px-4 py-2 rounded-xl text-xs font-bold shadow-2xl transition-all duration-300 opacity-0 pointer-events-none flex items-center gap-2">
+    <i class="fa-solid fa-circle-info text-amber-400"></i>
+    <span id="toast-text">訊息內容</span>
+  </div>
+
+  <!-- ==========================================
+       核心遊戲與連線引擎
+       ========================================== -->
   <script>
     /* ==========================================
        1. 題庫資料 (泰宇 2-2 OMML/KaTeX 垂直真分數標準)
@@ -309,7 +489,52 @@
     ];
 
     /* ==========================================
-       2. Web Audio API 音效引擎
+       2. Firebase 設定與初始化模組
+       ========================================== */
+    const DEFAULT_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyCsY5IfPp9EzE8MR81FQ800Y3kw2ZhGqpQ",
+      authDomain: "taiyu-math-duel.firebaseapp.com",
+      databaseURL: "https://taiyu-math-duel-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "taiyu-math-duel",
+      storageBucket: "taiyu-math-duel.firebasestorage.app",
+      messagingSenderId: "1094700367150",
+      appId: "1:1094700367150:web:11bb90d0bbae0904720ebf"
+    };
+
+    function getFirebaseConfig() {
+      const stored = localStorage.getItem('trig_duel_firebase_cfg');
+      if (stored) {
+        try {
+          return Object.assign({}, DEFAULT_FIREBASE_CONFIG, JSON.parse(stored));
+        } catch (e) {
+          console.warn("無法解析自訂 Firebase Config，採用預設值", e);
+        }
+      }
+      return DEFAULT_FIREBASE_CONFIG;
+    }
+
+    let fbApp = null;
+    let fbDb = null;
+
+    function initFirebase() {
+      if (fbDb) return fbDb;
+      try {
+        const cfg = getFirebaseConfig();
+        if (!firebase.apps.length) {
+          fbApp = firebase.initializeApp(cfg);
+        } else {
+          fbApp = firebase.app();
+        }
+        fbDb = firebase.database();
+        return fbDb;
+      } catch (err) {
+        console.error("Firebase 連線初始化失敗:", err);
+        return null;
+      }
+    }
+
+    /* ==========================================
+       3. Web Audio API 音效引擎
        ========================================== */
     let audioCtx = null;
     let audioEnabled = true;
@@ -364,13 +589,35 @@
         gain.connect(audioCtx.destination);
         osc.start(now);
         osc.stop(now + 0.2);
+      } else if (type === 'join') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(523, now);
+        osc.frequency.setValueAtTime(659, now + 0.12);
+        osc.frequency.setValueAtTime(784, now + 0.24);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
       }
     }
 
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const text = document.getElementById('toast-text');
+      text.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2400);
+    }
+
     /* ==========================================
-       3. 拔河遊戲狀態
+       4. 遊戲核心狀態與模式切換
        ========================================== */
-    let gameMode = 'pve'; // 'pve', 'pvp'
+    let gameMode = 'pve'; // 'pve', 'pvp', 'online'
     let ropePosition = 0; // -5 (基德勝) ~ +5 (柯南勝)
     let p1Score = 0;
     let p2Score = 0;
@@ -383,92 +630,442 @@
     let currentQuiz = null;
     let currentOptions = []; // 洗牌後的選項
 
+    // 跨載具連線專用狀態
+    let currentRoomCode = null;
+    let myRole = 'p1'; // 'p1' (柯南/房主) 或 'p2' (基德/訪客)
+    let roomRef = null;
+    let qrcodeInstance = null;
+    let isHost = true;
+
     function setMode(mode) {
       gameMode = mode;
-      document.getElementById('mode-pve-btn').className = "px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all";
-      document.getElementById('mode-pvp-btn').className = "px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all";
+      
+      const pveBtn = document.getElementById('mode-pve-btn');
+      const pvpBtn = document.getElementById('mode-pvp-btn');
+      const onlineBtn = document.getElementById('mode-online-btn');
+      const onlineBanner = document.getElementById('online-banner');
+
+      pveBtn.className = "px-2 sm:px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all";
+      pvpBtn.className = "px-2 sm:px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all";
+      onlineBtn.className = "px-2 sm:px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all flex items-center gap-1";
 
       const p2Name = document.getElementById('p2-name');
       const p2Title = document.getElementById('p2-board-title');
+      const p1Title = document.getElementById('p1-board-title');
 
       if (mode === 'pve') {
-        document.getElementById('mode-pve-btn').className = "px-2.5 py-1 rounded font-bold transition-all bg-indigo-600 text-white";
+        pveBtn.className = "px-2 sm:px-2.5 py-1 rounded font-bold transition-all bg-indigo-600 text-white";
+        onlineBanner.classList.add('hidden');
         p2Name.innerText = "基德(AI)";
         p2Title.innerText = "怪盜基德 (AI)";
-      } else {
-        document.getElementById('mode-pvp-btn').className = "px-2.5 py-1 rounded font-bold transition-all bg-indigo-600 text-white";
+        p1Title.innerText = "柯南控制台";
+        detachOnlineRoom();
+        restartDuel();
+      } else if (mode === 'pvp') {
+        pvpBtn.className = "px-2 sm:px-2.5 py-1 rounded font-bold transition-all bg-indigo-600 text-white";
+        onlineBanner.classList.add('hidden');
         p2Name.innerText = "基德(P2)";
         p2Title.innerText = "怪盜基德 (P2)";
-      }
-      restartDuel();
-    }
-
-    // 產生新題目
-    function nextQuestion() {
-      if (isGameOver) return;
-      currentQuiz = DUEL_BANK[Math.floor(Math.random() * DUEL_BANK.length)];
-      
-      // 打亂選項
-      const optionsWithMeta = currentQuiz.options.map((opt, idx) => ({
-        text: opt,
-        isCorrect: (idx === currentQuiz.ans)
-      }));
-      for (let i = optionsWithMeta.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [optionsWithMeta[i], optionsWithMeta[j]] = [optionsWithMeta[j], optionsWithMeta[i]];
-      }
-      currentOptions = optionsWithMeta;
-
-      document.getElementById('question-text').innerHTML = currentQuiz.q;
-      document.getElementById('question-hint').innerHTML = "💡 解題思維：" + currentQuiz.hint;
-
-      renderButtons('p1', optionsWithMeta);
-      renderButtons('p2', optionsWithMeta);
-
-      // 強制 KaTeX 渲染
-      if (window.renderMathInElement) {
-        renderMathInElement(document.body, {
-          delimiters: [
-            {left: "\\(", right: "\\)", display: false},
-            {left: "\\[", right: "\\]", display: true}
-          ],
-          throwOnError: false
-        });
-      }
-
-      // 若為 PVE，排程 AI 自動搶答
-      if (gameMode === 'pve' && !p2Frozen) {
-        scheduleAITurn();
+        p1Title.innerText = "柯南控制台";
+        detachOnlineRoom();
+        restartDuel();
+      } else if (mode === 'online') {
+        onlineBtn.className = "px-2 sm:px-2.5 py-1 rounded font-bold transition-all bg-amber-500 text-slate-950 flex items-center gap-1 shadow-md";
+        // 開啟連線大廳視窗
+        openLobbyModal();
       }
     }
 
-    let aiTimeout = null;
-    function scheduleAITurn() {
-      clearTimeout(aiTimeout);
-      // AI 思考時間：1.2 ~ 2.8 秒
-      const thinkTime = 1200 + Math.random() * 1600;
-      aiTimeout = setTimeout(() => {
-        if (isGameOver || p2Frozen) return;
-        // 75% 機率選對
-        const correctIdx = currentOptions.findIndex(o => o.isCorrect);
-        let chosenIdx = correctIdx;
-        if (Math.random() > 0.75) {
-          chosenIdx = (correctIdx + 1) % 4; // 答錯
+    /* ==========================================
+       5. 雲端連線大廳模組 (Lobby & Room)
+       ========================================== */
+    function openLobbyModal() {
+      const modal = document.getElementById('lobby-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (!currentRoomCode) {
+        generateNewRoom();
+      }
+    }
+    function closeLobbyModal() {
+      const modal = document.getElementById('lobby-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function switchLobbyTab(tab) {
+      const tabCreate = document.getElementById('tab-create-btn');
+      const tabJoin = document.getElementById('tab-join-btn');
+      const panelCreate = document.getElementById('panel-create');
+      const panelJoin = document.getElementById('panel-join');
+
+      if (tab === 'create') {
+        tabCreate.className = "py-2 rounded-lg font-black bg-amber-500 text-slate-950 transition-all";
+        tabJoin.className = "py-2 rounded-lg font-bold text-slate-400 hover:text-white transition-all";
+        panelCreate.classList.remove('hidden');
+        panelJoin.classList.add('hidden');
+      } else {
+        tabJoin.className = "py-2 rounded-lg font-black bg-amber-500 text-slate-950 transition-all";
+        tabCreate.className = "py-2 rounded-lg font-bold text-slate-400 hover:text-white transition-all";
+        panelJoin.classList.remove('hidden');
+        panelCreate.classList.add('hidden');
+        document.getElementById('join-room-input').focus();
+      }
+    }
+
+    function generateNewRoom() {
+      const db = initFirebase();
+      if (!db) {
+        alert("無法連接 Firebase，請至設定檢查金鑰或網路連線。");
+        return;
+      }
+      detachOnlineRoom();
+
+      // 產生 4 碼數字房號
+      const code = String(Math.floor(1000 + Math.random() * 9000));
+      currentRoomCode = code;
+      myRole = 'p1';
+      isHost = true;
+
+      document.getElementById('lobby-room-code').innerText = code;
+      document.getElementById('host-wait-status').innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i><span>等待基德掃碼加入對決...</span>';
+
+      // 產製掃碼 URL
+      const currentUrl = window.location.origin + window.location.pathname;
+      const joinUrl = `${currentUrl}?room=${code}`;
+
+      // 繪製 QR Code
+      const qrBox = document.getElementById('qrcode-box');
+      qrBox.innerHTML = '';
+      qrcodeInstance = new QRCode(qrBox, {
+        text: joinUrl,
+        width: 160,
+        height: 160,
+        colorDark: "#020617",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      // 初始化 Firebase 房間
+      roomRef = db.ref(`rooms/${code}`);
+      const initialRoomData = {
+        code: code,
+        status: 'waiting', // waiting, playing, gameover
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
+        p1: { name: '柯南', online: true, score: 0 },
+        p2: { name: '基德', online: false, score: 0 },
+        ropePosition: 0,
+        timer: 60,
+        quiz: null,
+        roundWinner: null
+      };
+
+      roomRef.set(initialRoomData);
+      roomRef.child('p1/online').onDisconnect().set(false);
+
+      // 監聽對手是否加入
+      roomRef.child('p2/online').on('value', snap => {
+        if (snap.val() === true) {
+          playSound('join');
+          document.getElementById('host-wait-status').innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i><span class="text-emerald-300">怪盜基德已加入！3 秒後開戰...</span>';
+          setTimeout(() => {
+            closeLobbyModal();
+            startOnlineGameAsHost();
+          }, 1500);
         }
-        handleAnswer('p2', chosenIdx);
-      }, thinkTime);
+      });
     }
 
+    function copyInviteLink() {
+      if (!currentRoomCode) return;
+      const currentUrl = window.location.origin + window.location.pathname;
+      const joinUrl = `${currentUrl}?room=${currentRoomCode}`;
+      navigator.clipboard.writeText(joinUrl).then(() => {
+        showToast("已成功複製對決邀請連結！");
+      }).catch(() => {
+        prompt("請手動複製邀請連結：", joinUrl);
+      });
+    }
+
+    function submitJoinRoom() {
+      const input = document.getElementById('join-room-input').value.trim();
+      if (!input || input.length < 4) {
+        document.getElementById('join-status-msg').innerText = "請輸入正確的 4 位數房號！";
+        return;
+      }
+      joinRoomByCode(input);
+    }
+
+    function joinRoomByCode(code) {
+      const db = initFirebase();
+      if (!db) {
+        alert("無法連接 Firebase，請檢查網路連線。");
+        return;
+      }
+      detachOnlineRoom();
+
+      document.getElementById('join-status-msg').innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>連線中...';
+
+      const targetRef = db.ref(`rooms/${code}`);
+      targetRef.once('value').then(snap => {
+        const val = snap.val();
+        if (!val) {
+          document.getElementById('join-status-msg').innerText = `查無房號 #${code}，請確認後重試！`;
+          return;
+        }
+
+        currentRoomCode = code;
+        myRole = 'p2';
+        isHost = false;
+        roomRef = targetRef;
+
+        // 加入房間更新 p2 狀態
+        roomRef.child('p2').update({
+          name: '基德',
+          online: true
+        });
+        roomRef.child('p2/online').onDisconnect().set(false);
+
+        playSound('join');
+        showToast(`已成功加入房間 #${code}！`);
+        closeLobbyModal();
+        setupOnlineGameUI();
+        attachRoomListeners();
+      }).catch(err => {
+        document.getElementById('join-status-msg').innerText = "連線發生錯誤：" + err.message;
+      });
+    }
+
+    function detachOnlineRoom() {
+      if (roomRef) {
+        if (myRole === 'p1') {
+          roomRef.child('p1/online').set(false);
+        } else {
+          roomRef.child('p2/online').set(false);
+        }
+        roomRef.off();
+        roomRef = null;
+      }
+    }
+
+    function leaveOnlineRoom() {
+      detachOnlineRoom();
+      currentRoomCode = null;
+      document.getElementById('online-banner').classList.add('hidden');
+      setMode('pve');
+      showToast("已退出連線房間");
+    }
+
+    /* ==========================================
+       6. 雲端同步與對戰機制
+       ========================================== */
+    function setupOnlineGameUI() {
+      document.getElementById('online-banner').classList.remove('hidden');
+      document.getElementById('online-room-badge').innerText = currentRoomCode;
+
+      const p1Board = document.getElementById('p1-board');
+      const p2Board = document.getElementById('p2-board');
+      const p1Title = document.getElementById('p1-board-title');
+      const p2Title = document.getElementById('p2-board-title');
+      const p1Short = document.getElementById('p1-shortcut-hint');
+      const p2Short = document.getElementById('p2-shortcut-hint');
+
+      if (myRole === 'p1') {
+        document.getElementById('online-role-badge').innerText = "柯南 (房主 P1)";
+        document.getElementById('p1-label-name').innerText = "柯南 (你)";
+        document.getElementById('p2-name').innerText = "基德 (對手)";
+        p1Title.innerText = "柯南控制台 (你)";
+        p2Title.innerText = "怪盜基德 (對手)";
+        p1Short.classList.remove('hidden');
+        p2Short.classList.add('hidden');
+        p1Board.classList.remove('opacity-60');
+        p2Board.classList.add('opacity-60');
+      } else {
+        document.getElementById('online-role-badge').innerText = "怪盜基德 (訪客 P2)";
+        document.getElementById('p1-label-name').innerText = "柯南 (對手)";
+        document.getElementById('p2-name').innerText = "基德 (你)";
+        p1Title.innerText = "柯南控制台 (對手)";
+        p2Title.innerText = "怪盜基德 (你)";
+        p1Short.classList.add('hidden');
+        p2Short.classList.remove('hidden');
+        p2Board.classList.remove('opacity-60');
+        p1Board.classList.add('opacity-60');
+      }
+    }
+
+    // 房主啟動遊戲並發題
+    function startOnlineGameAsHost() {
+      setupOnlineGameUI();
+      ropePosition = 0;
+      p1Score = 0;
+      p2Score = 0;
+      gameTimer = 60;
+      isGameOver = false;
+
+      roomRef.update({
+        status: 'playing',
+        ropePosition: 0,
+        'p1/score': 0,
+        'p2/score': 0,
+        timer: 60,
+        roundWinner: null
+      });
+
+      attachRoomListeners();
+      hostNextQuestion();
+
+      // 房主主控倒數計時器
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (isGameOver || !roomRef) return;
+        gameTimer--;
+        roomRef.update({ timer: gameTimer });
+
+        if (gameTimer <= 0) {
+          clearInterval(timerInterval);
+          let winner = 'draw';
+          let reason = "時間到！雙方實力平分秋色！";
+          if (ropePosition > 0) {
+            winner = 'p1';
+            reason = "時間到！柯南拔河領先勝出！";
+          } else if (ropePosition < 0) {
+            winner = 'p2';
+            reason = "時間到！怪盜基德拔河領先勝出！";
+          }
+          roomRef.update({
+            status: 'gameover',
+            winner: winner,
+            reason: reason
+          });
+        }
+      }, 1000);
+    }
+
+    // 房主挑選新題目並洗牌同步
+    function hostNextQuestion() {
+      if (!isHost || isGameOver || !roomRef) return;
+      const qIndex = Math.floor(Math.random() * DUEL_BANK.length);
+      const quiz = DUEL_BANK[qIndex];
+
+      // 打亂選項順序 [0, 1, 2, 3]
+      const order = [0, 1, 2, 3];
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+
+      roomRef.update({
+        quiz: {
+          qIndex: qIndex,
+          order: order,
+          roundId: Date.now()
+        },
+        roundWinner: null
+      });
+    }
+
+    // 監聽 Firebase 房間事件
+    function attachRoomListeners() {
+      if (!roomRef) return;
+
+      // 監聽遊戲狀態與分數
+      roomRef.on('value', snap => {
+        const data = snap.val();
+        if (!data) return;
+
+        // 同步拔河位置與分數
+        if (data.ropePosition !== undefined) {
+          ropePosition = data.ropePosition;
+        }
+        if (data.p1 && data.p1.score !== undefined) {
+          p1Score = data.p1.score;
+        }
+        if (data.p2 && data.p2.score !== undefined) {
+          p2Score = data.p2.score;
+        }
+        updateRopeUI();
+
+        // 同步計時器
+        if (data.timer !== undefined) {
+          gameTimer = data.timer;
+          document.getElementById('game-timer').innerText = gameTimer;
+        }
+
+        // 監聽對手在線狀態
+        const peerOnline = (myRole === 'p1' ? data.p2?.online : data.p1?.online);
+        const peerElem = document.getElementById('online-peer-status');
+        if (peerOnline) {
+          peerElem.innerHTML = '<i class="fa-solid fa-circle text-[8px] text-emerald-400 mr-1"></i>對手在線中';
+        } else {
+          peerElem.innerHTML = '<i class="fa-solid fa-circle text-[8px] text-rose-400 mr-1"></i>對手已離線';
+        }
+
+        // 監聽遊戲結束
+        if (data.status === 'gameover' && !isGameOver) {
+          triggerDuelGameOver(data.winner, data.reason || "比賽結束！");
+        }
+      });
+
+      // 監聽題目更迭
+      roomRef.child('quiz').on('value', snap => {
+        const quizData = snap.val();
+        if (!quizData) return;
+
+        const baseQuiz = DUEL_BANK[quizData.qIndex];
+        currentQuiz = baseQuiz;
+
+        // 依房主派發的 order 重新組織選項
+        const shuffled = quizData.order.map(origIdx => ({
+          text: baseQuiz.options[origIdx],
+          isCorrect: (origIdx === baseQuiz.ans)
+        }));
+        currentOptions = shuffled;
+
+        document.getElementById('question-text').innerHTML = baseQuiz.q;
+        document.getElementById('question-hint').innerHTML = "💡 解題思維：" + baseQuiz.hint;
+
+        renderButtons('p1', shuffled);
+        renderButtons('p2', shuffled);
+
+        // KaTeX 重新渲染
+        if (window.renderMathInElement) {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: "\\(", right: "\\)", display: false},
+              {left: "\\[", right: "\\]", display: true}
+            ],
+            throwOnError: false
+          });
+        }
+      });
+    }
+
+    /* ==========================================
+       7. 作答按鈕與搶答邏輯
+       ========================================== */
     function renderButtons(player, options) {
       const container = document.getElementById(`${player}-options`);
       container.innerHTML = '';
+      
       const isPlayerFrozen = (player === 'p1' ? p1Frozen : p2Frozen);
+      // 在連線模式下，自己只能點擊自己身份的按鈕
+      const isOnlineLocked = (gameMode === 'online' && player !== myRole);
+      const disabled = isPlayerFrozen || isOnlineLocked || isGameOver;
 
       options.forEach((item, idx) => {
         const btn = document.createElement('button');
-        btn.className = `min-h-[52px] py-2 px-3 rounded-xl ${player === 'p1' ? 'bg-sky-950/70 hover:bg-sky-800 border-sky-600/40' : 'bg-rose-950/70 hover:bg-rose-800 border-rose-600/40'} border text-sm font-bold text-amber-300 transition-all flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-xs ${isPlayerFrozen ? 'opacity-40 cursor-not-allowed' : ''}`;
-        btn.disabled = isPlayerFrozen;
+        let bgStyle = (player === 'p1') 
+          ? 'bg-sky-950/70 hover:bg-sky-800 border-sky-600/40 text-amber-300' 
+          : 'bg-rose-950/70 hover:bg-rose-800 border-rose-600/40 text-rose-300';
+        
+        if (isOnlineLocked) {
+          bgStyle = 'bg-slate-950/40 border-slate-800 text-slate-500 cursor-not-allowed';
+        }
+
+        btn.className = `min-h-[50px] py-2 px-3 rounded-xl border text-sm font-bold transition-all flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-xs ${bgStyle} ${disabled ? 'opacity-40 cursor-not-allowed' : ''}`;
+        btn.disabled = disabled;
         btn.innerHTML = `<span class="w-5 h-5 rounded-full bg-slate-900 text-[10px] text-slate-300 font-bold flex items-center justify-center shrink-0">${['A','B','C','D'][idx]}</span> <span class="katex-opt">${item.text}</span>`;
+        
         btn.onclick = () => handleAnswer(player, idx);
         container.appendChild(btn);
       });
@@ -478,9 +1075,17 @@
       if (isGameOver) return;
       if (player === 'p1' && p1Frozen) return;
       if (player === 'p2' && p2Frozen) return;
+      if (gameMode === 'online' && player !== myRole) return;
 
       const isCorrect = currentOptions[selectedIndex].isCorrect;
 
+      // 連線對決模式作答
+      if (gameMode === 'online') {
+        handleOnlineAnswer(player, isCorrect);
+        return;
+      }
+
+      // 本機或人機模式作答
       if (isCorrect) {
         playSound('correct');
         playSound('tug');
@@ -503,23 +1108,113 @@
           return;
         }
 
-        // 換下一題
         nextQuestion();
       } else {
-        // 答錯凍結處罰 1.5 秒
         playSound('wrong');
         freezePlayer(player);
       }
     }
 
+    // 跨載具原子搶答
+    function handleOnlineAnswer(player, isCorrect) {
+      if (!isCorrect) {
+        playSound('wrong');
+        freezePlayer(player);
+        return;
+      }
+
+      // 使用 Firebase Transaction 競速：誰先正確入庫誰奪得本題回合勝
+      const winnerRef = roomRef.child('roundWinner');
+      winnerRef.transaction(current => {
+        if (!current) {
+          return { winner: player, timestamp: firebase.database.ServerValue.TIMESTAMP };
+        }
+        return; // 已被另一方搶先
+      }, (error, committed, snapshot) => {
+        if (committed && snapshot.val() && snapshot.val().winner === player) {
+          // 我搶先答對了！
+          playSound('correct');
+          playSound('tug');
+
+          let newRope = ropePosition;
+          let newP1Score = p1Score;
+          let newP2Score = p2Score;
+
+          if (player === 'p1') {
+            newRope = Math.min(5, ropePosition + 1);
+            newP1Score += 100;
+          } else {
+            newRope = Math.max(-5, ropePosition - 1);
+            newP2Score += 100;
+          }
+
+          let isWin = false;
+          let winnerRole = null;
+          let reasonText = "";
+
+          if (newRope >= 5) {
+            isWin = true;
+            winnerRole = 'p1';
+            reasonText = "柯南率先拉滿 5 格！完全壓制獲勝！";
+          } else if (newRope <= -5) {
+            isWin = true;
+            winnerRole = 'p2';
+            reasonText = "怪盜基德率先拉滿 5 格！華麗勝出！";
+          }
+
+          if (isWin) {
+            roomRef.update({
+              ropePosition: newRope,
+              'p1/score': newP1Score,
+              'p2/score': newP2Score,
+              status: 'gameover',
+              winner: winnerRole,
+              reason: reasonText
+            });
+          } else {
+            roomRef.update({
+              ropePosition: newRope,
+              'p1/score': newP1Score,
+              'p2/score': newP2Score
+            });
+            // 房主換下一題；若訪客答對，發送信號由房主切換
+            if (isHost) {
+              hostNextQuestion();
+            } else {
+              roomRef.child('requestNext').set(Date.now());
+            }
+          }
+        } else {
+          // 對手快了零點幾秒
+          playSound('wrong');
+          showToast("哎呀！對手稍快一步搶先答對！");
+        }
+      });
+    }
+
+    // 監聽訪客請求下一題 (房主端處理)
+    function attachHostRequestListener() {
+      if (roomRef && isHost) {
+        roomRef.child('requestNext').on('value', snap => {
+          if (snap.val()) {
+            hostNextQuestion();
+          }
+        });
+      }
+    }
+
     function freezePlayer(player) {
+      const board = document.getElementById(`${player}-board`);
+      board.classList.add('animate-shake');
+      setTimeout(() => board.classList.remove('animate-shake'), 400);
+
       if (player === 'p1') {
         p1Frozen = true;
         document.getElementById('p1-status').innerHTML = '<span class="text-rose-400">❌ 答錯！凍結 1.5 秒</span>';
         renderButtons('p1', currentOptions);
         setTimeout(() => {
           p1Frozen = false;
-          document.getElementById('p1-status').innerText = "恢復搶答！";
+          document.getElementById('p1-status').innerText = (gameMode === 'online' && myRole !== 'p1') ? "對手控制台" : "恢復搶答！";
           renderButtons('p1', currentOptions);
         }, 1500);
       } else {
@@ -528,17 +1223,67 @@
         renderButtons('p2', currentOptions);
         setTimeout(() => {
           p2Frozen = false;
-          document.getElementById('p2-status').innerText = "恢復搶答！";
+          document.getElementById('p2-status').innerText = (gameMode === 'online' && myRole !== 'p2') ? "對手控制台" : "恢復搶答！";
           renderButtons('p2', currentOptions);
         }, 1500);
       }
+    }
+
+    // 本機與人機模式換題
+    function nextQuestion() {
+      if (isGameOver) return;
+      currentQuiz = DUEL_BANK[Math.floor(Math.random() * DUEL_BANK.length)];
+      
+      const optionsWithMeta = currentQuiz.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: (idx === currentQuiz.ans)
+      }));
+      for (let i = optionsWithMeta.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [optionsWithMeta[i], optionsWithMeta[j]] = [optionsWithMeta[j], optionsWithMeta[i]];
+      }
+      currentOptions = optionsWithMeta;
+
+      document.getElementById('question-text').innerHTML = currentQuiz.q;
+      document.getElementById('question-hint').innerHTML = "💡 解題思維：" + currentQuiz.hint;
+
+      renderButtons('p1', optionsWithMeta);
+      renderButtons('p2', optionsWithMeta);
+
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true}
+          ],
+          throwOnError: false
+        });
+      }
+
+      if (gameMode === 'pve' && !p2Frozen) {
+        scheduleAITurn();
+      }
+    }
+
+    let aiTimeout = null;
+    function scheduleAITurn() {
+      clearTimeout(aiTimeout);
+      const thinkTime = 1200 + Math.random() * 1600;
+      aiTimeout = setTimeout(() => {
+        if (isGameOver || p2Frozen || gameMode !== 'pve') return;
+        const correctIdx = currentOptions.findIndex(o => o.isCorrect);
+        let chosenIdx = correctIdx;
+        if (Math.random() > 0.75) {
+          chosenIdx = (correctIdx + 1) % 4;
+        }
+        handleAnswer('p2', chosenIdx);
+      }, thinkTime);
     }
 
     function updateRopeUI() {
       document.getElementById('p1-score').innerText = p1Score;
       document.getElementById('p2-score').innerText = p2Score;
 
-      // 拔河指針位置 (-5 到 +5 對應百分比 0% ~ 100%)
       const percentage = ((ropePosition + 5) / 10) * 100;
       document.getElementById('rope-knot').style.left = `${percentage}%`;
       document.getElementById('rope-left').style.width = `${percentage}%`;
@@ -580,6 +1325,18 @@
     }
 
     function restartDuel() {
+      if (gameMode === 'online') {
+        if (isHost) {
+          startOnlineGameAsHost();
+        } else {
+          showToast("已通知房主重新開始遊戲！");
+          roomRef.child('requestRestart').set(Date.now());
+        }
+        document.getElementById('duel-gameover-modal').classList.add('hidden');
+        document.getElementById('duel-gameover-modal').classList.remove('flex');
+        return;
+      }
+
       ropePosition = 0;
       p1Score = 0;
       p2Score = 0;
@@ -612,9 +1369,86 @@
       nextQuestion();
     }
 
-    // 鍵盤監聽支援 (P1: 1,2,3,4 / P2: 7,8,9,0)
+    /* ==========================================
+       8. Firebase 連線設定面板模組
+       ========================================== */
+    function openConfigModal() {
+      const cfg = getFirebaseConfig();
+      document.getElementById('cfg-databaseURL').value = cfg.databaseURL || '';
+      document.getElementById('cfg-projectId').value = cfg.projectId || '';
+      document.getElementById('cfg-apiKey').value = cfg.apiKey || '';
+      document.getElementById('cfg-test-result').innerText = '';
+
+      const modal = document.getElementById('config-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeConfigModal() {
+      const modal = document.getElementById('config-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+    function saveFirebaseConfig() {
+      const customCfg = {
+        databaseURL: document.getElementById('cfg-databaseURL').value.trim(),
+        projectId: document.getElementById('cfg-projectId').value.trim(),
+        apiKey: document.getElementById('cfg-apiKey').value.trim()
+      };
+      localStorage.setItem('trig_duel_firebase_cfg', JSON.stringify(customCfg));
+      showToast("連線設定已成功儲存！");
+      closeConfigModal();
+    }
+    function resetFirebaseDefault() {
+      localStorage.removeItem('trig_duel_firebase_cfg');
+      openConfigModal();
+      showToast("已恢復專案預設資料庫設定！");
+    }
+    function testFirebaseConnection() {
+      const testRes = document.getElementById('cfg-test-result');
+      testRes.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>測試連線中...';
+      const dbUrl = document.getElementById('cfg-databaseURL').value.trim();
+      if (!dbUrl) {
+        testRes.innerText = "❌ 請填入 databaseURL";
+        return;
+      }
+      fetch(dbUrl.replace(/\/$/, '') + '/.json?shallow=true')
+        .then(res => {
+          if (res.ok) {
+            testRes.className = "text-xs font-bold text-center mt-2 text-emerald-400";
+            testRes.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i>連線成功！Firebase 讀寫正常';
+          } else {
+            testRes.className = "text-xs font-bold text-center mt-2 text-rose-400";
+            testRes.innerHTML = '⚠️ 連線回應狀態碼：' + res.status;
+          }
+        })
+        .catch(err => {
+          testRes.className = "text-xs font-bold text-center mt-2 text-rose-400";
+          testRes.innerHTML = '❌ 連線失敗：' + err.message;
+        });
+    }
+
+    /* ==========================================
+       9. 鍵盤監聽與網址參數自動進房
+       ========================================== */
     window.addEventListener('keydown', (e) => {
       if (isGameOver) return;
+      if (gameMode === 'online') {
+        // 連線模式：依玩家身份判定快捷鍵
+        if (myRole === 'p1') {
+          if (e.key === '1') handleAnswer('p1', 0);
+          if (e.key === '2') handleAnswer('p1', 1);
+          if (e.key === '3') handleAnswer('p1', 2);
+          if (e.key === '4') handleAnswer('p1', 3);
+        } else if (myRole === 'p2') {
+          if (e.key === '1' || e.key === '7') handleAnswer('p2', 0);
+          if (e.key === '2' || e.key === '8') handleAnswer('p2', 1);
+          if (e.key === '3' || e.key === '9') handleAnswer('p2', 2);
+          if (e.key === '4' || e.key === '0') handleAnswer('p2', 3);
+        }
+        return;
+      }
+
+      // 同機模式
       if (e.key === '1') handleAnswer('p1', 0);
       if (e.key === '2') handleAnswer('p1', 1);
       if (e.key === '3') handleAnswer('p1', 2);
@@ -628,9 +1462,23 @@
       }
     });
 
-    // 啟動
+    // 啟動入口
     window.addEventListener('load', () => {
-      restartDuel();
+      // 檢查 URL 是否有房號參數 (掃碼進房: ?room=1234)
+      const urlParams = new URLSearchParams(window.location.search);
+      const roomParam = urlParams.get('room');
+
+      if (roomParam && roomParam.length >= 4) {
+        setMode('online');
+        switchLobbyTab('join');
+        document.getElementById('join-room-input').value = roomParam;
+        // 自動點擊連線
+        setTimeout(() => {
+          submitJoinRoom();
+        }, 500);
+      } else {
+        restartDuel();
+      }
     });
   </script>
 </body>
