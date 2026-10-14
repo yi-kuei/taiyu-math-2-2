@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>四象限領域佔領戰 - 泰宇數學 2-2 數理探案對決</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Share+Tech+Mono&display=swap');
+    
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: radial-gradient(circle at 50% 50%, #0d1527 0%, #050811 100%);
+      color: #e2e8f0;
+      user-select: none;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+    
+    .font-mono-num { font-family: 'Share Tech Mono', monospace; }
+    
+    /* 微軟原廠 OMML 數學印刷字型規範 */
+    .omml-math, .katex, .katex-display {
+      font-family: 'Cambria Math', 'Times New Roman', 'Noto Sans TC', serif !important;
+    }
+    .katex { font-size: 1.15em !important; }
+
+    /* 象限自定義發光背景 */
+    .quadrant-bg-q1 { background: rgba(59, 130, 246, 0.05); }
+    .quadrant-bg-q2 { background: rgba(168, 85, 247, 0.05); }
+    .quadrant-bg-q3 { background: rgba(234, 179, 8, 0.05); }
+    .quadrant-bg-q4 { background: rgba(16, 185, 129, 0.05); }
+
+    /* 霓虹邊框與光暈 */
+    .neon-border-blue {
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.2), inset 0 0 10px rgba(59, 130, 246, 0.1);
+    }
+    .neon-border-purple {
+      border: 1px solid rgba(217, 70, 239, 0.5);
+      box-shadow: 0 0 15px rgba(217, 70, 239, 0.2), inset 0 0 10px rgba(217, 70, 239, 0.1);
+    }
+    
+    /* 脈衝動態 */
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+    .pulse-node { animation: pulse-glow 2s infinite ease-in-out; }
+
+    /* 答題選項按鈕微微懸停 */
+    .opt-btn {
+      transition: all 0.15s ease;
+    }
+    .opt-btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body class="flex flex-col h-screen w-screen overflow-hidden text-slate-100">
+
+  <!-- 頂部資訊列 (Header: 48px) -->
+  <header class="h-12 border-b border-slate-800/80 bg-slate-950/80 px-4 flex items-center justify-between flex-shrink-0 z-20 backdrop-blur">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 transition">
+        <span>←</span> 返回教材
+      </a>
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+        <h1 class="font-black text-sm md:text-base tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300">
+          四象限領域佔領戰 <span class="text-xs text-slate-400 font-normal ml-1">QUADRANT CONQUEST</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- 比分與回合展示 -->
+    <div class="flex items-center gap-4 text-xs font-mono-num">
+      <div class="flex items-center gap-2 bg-blue-950/60 border border-blue-500/40 px-3 py-1 rounded-full">
+        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+        <span class="font-bold text-blue-300">柯南隊(P1):</span>
+        <span id="p1-score" class="text-sm font-black text-blue-400">0</span>
+        <span class="text-slate-500 text-[10px]">據點</span>
+      </div>
+      <div class="flex items-center gap-1 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300">
+        <span class="text-slate-400">回合</span>
+        <span id="current-round" class="font-bold text-amber-400">1</span>
+        <span class="text-slate-500">/ 12</span>
+      </div>
+      <div class="flex items-center gap-2 bg-fuchsia-950/60 border border-fuchsia-500/40 px-3 py-1 rounded-full">
+        <span class="w-2 h-2 rounded-full bg-fuchsia-400"></span>
+        <span class="font-bold text-fuchsia-300">基德隊(P2):</span>
+        <span id="p2-score" class="text-sm font-black text-fuchsia-400">0</span>
+        <span class="text-slate-500 text-[10px]">據點</span>
+      </div>
+    </div>
+
+    <!-- 模式切換與說明 -->
+    <div class="flex items-center gap-2">
+      <select id="mode-select" class="bg-slate-900 border border-slate-700 text-xs text-slate-300 rounded px-2 py-1 outline-none">
+        <option value="pve">單人 vs 怪盜基德 AI</option>
+        <option value="pvp">雙人同機輪流對戰</option>
+      </select>
+      <button id="btn-sound" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded border border-slate-700">
+        🔊 音效
+      </button>
+      <button id="btn-reset" class="px-2 py-1 bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-xs rounded border border-rose-700">
+        重新開局
+      </button>
+    </div>
+  </header>
+
+  <!-- 主戰場 (Main Body: Flex-1 100vh 一屏無捲軸) -->
+  <main class="flex-1 flex flex-col md:flex-row overflow-hidden p-2 gap-2 relative">
+
+    <!-- 左側：四象限直角坐標系作戰星圖 (Canvas + Overlay Nodes) -->
+    <section class="flex-1 flex flex-col bg-slate-950/90 rounded-xl border border-slate-800/80 p-2 relative overflow-hidden shadow-2xl">
+      <!-- 象限四分標籤背景提示 -->
+      <div class="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none opacity-40 z-0">
+        <!-- Q2 -->
+        <div class="quadrant-bg-q2 border-r border-b border-slate-800/60 p-3 flex flex-col justify-between">
+          <div class="flex items-center justify-between text-xs font-bold text-purple-400">
+            <span>第二象限 (Q2)</span>
+            <span class="omml-math text-[11px] bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800">sin(+) / cos(-) / tan(-)</span>
+          </div>
+          <div class="text-[10px] text-purple-300/60">杯戶町北區 (x < 0, y > 0)</div>
+        </div>
+        <!-- Q1 -->
+        <div class="quadrant-bg-q1 border-b border-slate-800/60 p-3 flex flex-col justify-between">
+          <div class="flex items-center justify-between text-xs font-bold text-blue-400">
+            <span>第一象限 (Q1)</span>
+            <span class="omml-math text-[11px] bg-blue-950/60 px-2 py-0.5 rounded border border-blue-800">All 全部正號 (+)</span>
+          </div>
+          <div class="text-[10px] text-blue-300/60 text-right">米花町核心區 (x > 0, y > 0)</div>
+        </div>
+        <!-- Q3 -->
+        <div class="quadrant-bg-q3 border-r border-slate-800/60 p-3 flex flex-col justify-between">
+          <div class="text-[10px] text-amber-300/60">江古田西區 (x < 0, y < 0)</div>
+          <div class="flex items-center justify-between text-xs font-bold text-amber-400">
+            <span>第三象限 (Q3)</span>
+            <span class="omml-math text-[11px] bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800">tan(+) / sin(-) / cos(-)</span>
+          </div>
+        </div>
+        <!-- Q4 -->
+        <div class="quadrant-bg-q4 p-3 flex flex-col justify-between">
+          <div class="text-[10px] text-emerald-300/60 text-right">澀谷町南區 (x > 0, y < 0)</div>
+          <div class="flex items-center justify-between text-xs font-bold text-emerald-400">
+            <span>第四象限 (Q4)</span>
+            <span class="omml-math text-[11px] bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">cos(+) / sin(-) / tan(-)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 坐標軸與動態連線 Canvas 畫布 -->
+      <canvas id="quadrant-canvas" class="w-full h-full absolute inset-0 z-10 cursor-pointer"></canvas>
+
+      <!-- 底部操作提示條 -->
+      <div class="absolute bottom-2 left-3 right-3 z-20 flex items-center justify-between pointer-events-none">
+        <div class="bg-slate-900/90 border border-slate-700/80 px-3 py-1 rounded-full text-xs text-slate-300 flex items-center gap-2 shadow">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="turn-indicator">當前行動回合：<b class="text-blue-400 font-bold">柯南隊 (P1)</b>，請點選欲佔領的據點！</span>
+        </div>
+        <div class="text-[11px] text-slate-400 font-mono-num hidden sm:block bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
+          佔領連線可觸發「三角平方連鎖防線」
+        </div>
+      </div>
+    </section>
+
+    <!-- 右側：戰況控制台 & 答題作戰卡 (寬度固定約 380px，自適應) -->
+    <aside class="w-full md:w-[380px] lg:w-[420px] flex flex-col bg-slate-950/90 rounded-xl border border-slate-800/80 p-3 relative flex-shrink-0 z-20 shadow-2xl">
+      
+      <!-- 目標據點情報卡 -->
+      <div class="bg-slate-900/90 border border-slate-700/70 rounded-lg p-2.5 mb-2.5">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-bold text-slate-400 flex items-center gap-1.5">
+            <span class="w-1.5 h-3 bg-cyan-400 rounded-sm"></span> 鎖定據點情報
+          </span>
+          <span id="node-badge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+            請於地圖點選據點
+          </span>
+        </div>
+        <div class="flex items-center justify-between text-xs">
+          <div>
+            <span class="text-slate-400">標準角：</span>
+            <span id="node-angle" class="font-bold text-cyan-300 font-mono-num omml-math">--</span>
+          </div>
+          <div>
+            <span class="text-slate-400">終邊座標：</span>
+            <span id="node-coord" class="font-bold text-amber-300 font-mono-num omml-math">--</span>
+          </div>
+          <div>
+            <span class="text-slate-400">掌控方：</span>
+            <span id="node-owner" class="font-bold text-slate-400">中立中</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 答題作戰面板 (Quiz Card) -->
+      <div id="quiz-card" class="flex-1 flex flex-col bg-slate-900/60 border border-slate-800 rounded-lg p-3 relative justify-between overflow-hidden">
+        
+        <!-- 計時器與題號 -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+              <span>🎯</span> 領域解鎖考核
+            </span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[11px] text-slate-400">答題倒數:</span>
+              <span id="quiz-timer" class="text-sm font-black text-amber-400 font-mono-num">20</span>
+              <span class="text-xs text-slate-500">s</span>
+            </div>
+          </div>
+
+          <!-- 倒數進度條 -->
+          <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mb-3">
+            <div id="timer-bar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 w-full transition-all duration-200"></div>
+          </div>
+
+          <!-- 題目內容區 (嚴格微軟 OMML 標準排版) -->
+          <div id="question-box" class="min-h-[70px] bg-slate-950/80 rounded-md p-3 border border-slate-800/80 flex items-center justify-center text-center">
+            <div id="question-text" class="omml-math text-base md:text-lg font-medium text-slate-100 leading-relaxed">
+              點擊地圖上的任意中立節點發動佔領！
+            </div>
+          </div>
+        </div>
+
+        <!-- 四大選項按鈕區 -->
+        <div id="options-grid" class="grid grid-cols-2 gap-2 my-2">
+          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math opacity-50 cursor-not-allowed" disabled>
+            A. 待就緒
+          </button>
+          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math opacity-50 cursor-not-allowed" disabled>
+            B. 待就緒
+          </button>
+          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math opacity-50 cursor-not-allowed" disabled>
+            C. 待就緒
+          </button>
+          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math opacity-50 cursor-not-allowed" disabled>
+            D. 待就緒
+          </button>
+        </div>
+
+        <!-- 答題解析與戰況反饋 -->
+        <div id="feedback-box" class="min-h-[46px] rounded p-2 text-xs flex items-center justify-center text-center bg-slate-950/60 border border-slate-800/60 text-slate-400">
+          提示：第一象限全部為正；第二象限正弦為正；第三象限正切為正；第四象限餘弦為正。
+        </div>
+      </div>
+
+      <!-- 戰略技能列 (Skills / 特訓道具) -->
+      <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center gap-2">
+        <button id="skill-shield" class="flex-1 py-1.5 px-2 rounded bg-indigo-950/60 hover:bg-indigo-900/60 border border-indigo-700/50 text-[11px] font-bold text-indigo-300 flex items-center justify-center gap-1 transition">
+          <span>🛡️</span> 平方護盾 (<span class="omml-math font-normal">sin²+cos²=1</span>)
+        </button>
+        <button id="skill-rush" class="flex-1 py-1.5 px-2 rounded bg-amber-950/60 hover:bg-amber-900/60 border border-amber-700/50 text-[11px] font-bold text-amber-300 flex items-center justify-center gap-1 transition">
+          <span>⚡</span> 商數突襲 (<span class="omml-math font-normal">tan=sin/cos</span>)
+        </button>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- 結算勝利彈窗 (Game Over Modal) -->
+  <div id="game-over-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl relative">
+      <div id="modal-trophy" class="text-5xl mb-3">🏆</div>
+      <h2 id="modal-winner" class="text-2xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+        柯南隊 獲得全面勝利！
+      </h2>
+      <p id="modal-summary" class="text-xs text-slate-300 leading-relaxed mb-6 omml-math">
+        在米花市四象限領域對決中，成功掌控多數象限關鍵據點，徹底破解基德的暗號結界！
+      </p>
+      
+      <!-- 統計數據 -->
+      <div class="grid grid-cols-2 gap-3 mb-6 bg-slate-950/80 p-3 rounded-lg border border-slate-800 text-xs font-mono-num">
+        <div class="p-2 border-r border-slate-800">
+          <div class="text-slate-400 mb-1">柯南隊佔領數</div>
+          <div id="modal-p1-nodes" class="text-lg font-bold text-blue-400">0</div>
+        </div>
+        <div class="p-2">
+          <div class="text-slate-400 mb-1">基德隊佔領數</div>
+          <div id="modal-p2-nodes" class="text-lg font-bold text-fuchsia-400">0</div>
+        </div>
+      </div>
+
+      <div class="flex gap-3">
+        <button id="modal-btn-restart" class="flex-1 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 font-bold text-white text-sm shadow transition">
+          再來一局特訓
+        </button>
+        <a href="index.html" class="flex-1 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 font-bold text-slate-200 text-sm flex items-center justify-center transition">
+          返回教材首頁
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript 核心驅動 -->
+  <script>
+    /* ==========================================================================
+       1. 音效引擎 (Web Audio API 原生合成)
+       ========================================================================== */
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+      }
+      playTone(freq, type = 'sine', duration = 0.15, vol = 0.15) {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch(e) {}
+      }
+      click() { this.playTone(600, 'sine', 0.08, 0.08); }
+      correct() {
+        this.playTone(523.25, 'triangle', 0.1, 0.2); // C5
+        setTimeout(() => this.playTone(659.25, 'triangle', 0.1, 0.2), 100); // E5
+        setTimeout(() => this.playTone(783.99, 'triangle', 0.25, 0.2), 200); // G5
+      }
+      wrong() {
+        this.playTone(280, 'sawtooth', 0.15, 0.25);
+        setTimeout(() => this.playTone(200, 'sawtooth', 0.3, 0.25), 150);
+      }
+      capture() {
+        this.playTone(440, 'sine', 0.08, 0.15);
+        setTimeout(() => this.playTone(880, 'sine', 0.2, 0.2), 80);
+      }
+      victory() {
+        [523, 659, 783, 1046].forEach((f, idx) => {
+          setTimeout(() => this.playTone(f, 'triangle', 0.3, 0.2), idx * 120);
+        });
+      }
+    }
+    const audio = new SoundEngine();
+
+    /* ==========================================================================
+       2. 16 個象限關鍵據點資料模型 (包含角度、座標、歸屬、OMML題庫)
+       ========================================================================== */
+    const NODES = [
+      // 第一象限 Q1
+      { id: 'q1_1', quadrant: 1, angle: '30°', coord: '(√3, 1)', r: 2, xRatio: 0.68, yRatio: 0.40, owner: null, shielded: false,
+        question: '在坐標平面上，點 $P(\\sqrt{3}, 1)$ 落在第一象限，求 $\\sin 30^\\circ$ 的值為何？',
+        options: ['\\frac{1}{2}', '\\frac{\\sqrt{3}}{2}', '\\frac{\\sqrt{3}}{3}', '1'], correct: 0,
+        exp: '$\\sin 30^\\circ = \\frac{y}{r} = \\frac{1}{2}$。'
+      },
+      { id: 'q1_2', quadrant: 1, angle: '45°', coord: '(1, 1)', r: '√2', xRatio: 0.62, yRatio: 0.32, owner: null, shielded: false,
+        question: '若點 $P(1, 1)$ 在終邊上，此時對應角為 $45^\\circ$，求 $\\cos 45^\\circ$ 的值為何？',
+        options: ['\\frac{1}{2}', '\\frac{\\sqrt{2}}{2}', '1', '\\sqrt{2}'], correct: 1,
+        exp: '$r = \\sqrt{1^2+1^2} = \\sqrt{2}$，故 $\\cos 45^\\circ = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$。'
+      },
+      { id: 'q1_3', quadrant: 1, angle: '60°', coord: '(1, √3)', r: 2, xRatio: 0.56, yRatio: 0.24, owner: null, shielded: false,
+        question: '在第一象限中，$\\tan 60^\\circ$ 的精確值為何？',
+        options: ['\\frac{\\sqrt{3}}{3}', '1', '\\sqrt{3}', '\\frac{1}{2}'], correct: 2,
+        exp: '$\\tan 60^\\circ = \\frac{y}{x} = \\frac{\\sqrt{3}}{1} = \\sqrt{3}$。'
+      },
+      { id: 'q1_4', quadrant: 1, angle: '特區', coord: '(4, 3)', r: 5, xRatio: 0.76, yRatio: 0.28, owner: null, shielded: false,
+        question: '標準位置角 $\\theta$ 的終邊通過點 $P(4, 3)$，則 $\\sin\\theta + \\cos\\theta = ?$？',
+        options: ['\\frac{7}{5}', '\\frac{1}{5}', '\\frac{3}{4}', '1'], correct: 0,
+        exp: '$r = \\sqrt{4^2+3^2}=5$，$\\sin\\theta=\\frac{3}{5}, \\cos\\theta=\\frac{4}{5}$，相加為 $\\frac{7}{5}$。'
+      },
+
+      // 第二象限 Q2
+      { id: 'q2_1', quadrant: 2, angle: '120°', coord: '(-1, √3)', r: 2, xRatio: 0.44, yRatio: 0.24, owner: null, shielded: false,
+        question: '求廣義角 $\\cos 120^\\circ$ 的值為何？',
+        options: ['\\frac{1}{2}', '-\\frac{1}{2}', '\\frac{\\sqrt{3}}{2}', '-\\frac{\\sqrt{3}}{2}'], correct: 1,
+        exp: '$120^\\circ$ 位於第二象限，參考角為 $60^\\circ$，且第二象限 $\\cos$ 為負值，故為 $-\\frac{1}{2}$。'
+      },
+      { id: 'q2_2', quadrant: 2, angle: '135°', coord: '(-1, 1)', r: '√2', xRatio: 0.38, yRatio: 0.32, owner: null, shielded: false,
+        question: '求廣義角 $\\tan 135^\\circ$ 的值為何？',
+        options: ['1', '-1', '\\sqrt{2}', '-\\frac{\\sqrt{2}}{2}'], correct: 1,
+        exp: '$135^\\circ = 180^\\circ - 45^\\circ$，第二象限 $\\tan$ 為負，故 $\\tan 135^\\circ = -\\tan 45^\\circ = -1$。'
+      },
+      { id: 'q2_3', quadrant: 2, angle: '150°', coord: '(-√3, 1)', r: 2, xRatio: 0.32, yRatio: 0.40, owner: null, shielded: false,
+        question: '求廣義角 $\\sin 150^\\circ$ 的正負與精確值為何？',
+        options: ['\\frac{1}{2}', '-\\frac{1}{2}', '\\frac{\\sqrt{3}}{2}', '-\\frac{\\sqrt{3}}{2}'], correct: 0,
+        exp: '第二象限中正弦為正！$\\sin 150^\\circ = \\sin(180^\\circ - 30^\\circ) = \\sin 30^\\circ = \\frac{1}{2}$。'
+      },
+      { id: 'q2_4', quadrant: 2, angle: '特區', coord: '(-3, 4)', r: 5, xRatio: 0.24, yRatio: 0.28, owner: null, shielded: false,
+        question: '若角 $\\theta$ 的終邊通過點 $P(-3, 4)$，則 $\\cos\\theta$ 為何？',
+        options: ['\\frac{4}{5}', '-\\frac{4}{5}', '-\\frac{3}{5}', '\\frac{3}{5}'], correct: 2,
+        exp: '$r = \\sqrt{(-3)^2+4^2}=5$，$\\cos\\theta = \\frac{x}{r} = -\\frac{3}{5}$。'
+      },
+
+      // 第三象限 Q3
+      { id: 'q3_1', quadrant: 3, angle: '210°', coord: '(-√3, -1)', r: 2, xRatio: 0.32, yRatio: 0.60, owner: null, shielded: false,
+        question: '求廣義角 $\\sin 210^\\circ$ 的值為何？',
+        options: ['\\frac{1}{2}', '-\\frac{1}{2}', '\\frac{\\sqrt{3}}{2}', '-\\frac{\\sqrt{3}}{2}'], correct: 1,
+        exp: '$210^\\circ = 180^\\circ + 30^\\circ$ 在第三象限，正弦為負，故為 $-\\sin 30^\\circ = -\\frac{1}{2}$。'
+      },
+      { id: 'q3_2', quadrant: 3, angle: '225°', coord: '(-1, -1)', r: '√2', xRatio: 0.38, yRatio: 0.68, owner: null, shielded: false,
+        question: '在第三象限中，$\\tan 225^\\circ$ 的值為何？',
+        options: ['-1', '1', '-\\sqrt{2}', '\\frac{\\sqrt{2}}{2}'], correct: 1,
+        exp: '第三象限中 $\\tan$ 為正值！$\\tan 225^\\circ = \\tan(180^\\circ+45^\\circ) = \\tan 45^\\circ = 1$。'
+      },
+      { id: 'q3_3', quadrant: 3, angle: '240°', coord: '(-1, -√3)', r: 2, xRatio: 0.44, yRatio: 0.76, owner: null, shielded: false,
+        question: '求廣義角 $\\cos 240^\\circ$ 的值為何？',
+        options: ['-\\frac{1}{2}', '\\frac{1}{2}', '-\\frac{\\sqrt{3}}{2}', '\\frac{\\sqrt{3}}{2}'], correct: 0,
+        exp: '$240^\\circ = 180^\\circ + 60^\\circ$ 在第三象限，$\\cos 240^\\circ = -\\cos 60^\\circ = -\\frac{1}{2}$。'
+      },
+      { id: 'q3_4', quadrant: 3, angle: '特區', coord: '(-4, -3)', r: 5, xRatio: 0.24, yRatio: 0.72, owner: null, shielded: false,
+        question: '若角 $\\theta$ 終邊經過 $P(-4, -3)$，則 $\\tan\\theta$ 的值為何？',
+        options: ['\\frac{3}{4}', '-\\frac{3}{4}', '\\frac{4}{3}', '-\\frac{4}{3}'], correct: 0,
+        exp: '$\\tan\\theta = \\frac{y}{x} = \\frac{-3}{-4} = \\frac{3}{4}$。'
+      },
+
+      // 第四象限 Q4
+      { id: 'q4_1', quadrant: 4, angle: '300°', coord: '(1, -√3)', r: 2, xRatio: 0.56, yRatio: 0.76, owner: null, shielded: false,
+        question: '求廣義角 $\\cos 300^\\circ$ 的值為何？',
+        options: ['\\frac{1}{2}', '-\\frac{1}{2}', '\\frac{\\sqrt{3}}{2}', '-\\frac{\\sqrt{3}}{2}'], correct: 0,
+        exp: '$300^\\circ$ 位於第四象限，餘弦為正值！$\\cos 300^\\circ = \\cos(360^\\circ-60^\\circ) = \\cos 60^\\circ = \\frac{1}{2}$。'
+      },
+      { id: 'q4_2', quadrant: 4, angle: '315°', coord: '(1, -1)', r: '√2', xRatio: 0.62, yRatio: 0.68, owner: null, shielded: false,
+        question: '求負角 $\\sin(-45^\\circ)$（同界角 $315^\\circ$）的值為何？',
+        options: ['\\frac{\\sqrt{2}}{2}', '-\\frac{\\sqrt{2}}{2}', '-\\frac{1}{2}', '\\frac{1}{2}'], correct: 1,
+        exp: '負角公式：$\\sin(-\\theta) = -\\sin\\theta$，故 $\\sin(-45^\\circ) = -\\frac{\\sqrt{2}}{2}$。'
+      },
+      { id: 'q4_3', quadrant: 4, angle: '330°', coord: '(√3, -1)', r: 2, xRatio: 0.68, yRatio: 0.60, owner: null, shielded: false,
+        question: '求廣義角 $\\tan 330^\\circ$ 的精確值為何？',
+        options: ['-\\frac{\\sqrt{3}}{3}', '\\frac{\\sqrt{3}}{3}', '-\\sqrt{3}', '\\sqrt{3}'], correct: 0,
+        exp: '第四象限 $\\tan$ 為負值，$\\tan 330^\\circ = -\\tan 30^\\circ = -\\frac{\\sqrt{3}}{3}$。'
+      },
+      { id: 'q4_4', quadrant: 4, angle: '特區', coord: '(3, -4)', r: 5, xRatio: 0.76, yRatio: 0.72, owner: null, shielded: false,
+        question: '若點 $P(3, -4)$ 在終邊上，求 $\\cos\\theta - \\sin\\theta$ 的值？',
+        options: ['\\frac{7}{5}', '-\\frac{1}{5}', '\\frac{1}{5}', '-\\frac{7}{5}'], correct: 0,
+        exp: '$\\cos\\theta = \\frac{3}{5}, \\sin\\theta = -\\frac{4}{5}$，相減為 $\\frac{3}{5} - (-\\frac{4}{5}) = \\frac{7}{5}$。'
+      }
+    ];
+
+    /* ==========================================================================
+       3. 遊戲狀態管理
+       ========================================================================== */
+    const state = {
+      mode: 'pve', // 'pve' or 'pvp'
+      currentTurn: 'p1', // 'p1' (柯南) or 'p2' (基德)
+      round: 1,
+      maxRounds: 12,
+      selectedNode: null,
+      quizTimer: null,
+      timeLeft: 20,
+      isAnswering: false,
+      p1Shields: 1,
+      p2Shields: 1,
+      rushActive: false
+    };
+
+    /* ==========================================================================
+       4. Canvas 繪圖引擎
+       ========================================================================== */
+    const canvas = document.getElementById('quadrant-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      drawBoard();
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    function getNodePos(node) {
+      return {
+        x: canvas.width * node.xRatio,
+        y: canvas.height * node.yRatio
+      };
+    }
+
+    function drawBoard() {
+      if (!canvas.width || !canvas.height) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+
+      // 1. 繪製坐標軸
+      ctx.save();
+      ctx.strokeStyle = 'rgba(71, 85, 105, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+
+      // X 軸
+      ctx.beginPath();
+      ctx.moveTo(20, cy);
+      ctx.lineTo(canvas.width - 20, cy);
+      ctx.stroke();
+
+      // Y 軸
+      ctx.beginPath();
+      ctx.moveTo(cx, 20);
+      ctx.lineTo(cx, canvas.height - 20);
+      ctx.stroke();
+      ctx.restore();
+
+      // 坐標箭頭與文字標記
+      ctx.fillStyle = '#64748b';
+      ctx.font = '12px "Share Tech Mono", monospace';
+      ctx.fillText('+X', canvas.width - 24, cy - 8);
+      ctx.fillText('-X', 8, cy - 8);
+      ctx.fillText('+Y', cx + 8, 20);
+      ctx.fillText('-Y', cx + 8, canvas.height - 10);
+      ctx.fillText('原點 O(0,0)', cx + 8, cy + 16);
+
+      // 2. 繪製象限連線 (同陣營節點相鄰連線)
+      NODES.forEach((n1, i) => {
+        if (!n1.owner) return;
+        const p1 = getNodePos(n1);
+        NODES.slice(i + 1).forEach(n2 => {
+          if (n2.owner === n1.owner && n1.quadrant === n2.quadrant) {
+            const p2 = getNodePos(n2);
+            ctx.save();
+            ctx.strokeStyle = n1.owner === 'p1' ? 'rgba(59, 130, 246, 0.5)' : 'rgba(217, 70, 239, 0.5)';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+            ctx.restore();
+          }
+        });
+      });
+
+      // 3. 繪製節點 (Nodes)
+      NODES.forEach(node => {
+        const pos = getNodePos(node);
+        const isSelected = state.selectedNode && state.selectedNode.id === node.id;
+
+        ctx.save();
+        
+        // 選中光暈
+        if (isSelected) {
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, 22, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(34, 211, 238, 0.25)';
+          ctx.fill();
+          ctx.strokeStyle = '#22d3ee';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+
+        // 節點本體外環
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 14, 0, Math.PI * 2);
+
+        if (node.owner === 'p1') {
+          ctx.fillStyle = '#1d4ed8'; // 柯南藍
+          ctx.strokeStyle = '#60a5fa';
+        } else if (node.owner === 'p2') {
+          ctx.fillStyle = '#a21caf'; // 基德紫
+          ctx.strokeStyle = '#f472b6';
+        } else {
+          ctx.fillStyle = '#1e293b'; // 中立暗灰
+          ctx.strokeStyle = '#475569';
+        }
+        ctx.lineWidth = 2;
+        ctx.fill();
+        ctx.stroke();
+
+        // 護盾圖標
+        if (node.shielded) {
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, 18, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        // 節點文字標籤 (角度 / 座標)
+        ctx.fillStyle = node.owner ? '#ffffff' : '#94a3b8';
+        ctx.font = 'bold 10px "Noto Sans TC", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        let label = node.angle;
+        if (node.owner === 'p1') label = 'P1';
+        if (node.owner === 'p2') label = 'P2';
+        ctx.fillText(label, pos.x, pos.y);
+
+        // 節點下方座標
+        ctx.fillStyle = '#64748b';
+        ctx.font = '9px "Share Tech Mono", monospace';
+        ctx.fillText(node.coord, pos.x, pos.y + 24);
+
+        ctx.restore();
+      });
+    }
+
+    // Canvas 點擊選取節點判定
+    canvas.addEventListener('click', (e) => {
+      if (state.isAnswering) return; // 答題中不可更換
+      if (state.mode === 'pve' && state.currentTurn === 'p2') return; // AI 回合
+
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      let clickedNode = null;
+      for (const node of NODES) {
+        const pos = getNodePos(node);
+        const dist = Math.hypot(clickX - pos.x, clickY - pos.y);
+        if (dist <= 20) {
+          clickedNode = node;
+          break;
+        }
+      }
+
+      if (clickedNode) {
+        audio.click();
+        selectNode(clickedNode);
+      }
+    });
+
+    /* ==========================================================================
+       5. 鎖定據點與開啟挑戰
+       ========================================================================== */
+    function selectNode(node) {
+      if (node.shielded && node.owner && node.owner !== state.currentTurn) {
+        alert('該據點已被「平方關係護盾」永久防禦，無法搶奪！');
+        return;
+      }
+      if (node.owner === state.currentTurn) {
+        alert('此據點已為您所佔領！請選擇中立或敵方據點進行爭奪。');
+        return;
+      }
+
+      state.selectedNode = node;
+      drawBoard();
+
+      // 更新鎖定據點資訊
+      document.getElementById('node-badge').innerText = `Q${node.quadrant} 象限據點`;
+      document.getElementById('node-badge').className = `text-[10px] font-bold px-2 py-0.5 rounded ${
+        node.quadrant === 1 ? 'bg-blue-900/60 text-blue-300 border border-blue-700' :
+        node.quadrant === 2 ? 'bg-purple-900/60 text-purple-300 border border-purple-700' :
+        node.quadrant === 3 ? 'bg-amber-900/60 text-amber-300 border border-amber-700' :
+        'bg-emerald-900/60 text-emerald-300 border border-emerald-700'
+      }`;
+
+      document.getElementById('node-angle').innerText = node.angle;
+      document.getElementById('node-coord').innerText = node.coord;
+      document.getElementById('node-owner').innerText = node.owner ? (node.owner === 'p1' ? '柯南隊' : '基德隊') : '中立據點';
+      document.getElementById('node-owner').className = `font-bold ${node.owner === 'p1' ? 'text-blue-400' : node.owner === 'p2' ? 'text-fuchsia-400' : 'text-slate-400'}`;
+
+      startQuiz(node);
+    }
+
+    /* ==========================================================================
+       6. 答題機制 (OMML / KaTeX)
+       ========================================================================== */
+    function startQuiz(node) {
+      state.isAnswering = true;
+      state.timeLeft = 20;
+      
+      const qTextEl = document.getElementById('question-text');
+      qTextEl.innerHTML = node.question;
+      
+      // KaTeX 渲染題目
+      if (window.renderMathInElement) {
+        renderMathInElement(qTextEl, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true }
+          ],
+          throwOnError: false
+        });
+      }
+
+      // 渲染選項按鈕
+      const optGrid = document.getElementById('options-grid');
+      optGrid.innerHTML = '';
+
+      node.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn bg-slate-800/90 hover:bg-slate-700 border border-slate-700 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math transition shadow';
+        btn.innerHTML = `${String.fromCharCode(65 + idx)}. $${opt}$`;
+        btn.onclick = () => submitAnswer(idx, node);
+        optGrid.appendChild(btn);
+      });
+
+      // 渲染選項的數學符號
+      if (window.renderMathInElement) {
+        renderMathInElement(optGrid, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+
+      // 重置回饋
+      const fbBox = document.getElementById('feedback-box');
+      fbBox.innerHTML = `請在 20 秒內作答，成功佔領此據點！`;
+      fbBox.className = 'min-h-[46px] rounded p-2 text-xs flex items-center justify-center text-center bg-slate-950/60 border border-slate-800/60 text-slate-300';
+
+      // 啟動倒數計時
+      clearInterval(state.quizTimer);
+      updateTimerDisplay();
+      state.quizTimer = setInterval(() => {
+        state.timeLeft--;
+        updateTimerDisplay();
+        if (state.timeLeft <= 0) {
+          clearInterval(state.quizTimer);
+          timeOut(node);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      document.getElementById('quiz-timer').innerText = state.timeLeft;
+      const bar = document.getElementById('timer-bar');
+      const pct = (state.timeLeft / 20) * 100;
+      bar.style.width = `${pct}%`;
+      if (state.timeLeft <= 5) {
+        bar.className = 'h-full bg-rose-500 w-full transition-all duration-200';
+      } else {
+        bar.className = 'h-full bg-gradient-to-r from-cyan-400 to-blue-500 w-full transition-all duration-200';
+      }
+    }
+
+    function submitAnswer(chosenIdx, node) {
+      if (!state.isAnswering) return;
+      clearInterval(state.quizTimer);
+      state.isAnswering = false;
+
+      // 停用所有按鈕
+      const btns = document.querySelectorAll('.opt-btn');
+      btns.forEach(b => b.disabled = true);
+
+      const isCorrect = (chosenIdx === node.correct);
+      const fbBox = document.getElementById('feedback-box');
+
+      if (isCorrect) {
+        audio.correct();
+        btns[chosenIdx].classList.remove('bg-slate-800/90');
+        btns[chosenIdx].classList.add('bg-emerald-600', 'text-white', 'border-emerald-400');
+        fbBox.className = 'min-h-[46px] rounded p-2 text-xs flex items-center justify-center text-center bg-emerald-950/80 border border-emerald-600/80 text-emerald-200';
+        fbBox.innerHTML = `<b>🎉 答對了！成功佔領據點！</b> <span class="ml-2">${node.exp}</span>`;
+
+        // 佔領據點
+        node.owner = state.currentTurn;
+        audio.capture();
+
+        // 檢查商數突襲技能
+        if (state.rushActive) {
+          state.rushActive = false;
+          // 自動額外佔領同象限另一中立據點
+          const extraNode = NODES.find(n => n.quadrant === node.quadrant && !n.owner && n.id !== node.id);
+          if (extraNode) {
+            extraNode.owner = state.currentTurn;
+            fbBox.innerHTML += `<br><span class="text-amber-300">⚡ 商數突襲發動！同象限額外佔領 ${extraNode.angle}！</span>`;
+          }
+        }
+
+      } else {
+        audio.wrong();
+        btns[chosenIdx].classList.remove('bg-slate-800/90');
+        btns[chosenIdx].classList.add('bg-rose-600', 'text-white', 'border-rose-400');
+        btns[node.correct].classList.add('bg-emerald-700', 'text-white');
+        fbBox.className = 'min-h-[46px] rounded p-2 text-xs flex items-center justify-center text-center bg-rose-950/80 border border-rose-600/80 text-rose-200';
+        fbBox.innerHTML = `<b>❌ 答錯了！未能佔領。</b> 正確解析：${node.exp}`;
+      }
+
+      if (window.renderMathInElement) {
+        renderMathInElement(fbBox, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+
+      updateScores();
+      drawBoard();
+
+      // 延遲推進回合
+      setTimeout(() => {
+        checkGameStatus();
+      }, 2500);
+    }
+
+    function timeOut(node) {
+      state.isAnswering = false;
+      audio.wrong();
+      const fbBox = document.getElementById('feedback-box');
+      fbBox.className = 'min-h-[46px] rounded p-2 text-xs flex items-center justify-center text-center bg-rose-950/80 border border-rose-600/80 text-rose-200';
+      fbBox.innerHTML = `<b>⏰ 逾時未答！行動權轉移。</b> 解析：${node.exp}`;
+      
+      const btns = document.querySelectorAll('.opt-btn');
+      btns.forEach(b => b.disabled = true);
+      btns[node.correct].classList.add('bg-emerald-700', 'text-white');
+
+      if (window.renderMathInElement) {
+        renderMathInElement(fbBox, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+
+      setTimeout(() => {
+        checkGameStatus();
+      }, 2500);
+    }
+
+    /* ==========================================================================
+       7. 回合推進與 AI 決策
+       ========================================================================== */
+    function updateScores() {
+      const p1Count = NODES.filter(n => n.owner === 'p1').length;
+      const p2Count = NODES.filter(n => n.owner === 'p2').length;
+      document.getElementById('p1-score').innerText = p1Count;
+      document.getElementById('p2-score').innerText = p2Count;
+    }
+
+    function switchTurn() {
+      state.currentTurn = state.currentTurn === 'p1' ? 'p2' : 'p1';
+      state.selectedNode = null;
+      
+      if (state.currentTurn === 'p1') {
+        state.round++;
+        document.getElementById('current-round').innerText = state.round;
+      }
+
+      // 更新指示器
+      const indicator = document.getElementById('turn-indicator');
+      if (state.currentTurn === 'p1') {
+        indicator.innerHTML = '當前行動回合：<b class="text-blue-400 font-bold">柯南隊 (P1)</b>，請點選欲佔領的據點！';
+      } else {
+        if (state.mode === 'pve') {
+          indicator.innerHTML = '當前行動回合：<b class="text-fuchsia-400 font-bold">怪盜基德 AI (P2)</b> 正在分析象限佈局...';
+          setTimeout(aiTurn, 1200);
+        } else {
+          indicator.innerHTML = '當前行動回合：<b class="text-fuchsia-400 font-bold">基德隊 (P2)</b>，請點選欲佔領的據點！';
+        }
+      }
+
+      // 重置題目卡提示
+      document.getElementById('question-text').innerHTML = '點擊地圖上的任意中立節點發動佔領！';
+      const btns = document.querySelectorAll('.opt-btn');
+      btns.forEach(b => {
+        b.disabled = true;
+        b.className = 'opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math opacity-50 cursor-not-allowed';
+      });
+
+      drawBoard();
+    }
+
+    function aiTurn() {
+      // 搜尋可佔領目標（優先中立節點）
+      const neutralNodes = NODES.filter(n => !n.owner);
+      const enemyNodes = NODES.filter(n => n.owner === 'p1' && !n.shielded);
+      
+      let target = null;
+      if (neutralNodes.length > 0) {
+        // 隨機選一個中立
+        target = neutralNodes[Math.floor(Math.random() * neutralNodes.length)];
+      } else if (enemyNodes.length > 0) {
+        target = enemyNodes[Math.floor(Math.random() * enemyNodes.length)];
+      }
+
+      if (!target) {
+        checkGameOver(true);
+        return;
+      }
+
+      state.selectedNode = target;
+      drawBoard();
+
+      // 模擬基德解題
+      const fbBox = document.getElementById('feedback-box');
+      fbBox.innerHTML = `基德正在解密 ${target.angle} 據點...`;
+
+      setTimeout(() => {
+        // 75% 機率成功
+        const success = Math.random() < 0.75;
+        if (success) {
+          audio.capture();
+          target.owner = 'p2';
+          fbBox.className = 'min-h-[46px] rounded p-2 text-xs flex items-center justify-center text-center bg-fuchsia-950/80 border border-fuchsia-600/80 text-fuchsia-200';
+          fbBox.innerHTML = `<b>🃏 基德破解了 ${target.angle} 暗號！成功佔領據點！</b>`;
+        } else {
+          audio.wrong();
+          fbBox.className = 'min-h-[46px] rounded p-2 text-xs flex items-center justify-center text-center bg-slate-900 border border-slate-700 text-slate-400';
+          fbBox.innerHTML = `基德在 ${target.angle} 運算失誤，佔領失敗！`;
+        }
+
+        updateScores();
+        drawBoard();
+
+        setTimeout(() => {
+          checkGameStatus();
+        }, 1800);
+
+      }, 1500);
+    }
+
+    function checkGameStatus() {
+      const allCaptured = NODES.every(n => n.owner !== null);
+      if (allCaptured || state.round > state.maxRounds) {
+        checkGameOver();
+      } else {
+        switchTurn();
+      }
+    }
+
+    function checkGameOver() {
+      const p1Count = NODES.filter(n => n.owner === 'p1').length;
+      const p2Count = NODES.filter(n => n.owner === 'p2').length;
+
+      const modal = document.getElementById('game-over-modal');
+      const winnerEl = document.getElementById('modal-winner');
+      const summaryEl = document.getElementById('modal-summary');
+      const trophyEl = document.getElementById('modal-trophy');
+
+      document.getElementById('modal-p1-nodes').innerText = p1Count;
+      document.getElementById('modal-p2-nodes').innerText = p2Count;
+
+      audio.victory();
+
+      if (p1Count > p2Count) {
+        trophyEl.innerText = '🏆';
+        winnerEl.innerText = '柯南隊 獲得全面勝利！';
+        winnerEl.className = 'text-2xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400';
+        summaryEl.innerText = `在四象限大戰中，柯南隊以 ${p1Count} : ${p2Count} 徹底壓制基德，完美掌握廣義角與象限正負號奧祕！`;
+      } else if (p2Count > p1Count) {
+        trophyEl.innerText = '🃏';
+        winnerEl.innerText = '怪盜基德 奪走了主控權！';
+        winnerEl.className = 'text-2xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-400';
+        summaryEl.innerText = `基德以 ${p2Count} : ${p1Count} 搶先掌控了米花市關鍵象限，請再次特訓奪回地盤！`;
+      } else {
+        trophyEl.innerText = '🤝';
+        winnerEl.innerText = '旗鼓相當！勢均力敵！';
+        winnerEl.className = 'text-2xl font-black mb-2 text-slate-200';
+        summaryEl.innerText = `雙方各佔領 ${p1Count} 個據點，三角戰力平分秋色！`;
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    /* ==========================================================================
+       8. 戰略技能事件綁定
+       ========================================================================== */
+    document.getElementById('skill-shield').onclick = () => {
+      audio.click();
+      const myNodes = NODES.filter(n => n.owner === state.currentTurn && !n.shielded);
+      if (myNodes.length === 0) {
+        alert('您尚未佔領任何可加裝護盾的據點！請先佔領據點。');
+        return;
+      }
+      // 給第一個自己節點裝盾
+      myNodes[0].shielded = true;
+      audio.correct();
+      drawBoard();
+      alert(`🛡️ 平方護盾已部署在 ${myNodes[0].angle} 據點！該據點已無法被敵方奪取！`);
+    };
+
+    document.getElementById('skill-rush').onclick = () => {
+      audio.click();
+      state.rushActive = true;
+      audio.correct();
+      alert('⚡ 商數突襲已啟動！本回合若答對，將自動額外佔領同象限另一據點！');
+    };
+
+    document.getElementById('btn-sound').onclick = () => {
+      audio.enabled = !audio.enabled;
+      document.getElementById('btn-sound').innerText = audio.enabled ? '🔊 音效' : '🔇 靜音';
+    };
+
+    document.getElementById('btn-reset').onclick = () => {
+      if (confirm('確定要重新開始本局四象限領域對決嗎？')) {
+        location.reload();
+      }
+    };
+
+    document.getElementById('modal-btn-restart').onclick = () => {
+      location.reload();
+    };
+
+    document.getElementById('mode-select').onchange = (e) => {
+      state.mode = e.target.value;
+      alert(`已切換為：${state.mode === 'pve' ? '單人 vs 怪盜基德 AI' : '雙人同機輪流對戰'}`);
+    };
+
+    // 初始化畫布
+    window.onload = () => {
+      resizeCanvas();
+    };
+  </script>
+</body>
+</html>

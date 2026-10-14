@@ -38,6 +38,18 @@ def package_project():
         shutil.copy2(idx_src, os.path.join(pkg_dir, "index.html"))
         print("  [OK] 複製 index.html")
         
+    game_files = [
+        "trig_artillery_duel.html",
+        "trig_math_duel.html",
+        "trig_territory_war.html",
+        "trig_card_battler.html"
+    ]
+    for gf in game_files:
+        g_src = os.path.join(base_dir, gf)
+        if os.path.exists(g_src):
+            shutil.copy2(g_src, os.path.join(pkg_dir, gf))
+            print(f"  [OK] 複製 {gf}")
+
     cp_src = os.path.join(base_dir, "cards_printable.html")
     if os.path.exists(cp_src):
         shutil.copy2(cp_src, os.path.join(pkg_dir, "cards_printable.html"))

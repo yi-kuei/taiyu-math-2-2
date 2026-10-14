@@ -1,0 +1,2332 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名偵探柯南數理探案：三角彈道對決 (Trig Artillery Duel)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap');
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    canvas {
+      touch-action: none;
+    }
+    .radar-scan {
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(10, 25, 47, 0) 70%);
+    }
+    /* 霓虹發光邊框 */
+    .neon-border-blue {
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    }
+    .neon-border-rose {
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
+    }
+    /* 微軟原生 OMML 規格數學字型 (Cambria Math / Times New Roman) */
+    .math-var {
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+    .math-sup {
+      font-size: 0.72em;
+      vertical-align: super;
+      line-height: 0;
+    }
+    .math-sub {
+      font-size: 0.72em;
+      vertical-align: sub;
+      line-height: 0;
+    }
+    /* KaTeX OMML 規格數學公式排版 */
+    .katex {
+      font-size: 1.15em !important;
+      line-height: 1.25 !important;
+    }
+    .katex-opt .katex {
+      font-size: 1.25em !important;
+      color: #fbbf24 !important; /* 亮金黃色，與深色按鈕形成高對比 */
+    }
+  </style>
+</head>
+<body class="bg-[#070f1e] text-slate-100 h-screen max-h-screen overflow-hidden flex flex-col justify-between">
+
+  <!-- 頂部對決 HUD 抬頭顯示儀表列 (高度 52px 一體化整合) -->
+  <header class="bg-[#0b172a] border-b border-amber-500/30 px-3 py-1.5 shrink-0 z-30 flex items-center justify-between gap-2 h-14">
+    <!-- 左側：返回 + 柯南 HUD -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="index.html" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 text-xs font-bold transition-all flex items-center gap-1.5 shrink-0" title="返回主教材">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span class="hidden sm:inline">返回教材</span>
+      </a>
+
+      <!-- 柯南血條 HUD -->
+      <div id="p1-panel" class="flex items-center gap-2 bg-slate-900/90 border border-sky-500/50 rounded-xl px-2.5 py-1 neon-border-blue transition-all">
+        <div class="w-6 h-6 rounded-full bg-sky-600 text-white flex items-center justify-center font-black text-xs shrink-0">
+          <i class="fa-solid fa-glasses"></i>
+        </div>
+        <div class="w-20 sm:w-28">
+          <div class="flex justify-between items-center text-[10px] font-bold leading-tight">
+            <span class="text-sky-300">柯南</span>
+            <span id="p1-hp-text" class="text-sky-400 font-mono-code">100 / 100</span>
+          </div>
+          <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-sky-500/30 mt-0.5">
+            <div id="p1-hp-bar" class="bg-gradient-to-r from-sky-400 to-indigo-500 h-full rounded-full transition-all duration-300 w-full"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 中間：風向 + 模式切換 -->
+    <div class="flex items-center gap-2">
+      <!-- 風向 -->
+      <div class="hidden md:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 border border-white/10 text-xs font-mono-code">
+        <span class="text-slate-400 text-[10px]">風向:</span>
+        <span id="wind-icon" class="text-sky-400 font-bold"><i class="fa-solid fa-arrow-right"></i></span>
+        <span id="wind-val" class="font-bold text-amber-300 text-xs">+1.2 m/s</span>
+      </div>
+
+      <!-- 模式切換 -->
+      <div class="flex rounded-lg bg-slate-900 p-0.5 border border-white/10 text-[11px]">
+        <button id="mode-pve-btn" onclick="setGameMode('pve')" class="px-2 py-0.5 rounded font-bold transition-all bg-indigo-600 text-white shadow-xs">
+          人機
+        </button>
+        <button id="mode-pvp-btn" onclick="setGameMode('pvp')" class="px-2 py-0.5 rounded font-bold text-slate-400 hover:text-white transition-all">
+          雙人
+        </button>
+        <button id="mode-practice-btn" onclick="setGameMode('practice')" class="px-2 py-0.5 rounded font-bold text-slate-400 hover:text-white transition-all">
+          打靶
+        </button>
+      </div>
+      <!-- 簡易版徽章 -->
+      <span class="hidden xl:inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold">
+        <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i>
+        <span>簡易教學版 (寬容判定 ‧ 綠光鎖定)</span>
+      </span>
+    </div>
+
+    <!-- 右側：基德 HUD + 功能按鈕 -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- 基德血條 HUD -->
+      <div id="p2-panel" class="flex items-center gap-2 bg-slate-900/90 border border-rose-500/40 rounded-xl px-2.5 py-1 transition-all">
+        <div class="w-20 sm:w-28 text-right">
+          <div class="flex justify-between items-center text-[10px] font-bold leading-tight">
+            <span id="p2-hp-text" class="text-rose-400 font-mono-code">100 / 100</span>
+            <span id="p2-name" class="text-rose-300">基德</span>
+          </div>
+          <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-rose-500/30 mt-0.5">
+            <div id="p2-hp-bar" class="bg-gradient-to-r from-rose-400 to-amber-500 h-full rounded-full transition-all duration-300 w-full"></div>
+          </div>
+        </div>
+        <div class="w-6 h-6 rounded-full bg-rose-600 text-white flex items-center justify-center font-black text-xs shrink-0">
+          <i class="fa-solid fa-hat-wizard"></i>
+        </div>
+      </div>
+
+      <!-- 示範玩法 Demo 按鈕 -->
+      <button onclick="toggleDemoMode()" id="demo-btn" class="px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 hover:text-amber-200 border border-amber-400/50 text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 shadow-xs cursor-pointer active:scale-95" title="啟動自動瞄準與發射的玩法示範 Demo">
+        <i id="demo-btn-icon" class="fa-solid fa-play text-amber-400"></i>
+        <span id="demo-btn-text">示範 (Demo)</span>
+      </button>
+
+      <!-- Reset 重新開始按鈕 -->
+      <button onclick="resetGamePrompt()" id="reset-game-btn" class="px-2.5 py-1.5 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 hover:text-white border border-rose-500/40 text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 shadow-xs cursor-pointer active:scale-95" title="重新開始本局對決 (重設血條、彈著點與地形)">
+        <i class="fa-solid fa-rotate-left text-rose-400"></i>
+        <span>重開 (Reset)</span>
+      </button>
+
+      <!-- 音效開關 -->
+      <button onclick="toggleAudio()" id="audio-toggle-btn" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-white/10 flex items-center justify-center text-xs transition-colors shrink-0 cursor-pointer" title="切換音效">
+        <i id="audio-icon" class="fa-solid fa-volume-high"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 中央戰場 Canvas 舞台 (自適應填滿剩餘高度，min-h-0 避免溢出) -->
+  <main class="flex-1 w-full relative min-h-0 overflow-hidden bg-[#050b14] flex flex-col">
+    <canvas id="gameCanvas" class="w-full h-full block"></canvas>
+
+    <!-- 回合提示浮動橫幅 -->
+    <div id="turn-banner" class="absolute top-2.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-slate-900/90 border border-amber-400/50 backdrop-blur-md text-xs font-black text-amber-300 shadow-xl pointer-events-none transition-all flex items-center gap-1.5 z-10">
+      <i class="fa-solid fa-bolt text-amber-400 text-xs"></i>
+      <span id="turn-banner-text">【江戶川柯南】的回合：請調整角度與力道</span>
+    </div>
+
+    <!-- 示範玩法 Demo 手動步進引導看板 (Step-by-Step Interactive Demo Overlay) -->
+    <div id="demo-banner" class="absolute top-10 left-1/2 -translate-x-1/2 px-4 py-3 rounded-2xl bg-slate-900/95 border-2 border-amber-400 shadow-[0_0_35px_rgba(245,158,11,0.4)] backdrop-blur-md pointer-events-auto transition-all z-30 hidden max-w-xl w-[94%]">
+      <!-- 頂部標題與步驟計數 -->
+      <div class="flex items-center justify-between gap-2 border-b border-amber-400/30 pb-2 mb-2">
+        <span class="text-xs sm:text-sm font-black text-amber-300 flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap text-amber-400"></i>
+          <span>柯南數理探案 ‧ 玩法手動引導示範</span>
+        </span>
+        <div class="flex items-center gap-2">
+          <span id="demo-step-badge" class="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/50 font-mono-code">步驟 1 / 5</span>
+          <button onclick="stopDemoMode()" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 hover:bg-rose-900 text-slate-300 hover:text-rose-200 border border-slate-700 font-bold cursor-pointer transition">
+            結束示範 ✕
+          </button>
+        </div>
+      </div>
+      
+      <!-- 說明內文 -->
+      <div id="demo-step-text" class="text-xs sm:text-sm font-bold text-slate-100 leading-relaxed omml-math min-h-[46px]">
+        正在啟動三角函數示範...
+      </div>
+
+      <!-- 分步控制列：上一步 / 重播 / 提示 / 下一步 -->
+      <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-800">
+        <div class="flex items-center gap-1.5">
+          <button id="demo-prev-btn" onclick="prevDemoStep()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 border border-slate-700 font-bold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1">
+            <i class="fa-solid fa-chevron-left text-[10px]"></i> 上一步
+          </button>
+          <button id="demo-replay-btn" onclick="replayDemoStep()" class="text-xs px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-amber-300 border border-slate-700 font-bold cursor-pointer transition" title="重新演示本步驟動作">
+            <i class="fa-solid fa-rotate-right text-[10px]"></i>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span id="demo-step-hint" class="text-[11px] text-amber-300 font-bold animate-pulse hidden sm:inline">
+            👉 請按「下一步」繼續
+          </span>
+          <button id="demo-next-btn" onclick="nextDemoStep()" class="text-xs sm:text-sm px-4 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-black shadow-[0_0_15px_rgba(245,158,11,0.5)] cursor-pointer transition flex items-center gap-1.5">
+            <span id="demo-next-btn-text">下一步</span> <i id="demo-next-btn-icon" class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 發射鎖定中遮罩 -->
+    <div id="canvas-overlay" class="absolute inset-0 bg-transparent pointer-events-none z-10"></div>
+  </main>
+
+  <!-- 底部緊湊控制台與三角函數物理儀表 (高度約 100px) -->
+  <footer class="bg-[#0b172a] border-t border-amber-500/30 p-2 sm:px-4 sm:py-2.5 shrink-0 z-20">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5">
+      
+      <!-- 左：即時三角向量分解儀表 (橫向扁平卡片) -->
+      <div class="w-full md:w-auto flex items-center gap-1.5 sm:gap-2 flex-wrap justify-between md:justify-start">
+        <div class="flex items-center gap-1.5 bg-slate-900 px-2.5 py-1 rounded-lg border border-white/10">
+          <span class="text-[10px] text-slate-400">角 <span class="math-var text-slate-300">θ</span>:</span>
+          <span id="val-theta" class="text-xs font-black text-amber-400 font-mono-code">45°</span>
+        </div>
+        <div class="flex items-center gap-1 bg-slate-900 px-2 py-1 rounded-lg border border-white/10">
+          <span class="text-[10px] text-slate-400">cos <span class="math-var text-slate-300">θ</span>:</span>
+          <span id="val-cos" class="text-xs font-black text-sky-400 font-mono-code">+0.707</span>
+          <span id="val-vx" class="text-[9px] text-slate-400 font-mono-code">(<span class="math-var">v</span><span class="math-sub">x</span> = 42.4)</span>
+        </div>
+        <div class="flex items-center gap-1 bg-slate-900 px-2 py-1 rounded-lg border border-white/10">
+          <span class="text-[10px] text-slate-400">sin <span class="math-var text-slate-300">θ</span>:</span>
+          <span id="val-sin" class="text-xs font-black text-emerald-400 font-mono-code">+0.707</span>
+          <span id="val-vy" class="text-[9px] text-slate-400 font-mono-code">(<span class="math-var">v</span><span class="math-sub">y</span> = 42.4)</span>
+        </div>
+        <span id="quadrant-badge" class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+          第 I 象限角
+        </span>
+        <div id="impact-info-badge" class="flex items-center gap-1 bg-slate-900 px-2 py-0.5 rounded-full border border-amber-500/40 text-[9px] text-amber-300">
+          <span>🎯 上發彈著:</span>
+          <span id="impact-info-val" class="font-mono-code font-bold text-white">--</span>
+        </div>
+      </div>
+
+      <!-- 中：滑桿與特殊角按鈕 -->
+      <div class="w-full md:flex-1 max-w-xl flex flex-col gap-1.5">
+        <div class="grid grid-cols-2 gap-2">
+          <!-- 角度滑桿 -->
+          <div class="flex items-center gap-2 bg-slate-900 px-2 py-1 rounded-lg border border-white/10">
+            <span class="text-[10px] text-slate-300 font-bold whitespace-nowrap"><i class="fa-solid fa-compass text-amber-400 mr-1"></i>角度 <span class="math-var text-amber-300">θ</span>:</span>
+            <input type="range" id="angle-slider" min="5" max="175" value="45" class="w-full accent-amber-500 cursor-pointer h-1.5 bg-slate-800 rounded">
+            <span id="slider-angle-label" class="text-amber-300 font-mono-code font-bold text-xs w-8 text-right">45°</span>
+          </div>
+          <!-- 初速滑桿 -->
+          <div class="flex items-center gap-2 bg-slate-900 px-2 py-1 rounded-lg border border-white/10">
+            <span class="text-[10px] text-slate-300 font-bold whitespace-nowrap"><i class="fa-solid fa-gauge-high text-sky-400 mr-1"></i>初速 <span class="math-var text-sky-300">V</span>:</span>
+            <input type="range" id="power-slider" min="30" max="95" value="60" class="w-full accent-sky-500 cursor-pointer h-1.5 bg-slate-800 rounded">
+            <span id="slider-power-label" class="text-sky-300 font-mono-code font-bold text-xs w-6 text-right">60</span>
+          </div>
+        </div>
+
+        <!-- 特殊角捷徑與智慧鎖定輔助 -->
+        <div class="flex items-center justify-between text-[10px]">
+          <div class="flex items-center gap-1 flex-wrap sm:flex-nowrap">
+            <span class="text-slate-400 text-[10px] hidden sm:inline">特殊角:</span>
+            <button onclick="setSpecialAngle(30)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold">30°</button>
+            <button onclick="setSpecialAngle(45)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold">45°</button>
+            <button onclick="setSpecialAngle(60)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold">60°</button>
+            <span class="text-slate-600">|</span>
+            <button onclick="setSpecialAngle(120)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold">120°</button>
+            <button onclick="setSpecialAngle(135)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold">135°</button>
+            <button onclick="setSpecialAngle(150)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold">150°</button>
+            <span class="text-slate-600">|</span>
+            <button onclick="autoAimAssist()" class="px-2 py-0.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 hover:text-emerald-200 border border-emerald-400/50 font-bold text-[10px] flex items-center gap-1 transition cursor-pointer shadow-xs active:scale-95" title="智慧瞄準輔助：一鍵自動微調力道與角度鎖定目標">
+              <i class="fa-solid fa-crosshairs text-emerald-400"></i>
+              <span>智慧鎖定</span>
+            </button>
+          </div>
+          <span id="trig-identity-check" class="text-indigo-300 font-mono-code text-[10px] hidden sm:inline">sin<span class="math-sup">2</span><span class="math-var">θ</span> + cos<span class="math-sup">2</span><span class="math-var">θ</span> = 1.000</span>
+        </div>
+      </div>
+
+      <!-- 右：發射按鈕群 (支援直接開火與解密暗號) -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <button onclick="resetGamePrompt()" class="px-2.5 sm:px-3 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-rose-950/80 text-slate-300 hover:text-rose-200 border border-slate-700 hover:border-rose-500/40 active:scale-95 transition-all flex items-center justify-center gap-1 cursor-pointer shadow-xs" title="重新開始本局對決">
+          <i class="fa-solid fa-rotate-left text-rose-400"></i>
+          <span>重開</span>
+        </button>
+
+        <button id="direct-fire-btn" onclick="directFire()" class="px-3 sm:px-3.5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-400/40 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs" title="不解題直接盲射開火">
+          <i class="fa-solid fa-crosshairs text-sky-400"></i>
+          <span>直接開火</span>
+        </button>
+
+        <button id="fire-btn" onclick="startQuestionModal()" class="px-4 py-2.5 rounded-xl font-black text-xs sm:text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 hover:from-amber-300 hover:to-orange-400 shadow-md shadow-amber-500/20 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer" title="答對暗號可解鎖雷達瞄準虛線與 1.5 倍威力">
+          <i class="fa-solid fa-key text-red-700"></i>
+          <span>解密發射 (爆擊)</span>
+        </button>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =============================== -->
+  <!-- 彈出視窗 1：三角暗號答題模組 (Question Modal) -->
+  <!-- =============================== -->
+  <div id="question-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-[#0b172a] border-2 border-amber-500/60 rounded-3xl max-w-lg w-full max-h-[88vh] overflow-y-auto p-4 sm:p-6 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+      
+      <!-- 標題 -->
+      <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black">
+            <i class="fa-solid fa-satellite-dish"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-amber-300">阿笠博士雷達暗號解密</h3>
+            <p class="text-[11px] text-slate-400">答對可解鎖「彈道預測瞄準線」與 1.5 倍威力！</p>
+          </div>
+        </div>
+        <div id="timer-badge" class="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 font-mono-code font-bold text-xs border border-rose-500/40">
+          <i class="fa-regular fa-clock mr-1"></i><span id="quiz-timer">20</span>s
+        </div>
+      </div>
+
+      <!-- 題目內容 -->
+      <div class="bg-slate-900 p-4 rounded-2xl border border-white/10 mb-4 text-center">
+        <div id="quiz-question-text" class="text-base sm:text-lg font-black text-white leading-relaxed">
+          <!-- 題目注入 -->
+        </div>
+        <div id="quiz-hint" class="text-xs text-amber-400/90 mt-2 font-medium">
+          <!-- 提示注入 -->
+        </div>
+      </div>
+
+      <!-- 四個選項按鈕 -->
+      <div id="quiz-options-grid" class="grid grid-cols-2 gap-2.5 mb-4">
+        <!-- 選項按鈕由 JS 產生 -->
+      </div>
+
+      <!-- 放棄答題（盲射） -->
+      <div class="flex justify-between items-center text-xs">
+        <button onclick="skipQuestionAndFire()" class="text-slate-400 hover:text-slate-200 transition-colors">
+          <i class="fa-solid fa-forward mr-1"></i>放棄解密（直接盲射，無瞄準線）
+        </button>
+        <span class="text-[10px] text-slate-500">泰宇數學 2-2 題庫考核</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================== -->
+  <!-- 彈出視窗 2：結算勝利視窗 (Game Over Modal) -->
+  <!-- =============================== -->
+  <div id="gameover-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[#0b172a] border-2 border-amber-500 rounded-3xl max-w-md w-full p-6 text-center shadow-2xl relative">
+      <div id="gameover-icon" class="w-16 h-16 rounded-full bg-amber-500/20 text-amber-300 border-2 border-amber-400/50 flex items-center justify-center text-3xl mx-auto mb-3">
+        <i class="fa-solid fa-trophy"></i>
+      </div>
+      <h3 id="gameover-title" class="text-2xl font-black text-amber-300 mb-1">江戶川柯南 探案勝利！</h3>
+      <p id="gameover-subtitle" class="text-xs text-slate-300 mb-4">精準利用三角函數軌跡擊潰怪盜基德！</p>
+      
+      <div class="bg-slate-900 p-3 rounded-xl border border-white/10 mb-5 text-left text-xs space-y-1.5 font-mono-code">
+        <div class="flex justify-between text-slate-300">
+          <span>總開火輪數:</span>
+          <span id="stat-rounds" class="text-amber-300 font-bold">5 回合</span>
+        </div>
+        <div class="flex justify-between text-slate-300">
+          <span>暗號答對率:</span>
+          <span id="stat-accuracy" class="text-emerald-300 font-bold">100%</span>
+        </div>
+        <div class="flex justify-between text-slate-300">
+          <span>最佳擊中角:</span>
+          <span id="stat-best-angle" class="text-sky-300 font-bold">45° (精準弧度)</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="restartGame()" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm transition-all shadow-md">
+          <i class="fa-solid fa-rotate-right mr-1.5"></i>再來一局
+        </button>
+        <a href="index.html" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm border border-white/10 transition-all flex items-center justify-center">
+          返回主頁
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 頁尾 -->
+  <footer class="bg-[#0b172a] border-t border-slate-800 py-2 px-4 text-center text-[11px] text-slate-500">
+    泰宇數學 第一冊 2-2 三角函數的定義與性質 ｜ 名偵探柯南數理探案特訓 旗艦單檔互動平台
+  </footer>
+
+  <!-- =============================== -->
+  <!-- 核心遊戲 JavaScript 引擎 -->
+  <!-- =============================== -->
+  <script>
+    /* ==========================================
+       1. 題庫資料 (泰宇數學 2-2 核心題目)
+       ========================================== */
+    const QUIZ_BANK = [
+      {
+        q: "在直角三角形或坐標定義中，特殊角 \\(\\sin 30^\\circ\\) 的值為？",
+        options: ["\\(\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "\\(\\frac{\\sqrt{2}}{2}\\)", "\\(1\\)"],
+        ans: 0,
+        hint: "30° 對邊為 1，斜邊為 2，故比值為 \\(\\frac{1}{2}\\)"
+      },
+      {
+        q: "特殊角 \\(\\cos 60^\\circ\\) 的精確值是多少？",
+        options: ["\\(\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "\\(1\\)", "\\(0\\)"],
+        ans: 0,
+        hint: "餘角關係：\\(\\cos 60^\\circ = \\sin 30^\\circ = \\frac{1}{2}\\)"
+      },
+      {
+        q: "特殊角 \\(\\tan 45^\\circ\\) 的值為？",
+        options: ["\\(1\\)", "\\(\\sqrt{3}\\)", "\\(\\frac{\\sqrt{3}}{3}\\)", "\\(0\\)"],
+        ans: 0,
+        hint: "等腰直角三角形對邊與鄰邊等長，故比值為 \\(1\\)"
+      },
+      {
+        q: "特殊角 \\(\\sin 45^\\circ\\) 與 \\(\\cos 45^\\circ\\) 的值均為？",
+        options: ["\\(\\frac{\\sqrt{2}}{2}\\)", "\\(\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "\\(1\\)"],
+        ans: 0,
+        hint: "斜邊為 \\(\\sqrt{2}\\)，對邊與鄰邊皆為 1，故比值為 \\(\\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}\\)"
+      },
+      {
+        q: "鈍角 \\(\\cos 120^\\circ\\) 位於第二象限，其值為？",
+        options: ["\\(-\\frac{1}{2}\\)", "\\(\\frac{1}{2}\\)", "\\(-\\frac{\\sqrt{3}}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)"],
+        ans: 0,
+        hint: "第二象限 \\(\\cos\\) 為負號：\\(\\cos 120^\\circ = -\\cos 60^\\circ = -\\frac{1}{2}\\)"
+      },
+      {
+        q: "鈍角 \\(\\sin 150^\\circ\\) 位於第二象限，其值為？",
+        options: ["\\(\\frac{1}{2}\\)", "\\(-\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "\\(-\\frac{\\sqrt{3}}{2}\\)"],
+        ans: 0,
+        hint: "補角關係：\\(\\sin(180^\\circ - 30^\\circ) = \\sin 30^\\circ = \\frac{1}{2}\\)"
+      },
+      {
+        q: "象限角 \\(\\cos 180^\\circ\\) 的值為？",
+        options: ["\\(-1\\)", "\\(0\\)", "\\(1\\)", "不存在"],
+        ans: 0,
+        hint: "終邊在負 x 軸，\\(x = -r\\)，故 \\(\\cos 180^\\circ = -1\\)"
+      },
+      {
+        q: "象限角 \\(\\sin 90^\\circ\\) 的值為？",
+        options: ["\\(1\\)", "\\(0\\)", "\\(-1\\)", "\\(\\frac{1}{2}\\)"],
+        ans: 0,
+        hint: "終邊在正 y 軸，\\(y = r\\)，故 \\(\\sin 90^\\circ = 1\\)"
+      },
+      {
+        q: "若角 \\(\\theta\\) 滿足 \\(\\sin\\theta > 0\\) 且 \\(\\cos\\theta < 0\\)，則 \\(\\theta\\) 為第幾象限角？",
+        options: ["第二象限", "第一象限", "第三象限", "第四象限"],
+        ans: 0,
+        hint: "口訣：一全正、二正弦(\\(\\sin\\))、三正切(\\(\\tan\\))、四餘弦(\\(\\cos\\))"
+      },
+      {
+        q: "若角 \\(\\theta\\) 滿足 \\(\\tan\\theta > 0\\) 且 \\(\\cos\\theta < 0\\)，則 \\(\\theta\\) 為第幾象限角？",
+        options: ["第三象限", "第一象限", "第二象限", "第四象限"],
+        ans: 0,
+        hint: "第三象限中 \\(x < 0, y < 0\\)，故 \\(\\cos < 0\\) 但 \\(\\tan = \\frac{y}{x} > 0\\)"
+      },
+      {
+        q: "角 \\(750^\\circ\\) 的「最小正同界角」為多少度？",
+        options: ["\\(30^\\circ\\)", "\\(60^\\circ\\)", "\\(150^\\circ\\)", "\\(390^\\circ\\)"],
+        ans: 0,
+        hint: "\\(750^\\circ - 2 \\times 360^\\circ = 750^\\circ - 720^\\circ = 30^\\circ\\)"
+      },
+      {
+        q: "角 \\(-330^\\circ\\) 的最小正同界角為多少度？",
+        options: ["\\(30^\\circ\\)", "\\(60^\\circ\\)", "\\(330^\\circ\\)", "\\(150^\\circ\\)"],
+        ans: 0,
+        hint: "\\(-330^\\circ + 360^\\circ = 30^\\circ\\)"
+      },
+      {
+        q: "在任何角 \\(\\theta\\) 下，平方關係恆等式 \\(\\sin^2\\theta + \\cos^2\\theta\\) 之值恆等於？",
+        options: ["\\(1\\)", "\\(0\\)", "\\(2\\)", "\\(-1\\)"],
+        ans: 0,
+        hint: "畢氏定理在單位圓上的直接推論：\\(x^2 + y^2 = r^2\\)"
+      },
+      {
+        q: "商數關係中，\\(\\tan\\theta\\) 可以表示為哪兩個三角函數的比值？",
+        options: ["\\(\\frac{\\sin\\theta}{\\cos\\theta}\\)", "\\(\\frac{\\cos\\theta}{\\sin\\theta}\\)", "\\(\\frac{1}{\\sin\\theta}\\)", "\\(\\sin\\theta \\cdot \\cos\\theta\\)"],
+        ans: 0,
+        hint: "\\(\\tan\\theta = \\frac{y}{x} = \\frac{y/r}{x/r} = \\frac{\\sin\\theta}{\\cos\\theta}\\)"
+      }
+    ];
+
+    /* ==========================================
+       2. Web Audio API 音效合成引擎 (免下載外部音檔)
+       ========================================== */
+    let audioCtx = null;
+    let audioEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      const icon = document.getElementById('audio-icon');
+      if (audioEnabled) {
+        icon.className = 'fa-solid fa-volume-high';
+      } else {
+        icon.className = 'fa-solid fa-volume-xmark text-slate-500';
+      }
+    }
+
+    function playSound(type) {
+      if (!audioEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+
+      const now = audioCtx.currentTime;
+
+      if (type === 'fire') {
+        // 發射聲 (低頻重砲 + 上揚噪聲)
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.exponentialRampToValueAtTime(40, now + 0.35);
+        gain.gain.setValueAtTime(0.4, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } else if (type === 'explosion') {
+        // 爆炸聲 (低音下潛與白噪雜音效果)
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(120, now);
+        osc.frequency.exponentialRampToValueAtTime(20, now + 0.5);
+        gain.gain.setValueAtTime(0.6, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.5);
+      } else if (type === 'correct') {
+        // 答對清脆二重奏
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc1.frequency.setValueAtTime(587.33, now); // D5
+        osc1.frequency.setValueAtTime(880, now + 0.12); // A5
+        osc2.frequency.setValueAtTime(880, now);
+        osc2.frequency.setValueAtTime(1174.66, now + 0.12); // D6
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.35);
+        osc2.stop(now + 0.35);
+      } else if (type === 'wrong') {
+        // 答錯低音雙響
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(150, now);
+        osc.frequency.setValueAtTime(110, now + 0.12);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      }
+    }
+
+    /* ==========================================
+       3. 遊戲狀態與物理模型
+       ========================================== */
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let gameMode = 'pve'; // 'pve', 'pvp', 'practice'
+    let currentTurn = 'p1'; // 'p1' (柯南), 'p2' (基德)
+    let isFiring = false;
+    let roundCount = 1;
+    let correctCount = 0;
+    let totalQuestionsAnswered = 0;
+
+    let p1 = {
+      name: "江戶川柯南",
+      x: 80,
+      y: 0, // 動態地面計算
+      hp: 100,
+      angle: 45,
+      power: 65,
+      hasRadar: false, // 答對解鎖瞄準線
+      crit: 1.0,
+      color: '#38bdf8'
+    };
+
+    let p2 = {
+      name: "怪盜基德",
+      x: 0, // 動態計算右側
+      y: 0,
+      hp: 100,
+      angle: 135,
+      power: 65,
+      hasRadar: false,
+      crit: 1.0,
+      color: '#f43f5e'
+    };
+
+    let buildings = []; // 障礙摩天大樓陣列
+    let wind = 1.0; // 風速 (-3.0 ~ +3.0)
+    let projectile = null; // 當前飛行砲彈
+    let particles = []; // 爆炸粒子
+    let practiceTarget = null; // 打靶模式靶心
+    let historyTrails = []; // 歷史彈道軌跡 (保留上一發或多發飛行軌跡)
+    let currentFlightTrail = []; // 當前砲彈飛行中的軌跡點陣列
+    let impactPoints = []; // 歷史實際彈著點記錄清單 [{x, y, owner, angle, power, isHit, deltaX, timestamp}]
+
+    // 視窗縮放適配
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+      // 重算角色位置與地形
+      p1.x = Math.max(50, rect.width * 0.1);
+      p2.x = Math.min(rect.width - 50, rect.width * 0.9);
+
+      if (buildings.length === 0) {
+        initBuildings(rect.width, rect.height);
+      } else {
+        // 更新大樓水平寬度與比例
+        updateBuildingGround(rect.width, rect.height);
+      }
+
+      p1.y = getGroundYAt(p1.x);
+      p2.y = getGroundYAt(p2.x);
+
+      if (gameMode === 'practice' && !practiceTarget) {
+        spawnPracticeTarget(rect.width, rect.height);
+      }
+    }
+
+    // 生成低矮城市天際線掩體 (開闊中央空域，大幅降低射擊難度)
+    function initBuildings(w, h) {
+      buildings = [];
+      const num = 7;
+      const bWidth = w / (num + 2);
+      for (let i = 0; i < num; i++) {
+        // 大幅降低大樓高度至 20 ~ 15% 畫布高，不再阻擋拋物線彈道
+        const bHeight = 20 + Math.random() * (h * 0.15);
+        buildings.push({
+          x: (i + 1) * bWidth,
+          w: bWidth * 0.95,
+          h: bHeight,
+          color: i % 2 === 0 ? '#1e293b' : '#0f172a'
+        });
+      }
+    }
+
+    function updateBuildingGround(w, h) {
+      const num = buildings.length;
+      const bWidth = w / (num + 2);
+      buildings.forEach((b, i) => {
+        b.x = (i + 1) * bWidth;
+        b.w = bWidth * 0.95;
+      });
+    }
+
+    function getGroundYAt(x) {
+      const rect = canvas.getBoundingClientRect();
+      const baseGround = rect.height - 35;
+      for (const b of buildings) {
+        if (x >= b.x && x <= b.x + b.w) {
+          return baseGround - b.h;
+        }
+      }
+      return baseGround;
+    }
+
+    // 生成打靶靶心 (擴大靶心半徑，提高命中機率)
+    function spawnPracticeTarget(w, h) {
+      const targetX = w * 0.4 + Math.random() * (w * 0.45);
+      practiceTarget = {
+        x: targetX,
+        y: getGroundYAt(targetX) - 25,
+        radius: 28, // 由 18px 擴大為 28px 超大靶心
+        pulse: 0
+      };
+    }
+
+    // 隨機微風 (溫和微風模式，風力干擾極低)
+    function resetWind() {
+      // 風力控制在 -0.5 ~ +0.5 m/s 之間，穩定且可預測
+      wind = Number(((Math.random() * 1.0) - 0.5).toFixed(1));
+      const windValEl = document.getElementById('wind-val');
+      const windIconEl = document.getElementById('wind-icon');
+      if (wind > 0) {
+        windValEl.innerText = `+${wind} m/s (微東風)`;
+        windIconEl.innerHTML = '<i class="fa-solid fa-arrow-right text-emerald-400"></i>';
+      } else if (wind < 0) {
+        windValEl.innerText = `${wind} m/s (微西風)`;
+        windIconEl.innerHTML = '<i class="fa-solid fa-arrow-left text-amber-400"></i>';
+      } else {
+        windValEl.innerText = `0.0 m/s (無風)`;
+        windIconEl.innerHTML = '<i class="fa-solid fa-minus text-slate-400"></i>';
+      }
+    }
+
+    /* ==========================================
+       4. 畫布渲染循環 (Render Loop)
+       ========================================== */
+    function draw() {
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // 1. 夜空背景與星光網格
+      ctx.fillStyle = '#070f1e';
+      ctx.fillRect(0, 0, w, h);
+
+      // 座標系輔助淡網格
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 40) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 40) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      // 2. 繪製摩天大樓障礙物
+      const baseGround = h - 35;
+      buildings.forEach((b) => {
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x, baseGround - b.h, b.w, b.h + 35);
+
+        // 大樓窗戶微光
+        ctx.fillStyle = 'rgba(251, 191, 36, 0.15)';
+        for (let wy = baseGround - b.h + 10; wy < baseGround; wy += 18) {
+          for (let wx = b.x + 8; wx < b.x + b.w - 8; wx += 15) {
+            if ((wx + wy) % 3 === 0) ctx.fillRect(wx, wy, 8, 10);
+          }
+        }
+
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+        ctx.strokeRect(b.x, baseGround - b.h, b.w, b.h + 35);
+      });
+
+      // 3. 繪製地面地平線
+      ctx.fillStyle = '#0b1322';
+      ctx.fillRect(0, baseGround, w, 35);
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, baseGround);
+      ctx.lineTo(w, baseGround);
+      ctx.stroke();
+
+      // 4. 繪製打靶靶心 (若在練習模式)
+      if (gameMode === 'practice' && practiceTarget) {
+        practiceTarget.pulse += 0.05;
+        const pulseR = practiceTarget.radius + Math.sin(practiceTarget.pulse) * 3;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(practiceTarget.x, practiceTarget.y, pulseR, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.3)';
+        ctx.fill();
+        ctx.strokeStyle = '#f43f5e';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(practiceTarget.x, practiceTarget.y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = '#facc15';
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // 4.5 繪製歷史飛行彈道 (保留先前開砲的拋物線路徑與落點)
+      drawHistoryTrails();
+
+      // 4.6 繪製歷史實際彈著點 (具備動態水波紋脈衝與偏差分析標記)
+      drawImpactPoints();
+
+      // 5. 繪製砲台：P1 柯南 (藍)
+      drawCannon(p1, true, currentTurn === 'p1');
+
+      // 6. 繪製砲台：P2 基德 (紅/白)
+      if (gameMode !== 'practice') {
+        drawCannon(p2, false, currentTurn === 'p2');
+      }
+
+      // 7. 繪製瞄準預測彈道線 (常駐顯示！隨時反應角度與初速變換)
+      const activePlayer = currentTurn === 'p1' ? p1 : p2;
+      if (!isFiring) {
+        drawAimingTrajectory(activePlayer);
+      }
+
+      // 8. 繪製動態飛行砲彈
+      if (projectile) {
+        updateAndDrawProjectile();
+      }
+
+      // 9. 繪製爆炸粒子
+      updateAndDrawParticles();
+
+      requestAnimationFrame(draw);
+    }
+
+    // 繪製砲台與角度指示器
+    function drawCannon(player, isLeft, isActive) {
+      const rad = (player.angle * Math.PI) / 180;
+      const barrelLen = 34;
+      const endX = player.x + Math.cos(rad) * barrelLen;
+      const endY = player.y - Math.sin(rad) * barrelLen;
+
+      // 砲管
+      ctx.save();
+      ctx.lineWidth = isActive ? 7 : 5;
+      ctx.strokeStyle = isActive ? player.color : '#64748b';
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(player.x, player.y - 8);
+      ctx.lineTo(endX, endY - 8);
+      ctx.stroke();
+
+      // 底座輪廓
+      ctx.beginPath();
+      ctx.arc(player.x, player.y - 6, 14, 0, Math.PI * 2);
+      ctx.fillStyle = isActive ? (isLeft ? '#0284c7' : '#e11d48') : '#334155';
+      ctx.fill();
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // 頭像/陣營標記
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(isLeft ? '柯南' : '基德', player.x, player.y - 24);
+
+      // 當前輪到發射的光環
+      if (isActive) {
+        ctx.beginPath();
+        ctx.arc(player.x, player.y - 6, 22 + Math.sin(Date.now() / 200) * 3, 0, Math.PI * 2);
+        ctx.strokeStyle = isLeft ? 'rgba(56, 189, 248, 0.6)' : 'rgba(244, 63, 94, 0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // 繪製直角三角形向量分解示意圖 (三角函數教學核心)
+        drawVectorTriangle(player.x, player.y - 8, rad, player.power * 0.8, player.color);
+      }
+
+      ctx.restore();
+    }
+
+    // 繪製三角向量分解直角三角形 (教學關鍵)
+    function drawVectorTriangle(x, y, rad, length, color) {
+      const vx = Math.cos(rad) * length;
+      const vy = Math.sin(rad) * length;
+
+      ctx.save();
+      ctx.setLineDash([3, 3]);
+      ctx.lineWidth = 1.5;
+
+      // 斜邊 (初速度向量 V)
+      ctx.strokeStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + vx, y - vy);
+      ctx.stroke();
+
+      // 水平分量 (v * cos)
+      ctx.strokeStyle = '#38bdf8';
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + vx, y);
+      ctx.stroke();
+
+      // 垂直分量 (v * sin)
+      ctx.strokeStyle = '#34d399';
+      ctx.beginPath();
+      ctx.moveTo(x + vx, y);
+      ctx.lineTo(x + vx, y - vy);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // 1. 繪製歷史飛行彈道 (保留先前開火的拋物線軌跡殘影)
+    function drawHistoryTrails() {
+      if (historyTrails.length === 0) return;
+      ctx.save();
+      historyTrails.forEach((trail) => {
+        if (!trail.points || trail.points.length < 2) return;
+        ctx.beginPath();
+        ctx.setLineDash([3, 5]);
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = trail.color;
+        ctx.moveTo(trail.points[0].x, trail.points[0].y);
+        for (let i = 1; i < trail.points.length; i++) {
+          ctx.lineTo(trail.points[i].x, trail.points[i].y);
+        }
+        ctx.stroke();
+
+        // 軌跡標記文字
+        const lastPt = trail.points[trail.points.length - 1];
+        if (trail.label) {
+          ctx.fillStyle = trail.color;
+          ctx.font = 'bold 10px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(trail.label, lastPt.x, lastPt.y - 10);
+        }
+      });
+      ctx.restore();
+    }
+
+    // 1.5 繪製實際彈著點 (含動態水波紋脈衝與偏差分析標記 🎯)
+    function drawImpactPoints() {
+      if (impactPoints.length === 0) return;
+      const now = Date.now();
+      ctx.save();
+
+      impactPoints.forEach((ip, idx) => {
+        const isLatest = (idx === impactPoints.length - 1);
+        const col = ip.color || (ip.owner === 'p1' ? '#38bdf8' : '#f43f5e');
+
+        // 1. 最新彈著點的動態水波紋脈衝 (Sonar Pulse)
+        if (isLatest) {
+          const pulsePhase = (now % 1400) / 1400; // 0 ~ 1
+          const pulseR = 8 + pulsePhase * 26;
+          ctx.beginPath();
+          ctx.arc(ip.x, ip.y, pulseR, 0, Math.PI * 2);
+          ctx.strokeStyle = col;
+          ctx.lineWidth = 2.5 * (1 - pulsePhase);
+          ctx.globalAlpha = 0.85 * (1 - pulsePhase);
+          ctx.stroke();
+          ctx.globalAlpha = 1.0;
+        }
+
+        // 2. 彈坑與發光底環
+        ctx.beginPath();
+        ctx.arc(ip.x, ip.y, isLatest ? 7 : 5, 0, Math.PI * 2);
+        ctx.fillStyle = isLatest ? col : 'rgba(100, 116, 139, 0.7)';
+        ctx.shadowColor = col;
+        ctx.shadowBlur = isLatest ? 14 : 4;
+        ctx.fill();
+
+        // 3. 🎯 十字準星
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(ip.x - 11, ip.y);
+        ctx.lineTo(ip.x + 11, ip.y);
+        ctx.moveTo(ip.x, ip.y - 11);
+        ctx.lineTo(ip.x, ip.y + 11);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(ip.x, ip.y, 11, 0, Math.PI * 2);
+        ctx.strokeStyle = isLatest ? '#fbbf24' : col;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // 4. 彈著點上方資訊膠囊牌 (Badge)
+        const labelText = `🎯 彈著點 X:${Math.round(ip.x)}`;
+        let subText = `(${ip.owner === 'p1' ? '柯南' : '基德'} ${ip.angle}°/${ip.power}V)`;
+        if (ip.deltaX !== undefined) {
+          if (Math.abs(ip.deltaX) <= 18) {
+            subText += ` ★命中!`;
+          } else {
+            subText += ` 偏差:${ip.deltaX > 0 ? '+' : ''}${Math.round(ip.deltaX)}m`;
+          }
+        }
+
+        ctx.font = 'bold 10px monospace';
+        const textW = Math.max(ctx.measureText(labelText).width, ctx.measureText(subText).width) + 14;
+        const boxH = 30;
+        const boxX = ip.x - textW / 2;
+        const boxY = ip.y - 48;
+
+        // 膠囊底色
+        ctx.fillStyle = 'rgba(11, 23, 42, 0.88)';
+        ctx.strokeStyle = isLatest ? '#fbbf24' : 'rgba(148, 163, 184, 0.4)';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.roundRect(boxX, boxY, textW, boxH, 6);
+        ctx.fill();
+        ctx.stroke();
+
+        // 連接指示線
+        ctx.beginPath();
+        ctx.moveTo(ip.x, boxY + boxH);
+        ctx.lineTo(ip.x, ip.y - 11);
+        ctx.strokeStyle = isLatest ? '#fbbf24' : col;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // 文字排版
+        ctx.fillStyle = isLatest ? '#fbbf24' : '#e2e8f0';
+        ctx.textAlign = 'center';
+        ctx.fillText(labelText, ip.x, boxY + 12);
+        ctx.fillStyle = isLatest ? '#38bdf8' : '#94a3b8';
+        ctx.fillText(subText, ip.x, boxY + 24);
+      });
+
+      ctx.restore();
+    }
+
+    // 2. 繪製瞄準預測彈道線 (常駐顯示！計算並標示出精確的「📍 預測彈著點」)
+    // 2. 繪製瞄準預測彈道線 (常駐顯示！計算並標示出精確的「📍 預測彈著點」與「🎯 LOCKED 鎖定」)
+    function drawAimingTrajectory(player) {
+      const rad = (player.angle * Math.PI) / 180;
+      let simX = player.x;
+      let simY = player.y - 8;
+      const power = player.power * 0.28;
+      let vx = Math.cos(rad) * power;
+      let vy = -Math.sin(rad) * power;
+      const g = 0.20;
+
+      const isBoosted = player.hasRadar; // 答對暗號爆擊加成
+      const rect = canvas.getBoundingClientRect();
+      const baseGround = rect.height - 35;
+      const maxSimSteps = 180;
+
+      // 階段一：單次精確物理軌跡模擬，記錄所有點並尋找彈著點
+      let predImpact = null;
+      const simPoints = [{ x: simX, y: simY }];
+
+      for (let step = 0; step < maxSimSteps; step++) {
+        simX += vx;
+        simY += vy;
+        vy += g;
+        vx += wind * 0.005;
+
+        // 碰撞大樓檢測
+        let hitBuilding = false;
+        for (const b of buildings) {
+          if (simX >= b.x && simX <= b.x + b.w && simY >= baseGround - b.h) {
+            predImpact = { x: simX, y: baseGround - b.h, type: 'building' };
+            hitBuilding = true;
+            break;
+          }
+        }
+        if (hitBuilding) {
+          simPoints.push({ x: predImpact.x, y: predImpact.y });
+          break;
+        }
+
+        // 碰撞地面檢測
+        if (simY >= baseGround) {
+          predImpact = { x: simX, y: baseGround, type: 'ground' };
+          simPoints.push({ x: simX, y: baseGround });
+          break;
+        }
+
+        simPoints.push({ x: simX, y: simY });
+      }
+
+      // 階段二：判定是否鎖定目標 (LOCKED 機制：進入命中與濺射半徑 65px)
+      const targetEnemyX = (gameMode === 'practice' && practiceTarget) ? practiceTarget.x : (player === p1 ? p2.x : p1.x);
+      const targetEnemyY = (gameMode === 'practice' && practiceTarget) ? practiceTarget.y : (player === p1 ? (p2.y - 6) : (p1.y - 6));
+      let isTargetLocked = false;
+      if (predImpact) {
+        const lockDelta = Math.abs(predImpact.x - targetEnemyX);
+        if (lockDelta <= 65) {
+          isTargetLocked = true;
+        }
+      }
+
+      // 階段三：繪製整條預測拋物線
+      ctx.save();
+      ctx.beginPath();
+      if (isTargetLocked) {
+        // ★ 目標已鎖定：呈現極度顯眼的翠綠色霓虹瞄準光帶
+        ctx.setLineDash([6, 3]);
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.95)'; // 翠綠色
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#10b981';
+        ctx.shadowBlur = 12;
+      } else if (isBoosted) {
+        ctx.setLineDash([5, 4]);
+        ctx.strokeStyle = 'rgba(251, 191, 36, 0.95)'; // 金黃雷達線
+        ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#f59e0b';
+        ctx.shadowBlur = 8;
+      } else {
+        ctx.setLineDash([3, 5]);
+        ctx.strokeStyle = player === p1 ? 'rgba(56, 189, 248, 0.75)' : 'rgba(244, 63, 94, 0.75)';
+        ctx.lineWidth = 2;
+      }
+
+      if (simPoints.length > 0) {
+        ctx.moveTo(simPoints[0].x, simPoints[0].y);
+        for (let i = 1; i < simPoints.length; i++) {
+          ctx.lineTo(simPoints[i].x, simPoints[i].y);
+        }
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // 階段四：繪製精準的「📍 預測彈著點」標記
+      if (predImpact) {
+        const pCol = isTargetLocked ? '#10b981' : (isBoosted ? '#fbbf24' : (player === p1 ? '#38bdf8' : '#f43f5e'));
+
+        // 1. 地面垂直微光投影柱
+        ctx.save();
+        ctx.setLineDash([2, 3]);
+        ctx.strokeStyle = pCol;
+        ctx.lineWidth = isTargetLocked ? 2 : 1;
+        ctx.globalAlpha = isTargetLocked ? 0.8 : 0.45;
+        ctx.beginPath();
+        ctx.moveTo(predImpact.x, predImpact.y - 28);
+        ctx.lineTo(predImpact.x, predImpact.y);
+        ctx.stroke();
+        ctx.restore();
+
+        // 2. 預測落點準星光環
+        const spin = (Date.now() / 350) % (Math.PI * 2);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(predImpact.x, predImpact.y, isTargetLocked ? 12 : (isBoosted ? 9 : 7), 0, Math.PI * 2);
+        ctx.strokeStyle = pCol;
+        ctx.lineWidth = isTargetLocked ? 2.5 : 2;
+        if (isTargetLocked) {
+          ctx.shadowColor = '#10b981';
+          ctx.shadowBlur = 10;
+        }
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(predImpact.x, predImpact.y, isTargetLocked ? 3.5 : 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+
+        // 旋轉十字準心
+        ctx.translate(predImpact.x, predImpact.y);
+        ctx.rotate(spin);
+        ctx.strokeStyle = pCol;
+        ctx.lineWidth = isTargetLocked ? 2 : 1.5;
+        ctx.beginPath();
+        ctx.moveTo(-12, 0); ctx.lineTo(12, 0);
+        ctx.moveTo(0, -12); ctx.lineTo(0, 12);
+        ctx.stroke();
+        ctx.restore();
+
+        // 3. 預測落點標記小文字
+        ctx.save();
+        ctx.font = 'bold 11px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = pCol;
+        if (isTargetLocked) {
+          ctx.shadowColor = '#10b981';
+          ctx.shadowBlur = 8;
+          ctx.fillText(`🎯 LOCKED 鎖定！立即開火！`, predImpact.x, predImpact.y - 14);
+        } else {
+          const predText = isBoosted ? `⚡鎖定彈著點 X:${Math.round(predImpact.x)}` : `📍預測彈著點 X:${Math.round(predImpact.x)}`;
+          ctx.fillText(predText, predImpact.x, predImpact.y - 12);
+        }
+        ctx.restore();
+
+        // ★ 若鎖定目標，在對手頭頂同時標記 LOCKED 呼應提示
+        if (isTargetLocked) {
+          ctx.save();
+          const targetBob = Math.sin(Date.now() / 150) * 4;
+          ctx.fillStyle = '#10b981';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.shadowColor = '#10b981';
+          ctx.shadowBlur = 12;
+          ctx.fillText(`🎯 準星鎖定中`, targetEnemyX, targetEnemyY - 24 + targetBob);
+          ctx.beginPath();
+          ctx.arc(targetEnemyX, targetEnemyY - 6, 26 + Math.abs(targetBob), 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(16, 185, 129, 0.7)';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // ★ Demo 演示專屬：超顯眼大字動態指示「⬇️ 預測彈著點」
+        if (isDemoRunning) {
+          ctx.save();
+          const bounce = Math.sin(Date.now() / 180) * 4;
+          ctx.fillStyle = '#fbbf24';
+          ctx.font = 'bold 12px monospace';
+          ctx.textAlign = 'center';
+          ctx.shadowColor = '#f59e0b';
+          ctx.shadowBlur = 8;
+          ctx.fillText(`⬇️【預測彈著點 X:${Math.round(predImpact.x)}】`, predImpact.x, predImpact.y - 32 + bounce);
+          
+          // 額外波紋引導環
+          ctx.beginPath();
+          ctx.arc(predImpact.x, predImpact.y, 14 + Math.abs(bounce), 0, Math.PI * 2);
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+    }
+
+    /* ==========================================
+       5. 砲彈飛行與碰撞檢測
+       ========================================== */
+    function updateAndDrawProjectile() {
+      // Demo 示範模式下採用 0.55x 慢動作飛行，讓學生清晰端詳拋物線軌跡與彈道！
+      const dt = isDemoRunning ? 0.55 : 1.0;
+      const g = 0.20;
+      projectile.x += projectile.vx * dt;
+      projectile.y += projectile.vy * dt;
+      projectile.vy += g * dt;
+      // 記錄當前飛行彈道點
+      currentFlightTrail.push({ x: projectile.x, y: projectile.y });
+
+      // 繪製飛行中的即時霓虹光帶 (動態彈道軌跡)
+      if (currentFlightTrail.length > 1) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.lineWidth = isDemoRunning ? 4.5 : 3;
+        ctx.strokeStyle = projectile.owner === 'p1' ? 'rgba(56, 189, 248, 0.95)' : 'rgba(244, 63, 94, 0.95)';
+        ctx.shadowColor = projectile.owner === 'p1' ? '#38bdf8' : '#f43f5e';
+        ctx.shadowBlur = isDemoRunning ? 18 : 12;
+        ctx.moveTo(currentFlightTrail[0].x, currentFlightTrail[0].y);
+        for (let i = 1; i < currentFlightTrail.length; i++) {
+          ctx.lineTo(currentFlightTrail[i].x, currentFlightTrail[i].y);
+        }
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 彈道拖尾煙霧
+      particles.push({
+        x: projectile.x,
+        y: projectile.y,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
+        life: 1.0,
+        color: projectile.owner === 'p1' ? 'rgba(56, 189, 248, 0.6)' : 'rgba(244, 63, 94, 0.6)',
+        size: 3
+      });
+
+      // 繪製砲彈本體
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(projectile.x, projectile.y, 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = projectile.owner === 'p1' ? '#38bdf8' : '#f43f5e';
+      ctx.stroke();
+      ctx.restore();
+
+      // 碰撞檢測：超出螢幕兩側或頂部
+      const rect = canvas.getBoundingClientRect();
+      if (projectile.x < -50 || projectile.x > rect.width + 50 || projectile.y > rect.height + 50) {
+        endProjectile(false, "未命中！落出邊界");
+        return;
+      }
+
+      // 碰撞檢測：打靶模式 (大幅擴大空中直接命中判定半徑至 45px)
+      if (gameMode === 'practice' && practiceTarget) {
+        const dist = Math.hypot(projectile.x - practiceTarget.x, projectile.y - practiceTarget.y);
+        if (dist <= practiceTarget.radius + 15) {
+          triggerExplosion(practiceTarget.x, practiceTarget.y);
+          playSound('correct');
+          spawnPracticeTarget(rect.width, rect.height);
+          endProjectile(true, "🎯 精準命中靶心！太棒了！");
+          return;
+        }
+      }
+
+      // 碰撞檢測：P1 柯南發射擊中 P2 基德 (超寬容直接命中半徑由 26px 擴大至 48px)
+      if (projectile.owner === 'p1' && gameMode !== 'practice') {
+        const dist = Math.hypot(projectile.x - p2.x, projectile.y - (p2.y - 6));
+        if (dist <= 48) {
+          triggerExplosion(p2.x, p2.y);
+          const dmg = Math.round((36 + Math.random() * 10) * projectile.crit);
+          p2.hp = Math.max(0, p2.hp - dmg);
+          updateHpUI();
+          if (p2.hp <= 0) {
+            triggerGameOver('p1');
+            return;
+          }
+          endProjectile(true, `🎯 精準直擊怪盜基德！造成 ${dmg} 點致命傷害！`);
+          return;
+        }
+      }
+
+      // 碰撞檢測：P2 基德發射擊中 P1 柯南
+      if (projectile.owner === 'p2') {
+        const dist = Math.hypot(projectile.x - p1.x, projectile.y - (p1.y - 6));
+        if (dist <= 36) {
+          triggerExplosion(p1.x, p1.y);
+          const dmg = Math.round((20 + Math.random() * 8) * projectile.crit);
+          p1.hp = Math.max(0, p1.hp - dmg);
+          updateHpUI();
+          if (p1.hp <= 0) {
+            triggerGameOver('p2');
+            return;
+          }
+          endProjectile(true, `💥 柯南受到 ${dmg} 點微幅傷害！`);
+          return;
+        }
+      }
+
+      // 碰撞檢測：大樓障礙物或打中地面 (★ 支援近距離濺射爆炸震撼傷害 Splash Damage)
+      const baseGround = rect.height - 35;
+      let hitSurface = false;
+      let hitX = projectile.x;
+      let hitY = projectile.y;
+
+      for (const b of buildings) {
+        if (projectile.x >= b.x && projectile.x <= b.x + b.w && projectile.y >= baseGround - b.h) {
+          hitSurface = true;
+          hitY = baseGround - b.h;
+          break;
+        }
+      }
+      if (!hitSurface && projectile.y >= baseGround) {
+        hitSurface = true;
+        hitY = baseGround;
+      }
+
+      if (hitSurface) {
+        triggerExplosion(hitX, hitY);
+
+        // 檢查落點與目標的水平距離 (Splash Range: 65px)
+        const targetX = (gameMode === 'practice' && practiceTarget) ? practiceTarget.x : (projectile.owner === 'p1' ? p2.x : p1.x);
+        const splashDist = Math.abs(hitX - targetX);
+
+        if (projectile.owner === 'p1' && gameMode === 'practice' && practiceTarget && splashDist <= 55) {
+          // 打靶模式濺射命中
+          playSound('correct');
+          spawnPracticeTarget(rect.width, rect.height);
+          endProjectile(true, "💥 震撼波震碎靶心！(濺射命中)");
+          return;
+        } else if (projectile.owner === 'p1' && gameMode !== 'practice' && splashDist <= 65) {
+          // P1 震撼濺射震傷 P2 基德
+          const splashDmg = Math.round((26 + Math.random() * 6) * projectile.crit);
+          p2.hp = Math.max(0, p2.hp - splashDmg);
+          updateHpUI();
+          if (p2.hp <= 0) {
+            triggerGameOver('p1');
+            return;
+          }
+          endProjectile(true, `💥 近失彈震撼波！造成基德 ${splashDmg} 點濺射傷害！`);
+          return;
+        } else if (projectile.owner === 'p2' && splashDist <= 45) {
+          // P2 濺射震傷 P1
+          const splashDmg = Math.round(15 + Math.random() * 5);
+          p1.hp = Math.max(0, p1.hp - splashDmg);
+          updateHpUI();
+          if (p1.hp <= 0) {
+            triggerGameOver('p2');
+            return;
+          }
+          endProjectile(true, `💥 柯南受到 ${splashDmg} 點近失波衝擊！`);
+          return;
+        }
+
+        endProjectile(false, "砲彈落地！請微調角度或初速再次開火");
+        return;
+      }
+    }
+
+    function triggerExplosion(x, y) {
+      playSound('explosion');
+      for (let i = 0; i < 35; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1 + Math.random() * 5;
+        particles.push({
+          x: x,
+          y: y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1.0,
+          color: i % 2 === 0 ? '#f59e0b' : '#ef4444',
+          size: 3 + Math.random() * 4
+        });
+      }
+    }
+
+    function updateAndDrawParticles() {
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= 0.035;
+
+        if (p.life <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function endProjectile(isHit, msg) {
+      // 永久記錄這條完整飛行拋物線軌跡與彈著點，留在夜空背景供下一回合參考
+      if (currentFlightTrail.length > 2 && projectile) {
+        const ownerName = projectile.owner === 'p1' ? '柯南' : '基德';
+        const ownerColor = projectile.owner === 'p1' ? 'rgba(56, 189, 248, 0.45)' : 'rgba(244, 63, 94, 0.45)';
+        const deg = projectile.owner === 'p1' ? p1.angle : p2.angle;
+        const pwr = projectile.owner === 'p1' ? p1.power : p2.power;
+        const lastPt = currentFlightTrail[currentFlightTrail.length - 1];
+
+        // 計算水平偏差 (deltaX: 正值為偏右，負值為偏左)
+        let deltaX = 0;
+        if (gameMode === 'practice' && practiceTarget) {
+          deltaX = lastPt.x - practiceTarget.x;
+        } else if (projectile.owner === 'p1') {
+          deltaX = lastPt.x - p2.x;
+        } else {
+          deltaX = lastPt.x - p1.x;
+        }
+
+        historyTrails.push({
+          points: [...currentFlightTrail],
+          color: ownerColor,
+          label: `${ownerName} ${deg}°`
+        });
+        if (historyTrails.length > 4) historyTrails.shift();
+
+        // ★ 記錄實際彈著點 (保存座標、角度、初速、誤差)
+        impactPoints.push({
+          x: lastPt.x,
+          y: lastPt.y,
+          owner: projectile.owner,
+          color: projectile.owner === 'p1' ? '#38bdf8' : '#f43f5e',
+          angle: deg,
+          power: pwr,
+          isHit: isHit,
+          deltaX: deltaX,
+          timestamp: Date.now()
+        });
+        if (impactPoints.length > 5) impactPoints.shift();
+
+        // 更新底部彈著點數據儀表
+        const impactBadge = document.getElementById('impact-info-val');
+        if (impactBadge) {
+          const sign = deltaX > 0 ? '+' : '';
+          impactBadge.innerText = `X:${Math.round(lastPt.x)} (${Math.abs(deltaX) <= 18 ? '命中!' : sign + Math.round(deltaX) + 'm'})`;
+        }
+      }
+      currentFlightTrail = [];
+
+      projectile = null;
+      isFiring = false;
+      const overlay = document.getElementById('canvas-overlay');
+      if (overlay) overlay.classList.add('pointer-events-none');
+
+      // 更新橫幅提示
+      const banner = document.getElementById('turn-banner');
+      const bannerText = document.getElementById('turn-banner-text');
+      if (bannerText) bannerText.innerText = msg;
+
+      // 切換回合 (Demo 模式下由分步引導狀態機接管，不自動切換給 AI/P2)
+      if (isDemoRunning) {
+        onDemoProjectileLanded();
+      } else {
+        setTimeout(() => {
+          switchTurn();
+        }, 1500);
+      }
+    }
+
+    function switchTurn() {
+      resetWind();
+
+      if (gameMode === 'practice') {
+        currentTurn = 'p1';
+        p1.hasRadar = false;
+        p1.crit = 1.0;
+        updateTurnBanner();
+        updateUIFromPlayer(p1);
+        return;
+      }
+
+      if (currentTurn === 'p1') {
+        currentTurn = 'p2';
+        p1.hasRadar = false; // 重設 buff
+        p1.crit = 1.0;
+        updateTurnBanner();
+        updateUIFromPlayer(p2);
+
+        // 若是人機對戰，由 AI 基德自動開砲
+        if (gameMode === 'pve') {
+          handleAITurn();
+        }
+      } else {
+        currentTurn = 'p1';
+        p2.hasRadar = false;
+        p2.crit = 1.0;
+        roundCount++;
+        updateTurnBanner();
+        updateUIFromPlayer(p1);
+      }
+    }
+
+    function updateTurnBanner() {
+      const bannerText = document.getElementById('turn-banner-text');
+      const banner = document.getElementById('turn-banner');
+      const p1Panel = document.getElementById('p1-panel');
+      const p2Panel = document.getElementById('p2-panel');
+
+      if (currentTurn === 'p1') {
+        bannerText.innerText = "【江戶川柯南】的回合：請調整角度與力道";
+        banner.className = "absolute top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-400 backdrop-blur-md text-xs sm:text-sm font-black text-sky-300 shadow-xl pointer-events-none transition-all flex items-center gap-2";
+        p1Panel.classList.add('neon-border-blue', 'border-sky-500');
+        p2Panel.classList.remove('neon-border-rose', 'border-rose-500');
+      } else {
+        bannerText.innerText = gameMode === 'pve' ? "【怪盜基德 (AI)】思考軌跡中..." : "【怪盜基德】的回合：請調整角度與力道";
+        banner.className = "absolute top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-rose-400 backdrop-blur-md text-xs sm:text-sm font-black text-rose-300 shadow-xl pointer-events-none transition-all flex items-center gap-2";
+        p2Panel.classList.add('neon-border-rose', 'border-rose-500');
+        p1Panel.classList.remove('neon-border-blue', 'border-sky-500');
+      }
+    }
+
+    // AI 基德智能軌跡計算
+    function handleAITurn() {
+      document.getElementById('fire-btn').disabled = true;
+      document.getElementById('fire-btn').classList.add('opacity-50');
+
+      setTimeout(() => {
+        // AI 逆向估算發射角 (教學友善化：給予較大散布誤差，讓學生玩家掌握主動優勢)
+        const baseAngle = 135;
+        const windComp = wind * 2;
+        const targetAngle = Math.min(160, Math.max(110, Math.round(baseAngle + (Math.random() * 22 - 11) - windComp)));
+        const targetPower = Math.min(85, Math.max(45, Math.round(58 + Math.random() * 22)));
+
+        p2.angle = targetAngle;
+        p2.power = targetPower;
+        p2.hasRadar = Math.random() > 0.7; // 降低 AI 爆擊機率至 30%
+        p2.crit = p2.hasRadar ? 1.3 : 1.0;
+
+        updateUIFromPlayer(p2);
+
+        setTimeout(() => {
+          fireCannon(p2);
+          document.getElementById('fire-btn').disabled = false;
+          document.getElementById('fire-btn').classList.remove('opacity-50');
+        }, 1200);
+
+      }, 1000);
+    }
+
+    /* ==========================================
+       6. 物理發射執行
+       ========================================== */
+    function directFire() {
+      if (isFiring) return;
+      const activePlayer = currentTurn === 'p1' ? p1 : p2;
+      activePlayer.hasRadar = false;
+      activePlayer.crit = 1.0;
+      fireCannon(activePlayer);
+    }
+
+    function fireCannon(player) {
+      if (isFiring) return;
+      isFiring = true;
+      playSound('fire');
+
+      // 更新橫幅提示
+      const bannerText = document.getElementById('turn-banner-text');
+      if (bannerText) {
+        bannerText.innerText = `🚀 【${player.name}】開火！拋物線飛行中 (角度 ${player.angle}°, 初速 ${player.power})...`;
+      }
+
+      const rad = (player.angle * Math.PI) / 180;
+      const barrelLen = 34;
+      const startX = player.x + Math.cos(rad) * barrelLen;
+      const startY = (player.y - 8) - Math.sin(rad) * barrelLen;
+      const speed = player.power * 0.28;
+
+      currentFlightTrail = [{ x: startX, y: startY }];
+
+      projectile = {
+        x: startX,
+        y: startY,
+        vx: Math.cos(rad) * speed,
+        vy: -Math.sin(rad) * speed,
+        owner: player === p1 ? 'p1' : 'p2',
+        crit: player.crit
+      };
+
+      // 鎖定操作面板
+      const overlay = document.getElementById('canvas-overlay');
+      if (overlay) overlay.classList.remove('pointer-events-none');
+    }
+
+    /* ==========================================
+       7. 阿笠博士三角暗號答題模組
+       ========================================== */
+    let currentQuiz = null;
+    let quizTimer = null;
+    let quizTimeLeft = 15;
+    let currentCorrectAnswerIndex = 0;
+
+    function startQuestionModal() {
+      if (isFiring) return;
+      const modal = document.getElementById('question-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      // 隨機抽選一題
+      currentQuiz = QUIZ_BANK[Math.floor(Math.random() * QUIZ_BANK.length)];
+      totalQuestionsAnswered++;
+
+      document.getElementById('quiz-question-text').innerHTML = currentQuiz.q;
+      document.getElementById('quiz-hint').innerHTML = "💡 解題關鍵：" + currentQuiz.hint;
+
+      // 打亂選項順序 (Fisher-Yates Shuffle)
+      const optionsWithMeta = currentQuiz.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: (idx === currentQuiz.ans)
+      }));
+
+      // 洗牌
+      for (let i = optionsWithMeta.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [optionsWithMeta[i], optionsWithMeta[j]] = [optionsWithMeta[j], optionsWithMeta[i]];
+      }
+
+      currentCorrectAnswerIndex = optionsWithMeta.findIndex(o => o.isCorrect);
+
+      const optionsContainer = document.getElementById('quiz-options-grid');
+      optionsContainer.innerHTML = '';
+
+      optionsWithMeta.forEach((item, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "min-h-[58px] py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-base font-bold text-amber-300 border border-slate-700 hover:border-amber-400/50 transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer";
+        btn.innerHTML = `<span class="w-6 h-6 rounded-full bg-slate-900 text-xs text-slate-300 font-black flex items-center justify-center shrink-0 border border-white/10">${['A','B','C','D'][idx]}</span> <span class="katex-opt text-center leading-normal">${item.text}</span>`;
+        btn.onclick = () => handleQuizAnswer(idx);
+        optionsContainer.appendChild(btn);
+      });
+
+      // 立即強制對整個 modal 進行 KaTeX 數學式標準渲染
+      if (window.renderMathInElement) {
+        renderMathInElement(modal, {
+          delimiters: [
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true}
+          ],
+          throwOnError: false
+        });
+      }
+
+      // 計時器
+      quizTimeLeft = 20;
+      document.getElementById('quiz-timer').innerText = quizTimeLeft;
+      clearInterval(quizTimer);
+      quizTimer = setInterval(() => {
+        quizTimeLeft--;
+        document.getElementById('quiz-timer').innerText = quizTimeLeft;
+        if (quizTimeLeft <= 0) {
+          clearInterval(quizTimer);
+          skipQuestionAndFire();
+        }
+      }, 1000);
+    }
+
+    function handleQuizAnswer(selectedIndex) {
+      clearInterval(quizTimer);
+      const isCorrect = (selectedIndex === currentCorrectAnswerIndex);
+      const activePlayer = currentTurn === 'p1' ? p1 : p2;
+
+      const modal = document.getElementById('question-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+
+      if (isCorrect) {
+        playSound('correct');
+        correctCount++;
+        activePlayer.hasRadar = true;
+        activePlayer.crit = 1.5;
+        showBuffNotification("🎉 暗號解密成功！解鎖雷達瞄準線 ＆ 威力 1.5 倍！", true);
+      } else {
+        playSound('wrong');
+        activePlayer.hasRadar = false;
+        activePlayer.crit = 1.0;
+        showBuffNotification("❌ 暗號解密失敗！進入盲射模式（無瞄準線）", false);
+      }
+
+      // 觸發開火
+      setTimeout(() => {
+        fireCannon(activePlayer);
+      }, 600);
+    }
+
+    function skipQuestionAndFire() {
+      clearInterval(quizTimer);
+      const modal = document.getElementById('question-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+
+      const activePlayer = currentTurn === 'p1' ? p1 : p2;
+      activePlayer.hasRadar = false;
+      activePlayer.crit = 1.0;
+      showBuffNotification("⚡ 進入快速盲射模式", false);
+
+      setTimeout(() => {
+        fireCannon(activePlayer);
+      }, 400);
+    }
+
+    function showBuffNotification(text, isGood) {
+      const bannerText = document.getElementById('turn-banner-text');
+      if (bannerText) bannerText.innerText = text;
+      const buffTag = currentTurn === 'p1' ? document.getElementById('p1-buff-text') : document.getElementById('p2-buff-text');
+      if (buffTag) buffTag.innerText = text;
+    }
+
+    /* ==========================================
+       8. 控制介面與三角函數儀表連動
+       ========================================== */
+    const angleSlider = document.getElementById('angle-slider');
+    const powerSlider = document.getElementById('power-slider');
+
+    angleSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      const activePlayer = currentTurn === 'p1' ? p1 : p2;
+      activePlayer.angle = val;
+      updateTrigDashboard(val, activePlayer.power);
+    });
+
+    powerSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      const activePlayer = currentTurn === 'p1' ? p1 : p2;
+      activePlayer.power = val;
+      updateTrigDashboard(activePlayer.angle, val);
+    });
+
+    function setSpecialAngle(deg) {
+      const activePlayer = currentTurn === 'p1' ? p1 : p2;
+      activePlayer.angle = deg;
+      angleSlider.value = deg;
+      updateTrigDashboard(deg, activePlayer.power);
+    }
+
+    // 智慧瞄準輔助：一鍵自動微調力道與角度鎖定目標
+    function autoAimAssist() {
+      if (isFiring) return;
+      const activePlayer = currentTurn === 'p1' ? p1 : p2;
+      const rect = canvas.getBoundingClientRect();
+      const targetX = (gameMode === 'practice' && practiceTarget) ? practiceTarget.x : (activePlayer === p1 ? p2.x : p1.x);
+      const targetY = (gameMode === 'practice' && practiceTarget) ? practiceTarget.y : (activePlayer === p1 ? (p2.y - 6) : (p1.y - 6));
+
+      // 尋找最佳命中解
+      let best = { angle: (activePlayer === p1 ? 45 : 135), power: 65, error: 999 };
+      const testAngles = (activePlayer === p1) ? [35, 40, 45, 50, 55, 60] : [120, 125, 130, 135, 140, 145];
+      for (const a of testAngles) {
+        for (let pwr = 35; pwr <= 95; pwr += 2) {
+          const rad = (a * Math.PI) / 180;
+          let simX = activePlayer.x;
+          let simY = activePlayer.y - 8;
+          const spd = pwr * 0.28;
+          let vx = Math.cos(rad) * spd;
+          let vy = -Math.sin(rad) * spd;
+          const g = 0.20;
+          const baseGround = rect.height - 35;
+
+          for (let s = 0; s < 180; s++) {
+            simX += vx;
+            simY += vy;
+            vy += g;
+            vx += wind * 0.005;
+
+            if (simY >= baseGround || Math.hypot(simX - targetX, simY - targetY) < 30) {
+              const err = Math.hypot(simX - targetX, simY - targetY);
+              if (err < best.error) {
+                best = { angle: a, power: pwr, error: err };
+              }
+              break;
+            }
+          }
+        }
+      }
+
+      activePlayer.angle = best.angle;
+      activePlayer.power = best.power;
+      updateUIFromPlayer(activePlayer);
+      playSound('correct');
+
+      const bannerText = document.getElementById('turn-banner-text');
+      if (bannerText) {
+        bannerText.innerText = `🎯 智慧鎖定完成！仰角 ${best.angle}° 初速 ${best.power}，請點擊「開火」！`;
+      }
+    }
+
+    function updateUIFromPlayer(player) {
+      angleSlider.value = player.angle;
+      powerSlider.value = player.power;
+      updateTrigDashboard(player.angle, player.power);
+    }
+
+    function updateTrigDashboard(deg, power) {
+      const rad = (deg * Math.PI) / 180;
+      const sinVal = Math.sin(rad);
+      const cosVal = Math.cos(rad);
+      const vx = (power * cosVal).toFixed(1);
+      const vy = (power * sinVal).toFixed(1);
+
+      const angLabel = document.getElementById('slider-angle-label');
+      if (angLabel) angLabel.innerText = `${deg}°`;
+      const pwrLabel = document.getElementById('slider-power-label');
+      if (pwrLabel) pwrLabel.innerText = `${power}`;
+      const vThetaEl = document.getElementById('val-theta');
+      if (vThetaEl) vThetaEl.innerText = `${deg}°`;
+      const vDispEl = document.getElementById('val-v-disp');
+      if (vDispEl) vDispEl.innerText = `${power}`;
+
+      // 正負號與數值 (標準微軟 OMML 格式)
+      document.getElementById('val-sin').innerText = (sinVal >= 0 ? '+' : '') + sinVal.toFixed(3);
+      document.getElementById('val-cos').innerText = (cosVal >= 0 ? '+' : '') + cosVal.toFixed(3);
+      document.getElementById('val-vx').innerHTML = `(<span class="math-var">v</span><span class="math-sub">x</span> = ${vx})`;
+      document.getElementById('val-vy').innerHTML = `(<span class="math-var">v</span><span class="math-sub">y</span> = ${vy})`;
+
+      // 象限徽章
+      const qBadge = document.getElementById('quadrant-badge');
+      if (deg > 0 && deg < 90) {
+        qBadge.innerHTML = '第 I 象限角 (銳角: sin&gt;0, cos&gt;0)';
+        qBadge.className = "text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30";
+      } else if (deg === 90) {
+        qBadge.innerText = "90° 象限角 (垂直向上)";
+        qBadge.className = "text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30";
+      } else if (deg > 90 && deg < 180) {
+        qBadge.innerHTML = '第 II 象限角 (鈍角: sin&gt;0, cos&lt;0)';
+        qBadge.className = "text-[9px] font-bold px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30";
+      } else {
+        qBadge.innerText = `${deg}° 廣義角`;
+      }
+
+      // 平方關係核算 (標準微軟 OMML 格式)
+      const sq = (sinVal * sinVal + cosVal * cosVal).toFixed(3);
+      document.getElementById('trig-identity-check').innerHTML = `sin<span class="math-sup">2</span><span class="math-var">θ</span> + cos<span class="math-sup">2</span><span class="math-var">θ</span> = ${sq}`;
+    }
+
+    function updateHpUI() {
+      document.getElementById('p1-hp-text').innerText = `${p1.hp} / 100`;
+      document.getElementById('p1-hp-bar').style.width = `${p1.hp}%`;
+      document.getElementById('p2-hp-text').innerText = `${p2.hp} / 100`;
+      document.getElementById('p2-hp-bar').style.width = `${p2.hp}%`;
+    }
+
+    /* ==========================================
+       9. 遊戲模式切換與勝負結算
+       ========================================== */
+    function setGameMode(mode) {
+      gameMode = mode;
+      document.getElementById('mode-pve-btn').className = "px-2.5 py-1 rounded-md font-bold text-slate-400 hover:text-white transition-all";
+      document.getElementById('mode-pvp-btn').className = "px-2.5 py-1 rounded-md font-bold text-slate-400 hover:text-white transition-all";
+      document.getElementById('mode-practice-btn').className = "px-2.5 py-1 rounded-md font-bold text-slate-400 hover:text-white transition-all";
+
+      const p2Panel = document.getElementById('p2-panel');
+      const p2Name = document.getElementById('p2-name');
+
+      if (mode === 'pve') {
+        document.getElementById('mode-pve-btn').className = "px-2.5 py-1 rounded-md font-bold transition-all bg-indigo-600 text-white shadow-xs";
+        p2Panel.style.display = 'block';
+        p2Name.innerText = "怪盜基德 (AI)";
+        practiceTarget = null;
+      } else if (mode === 'pvp') {
+        document.getElementById('mode-pvp-btn').className = "px-2.5 py-1 rounded-md font-bold transition-all bg-indigo-600 text-white shadow-xs";
+        p2Panel.style.display = 'block';
+        p2Name.innerText = "怪盜基德 (P2)";
+        practiceTarget = null;
+      } else if (mode === 'practice') {
+        document.getElementById('mode-practice-btn').className = "px-2.5 py-1 rounded-md font-bold transition-all bg-indigo-600 text-white shadow-xs";
+        p2Panel.style.display = 'none';
+        const rect = canvas.getBoundingClientRect();
+        spawnPracticeTarget(rect.width, rect.height);
+      }
+
+      restartGame();
+    }
+
+    function triggerGameOver(winner) {
+      const modal = document.getElementById('gameover-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      const title = document.getElementById('gameover-title');
+      const sub = document.getElementById('gameover-subtitle');
+      const icon = document.getElementById('gameover-icon');
+
+      if (winner === 'p1') {
+        title.innerText = "江戶川柯南 探案勝利！";
+        title.className = "text-2xl font-black text-amber-300 mb-1";
+        sub.innerText = "精準利用三角函數軌跡擊潰怪盜基德！";
+        icon.innerHTML = '<i class="fa-solid fa-trophy text-amber-300"></i>';
+      } else {
+        title.innerText = "怪盜基德 華麗逃脫！";
+        title.className = "text-2xl font-black text-rose-400 mb-1";
+        sub.innerText = "怪盜基德成功預測拋物線反制柯南！";
+        icon.innerHTML = '<i class="fa-solid fa-hat-wizard text-rose-400"></i>';
+      }
+
+      document.getElementById('stat-rounds').innerText = `${roundCount} 回合`;
+      const acc = totalQuestionsAnswered > 0 ? Math.round((correctCount / totalQuestionsAnswered) * 100) : 100;
+      document.getElementById('stat-accuracy').innerText = `${acc}%`;
+      document.getElementById('stat-best-angle').innerText = `${p1.angle}°`;
+    }
+
+    function resetGamePrompt() {
+      restartGame();
+      playSound('correct');
+      const bannerText = document.getElementById('turn-banner-text');
+      if (bannerText) bannerText.innerText = "🔄 遊戲已全新重設！請調整角度瞄準開火！";
+    }
+
+    function restartGame() {
+      p1.hp = 100;
+      p2.hp = 100;
+      p1.angle = 45;
+      p1.power = 60;
+      p2.angle = 135;
+      p2.power = 60;
+      p1.hasRadar = false;
+      p2.hasRadar = false;
+      p1.crit = 1.0;
+      p2.crit = 1.0;
+      currentTurn = 'p1';
+      roundCount = 1;
+      correctCount = 0;
+      totalQuestionsAnswered = 0;
+      isFiring = false;
+      projectile = null;
+      particles = [];
+      historyTrails = [];
+      currentFlightTrail = [];
+      impactPoints = []; // 清空歷史彈著點
+
+      updateHpUI();
+      updateTurnBanner();
+      updateUIFromPlayer(p1);
+      resetWind();
+
+      // 重設底部彈著點指示牌
+      const impactBadge = document.getElementById('impact-info-val');
+      if (impactBadge) impactBadge.innerText = '--';
+
+      // 關閉可能開啟中的彈窗
+      const modal = document.getElementById('gameover-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      const qModal = document.getElementById('question-modal');
+      if (qModal) {
+        qModal.classList.add('hidden');
+        qModal.classList.remove('flex');
+      }
+
+      // 重生靶心 (若在打靶模式)
+      const rect = canvas.getBoundingClientRect();
+      if (gameMode === 'practice') {
+        spawnPracticeTarget(rect.width, rect.height);
+      }
+    }
+
+    // 初始化啟動
+    window.addEventListener('load', () => {
+      resizeCanvas();
+      updateTrigDashboard(45, 60);
+      resetWind();
+      updateHpUI();
+      draw();
+
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true}
+          ]
+        });
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+    });
+
+    // 支援 Canvas 滑鼠與觸控直接拖曳瞄準
+    let isDraggingAim = false;
+    function handleAimPointer(e) {
+      if (isFiring) return;
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const mouseX = clientX - rect.left;
+      const mouseY = clientY - rect.top;
+
+      const activePlayer = currentTurn === 'p1' ? p1 : p2;
+      const dx = mouseX - activePlayer.x;
+      const dy = activePlayer.y - mouseY; // 數學坐標系 y 向上為正
+
+      let angleRad = Math.atan2(dy, dx);
+      let angleDeg = Math.round((angleRad * 180) / Math.PI);
+      if (angleDeg < 5) angleDeg = 5;
+      if (angleDeg > 175) angleDeg = 175;
+
+      const dist = Math.hypot(dx, dy);
+      let power = Math.min(95, Math.max(30, Math.round(dist * 0.45)));
+
+      activePlayer.angle = angleDeg;
+      activePlayer.power = power;
+      updateUIFromPlayer(activePlayer);
+    }
+
+    canvas.addEventListener('mousedown', (e) => { isDraggingAim = true; handleAimPointer(e); });
+    window.addEventListener('mousemove', (e) => { if (isDraggingAim) handleAimPointer(e); });
+    window.addEventListener('mouseup', () => { isDraggingAim = false; });
+
+    canvas.addEventListener('touchstart', (e) => { isDraggingAim = true; handleAimPointer(e); }, { passive: false });
+    window.addEventListener('touchmove', (e) => { if (isDraggingAim) { handleAimPointer(e); } }, { passive: false });
+    window.addEventListener('touchend', () => { isDraggingAim = false; });
+
+    /* ==========================================
+       10. 玩法手動步進引導 Demo 系統 (Step-by-Step Guided Demo)
+       ========================================== */
+    let isDemoRunning = false;
+    let demoCurrentStep = 1;
+    const demoTotalSteps = 5;
+    let demoBestSol = { angle: 50, power: 65, error: 999 };
+    let demoAnimInterval = null;
+
+    function toggleDemoMode() {
+      if (isDemoRunning) {
+        stopDemoMode();
+      } else {
+        startDemoMode();
+      }
+    }
+
+    function stopDemoMode() {
+      isDemoRunning = false;
+      if (demoAnimInterval) clearInterval(demoAnimInterval);
+      demoAnimInterval = null;
+
+      const btnIcon = document.getElementById('demo-btn-icon');
+      const btnText = document.getElementById('demo-btn-text');
+      const demoBtn = document.getElementById('demo-btn');
+      const demoBanner = document.getElementById('demo-banner');
+
+      if (btnIcon) btnIcon.className = "fa-solid fa-play text-amber-400";
+      if (btnText) btnText.innerText = "示範 (Demo)";
+      if (demoBtn) demoBtn.className = "px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 hover:text-amber-200 border border-amber-400/50 text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 shadow-xs cursor-pointer active:scale-95";
+      if (demoBanner) demoBanner.classList.add('hidden');
+
+      const overlay = document.getElementById('canvas-overlay');
+      if (overlay) overlay.classList.add('pointer-events-none');
+    }
+
+    function startDemoMode() {
+      if (isFiring) return;
+      isDemoRunning = true;
+      demoCurrentStep = 1;
+      if (demoAnimInterval) clearInterval(demoAnimInterval);
+      demoAnimInterval = null;
+
+      // 更新頂部按鈕狀態為「結束示範」
+      const btnIcon = document.getElementById('demo-btn-icon');
+      const btnText = document.getElementById('demo-btn-text');
+      const demoBtn = document.getElementById('demo-btn');
+      const demoBanner = document.getElementById('demo-banner');
+
+      if (btnIcon) btnIcon.className = "fa-solid fa-stop text-rose-400";
+      if (btnText) btnText.innerText = "結束示範";
+      if (demoBtn) demoBtn.className = "px-2.5 py-1.5 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 hover:text-white border border-rose-500/50 text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 shadow-xs cursor-pointer active:scale-95";
+
+      // 顯示引導看板
+      if (demoBanner) demoBanner.classList.remove('hidden');
+
+      // 盤面初始化
+      restartGame();
+
+      // 計算目標位置與精確命中解
+      const rect = canvas.getBoundingClientRect();
+      const targetX = (gameMode === 'practice' && practiceTarget) ? practiceTarget.x : p2.x;
+      const targetY = (gameMode === 'practice' && practiceTarget) ? practiceTarget.y : (p2.y - 6);
+
+      demoBestSol = { angle: 50, power: 65, error: 999 };
+      for (let testAngle = 40; testAngle <= 62; testAngle += 2) {
+        for (let testPower = 40; testPower <= 90; testPower += 2) {
+          const rad = (testAngle * Math.PI) / 180;
+          let simX = p1.x;
+          let simY = p1.y - 8;
+          const pwr = testPower * 0.28;
+          let vx = Math.cos(rad) * pwr;
+          let vy = -Math.sin(rad) * pwr;
+          const g = 0.20;
+          const baseGround = rect.height - 35;
+
+          for (let s = 0; s < 180; s++) {
+            simX += vx;
+            simY += vy;
+            vy += g;
+            vx += wind * 0.005;
+
+            // 撞擊判定 (寬容度提升至 30px)
+            if (simY >= baseGround || Math.hypot(simX - targetX, simY - targetY) < 30) {
+              const err = Math.hypot(simX - targetX, simY - targetY);
+              if (err < demoBestSol.error) {
+                demoBestSol = { angle: testAngle, power: testPower, error: err };
+              }
+              break;
+            }
+          }
+        }
+      }
+
+      // 執行第一步
+      executeDemoStep(1);
+    }
+
+    function executeDemoStep(step) {
+      if (!isDemoRunning) return;
+      if (demoAnimInterval) clearInterval(demoAnimInterval);
+      demoAnimInterval = null;
+
+      demoCurrentStep = step;
+
+      // 介面元素
+      const badge = document.getElementById('demo-step-badge');
+      const stepText = document.getElementById('demo-step-text');
+      const prevBtn = document.getElementById('demo-prev-btn');
+      const nextBtn = document.getElementById('demo-next-btn');
+      const nextBtnText = document.getElementById('demo-next-btn-text');
+      const nextBtnIcon = document.getElementById('demo-next-btn-icon');
+      const hint = document.getElementById('demo-step-hint');
+
+      if (badge) badge.innerText = `步驟 ${step} / ${demoTotalSteps}`;
+      if (prevBtn) prevBtn.disabled = (step === 1);
+      if (nextBtn) nextBtn.disabled = false;
+
+      // 各步驟特定行為
+      if (step === 1) {
+        // === 步驟 1：慢速旋轉仰角 θ ===
+        p1.angle = 35;
+        p1.power = 55;
+        p1.hasRadar = false;
+        p1.crit = 1.0;
+        updateUIFromPlayer(p1);
+
+        if (nextBtnText) nextBtnText.innerText = "下一步";
+        if (nextBtnIcon) nextBtnIcon.className = "fa-solid fa-arrow-right text-xs";
+        if (hint) hint.innerText = "👉 請按「下一步」調節初速！";
+        if (stepText) {
+          stepText.innerHTML = `<b>【步驟 1 / 5 ‧ 慢速旋轉仰角 θ】</b><br>請觀察砲管角度緩慢提升，底部分解出水平初速 <span class="text-sky-300 font-mono-code">vx = v·cosθ</span> 與垂直初速 <span class="text-emerald-300 font-mono-code">vy = v·sinθ</span>。<br><span class="text-amber-300 text-xs font-normal">👉 觀察完畢後，請點擊下方「下一步」繼續！</span>`;
+        }
+
+        playSound('click');
+        let currentA = p1.angle;
+        const targetA = demoBestSol.angle;
+        const steps = 30;
+        const delta = (targetA - currentA) / steps;
+        let count = 0;
+
+        demoAnimInterval = setInterval(() => {
+          if (!isDemoRunning) { clearInterval(demoAnimInterval); return; }
+          currentA += delta;
+          count++;
+          p1.angle = Math.round(currentA);
+          updateUIFromPlayer(p1);
+          if (count >= steps) {
+            clearInterval(demoAnimInterval);
+            p1.angle = targetA;
+            updateUIFromPlayer(p1);
+          }
+        }, 60);
+
+      } else if (step === 2) {
+        // === 步驟 2：調節初速 V ＆ 鎖定預測彈著點 ===
+        p1.angle = demoBestSol.angle;
+        p1.power = 40;
+        p1.hasRadar = false;
+        p1.crit = 1.0;
+        updateUIFromPlayer(p1);
+
+        if (nextBtnText) nextBtnText.innerText = "下一步";
+        if (nextBtnIcon) nextBtnIcon.className = "fa-solid fa-arrow-right text-xs";
+        if (hint) hint.innerText = "👉 請按「下一步」解密暗號！";
+        if (stepText) {
+          stepText.innerHTML = `<b>【步驟 2 / 5 ‧ 調節初速 V ＆ 鎖定預測彈著點】</b><br>請看拋物線虛線軌跡向前延伸，地面浮現高亮「<span class="text-amber-300 font-bold">📍 預測彈著點</span>」準星！初速微調後準星正對目標！<br><span class="text-amber-300 text-xs font-normal">👉 觀察完畢後，請點擊「下一步」進入暗號解密！</span>`;
+        }
+
+        playSound('click');
+        let currentP = p1.power;
+        const targetP = demoBestSol.power;
+        const steps = 25;
+        const delta = (targetP - currentP) / steps;
+        let count = 0;
+
+        demoAnimInterval = setInterval(() => {
+          if (!isDemoRunning) { clearInterval(demoAnimInterval); return; }
+          currentP += delta;
+          count++;
+          p1.power = Math.round(currentP);
+          updateUIFromPlayer(p1);
+          if (count >= steps) {
+            clearInterval(demoAnimInterval);
+            p1.power = targetP;
+            updateUIFromPlayer(p1);
+          }
+        }, 60);
+
+      } else if (step === 3) {
+        // === 步驟 3：解密特殊角暗號與雷達瞄準線升級 ===
+        p1.angle = demoBestSol.angle;
+        p1.power = demoBestSol.power;
+        p1.hasRadar = true;
+        p1.crit = 1.5;
+        updateUIFromPlayer(p1);
+
+        playSound('correct');
+
+        if (nextBtnText) nextBtnText.innerText = "發射砲彈 🚀";
+        if (nextBtnIcon) nextBtnIcon.className = "fa-solid fa-rocket text-xs";
+        if (hint) hint.innerText = "👉 鎖定完畢！請按「發射砲彈」開火！";
+        if (stepText) {
+          stepText.innerHTML = `<b>【步驟 3 / 5 ‧ 解密特殊角暗號】</b><br>答對解鎖全射程金黃色雷達瞄準光帶與 1.5 倍威力爆擊！地面升級為「<span class="text-amber-300 font-bold">⚡ 鎖定彈著點</span>」，準備開火！<br><span class="text-amber-300 text-xs font-normal">👉 準備好了嗎？請點擊「發射砲彈」！</span>`;
+        }
+
+      } else if (step === 4) {
+        // === 步驟 4：慢動作發射開火與彈道軌跡 ===
+        p1.angle = demoBestSol.angle;
+        p1.power = demoBestSol.power;
+        p1.hasRadar = true;
+        p1.crit = 1.5;
+        updateUIFromPlayer(p1);
+
+        // 砲彈飛行期間，鎖定按鈕避免連點
+        if (nextBtn) nextBtn.disabled = true;
+        if (prevBtn) prevBtn.disabled = true;
+        if (nextBtnText) nextBtnText.innerText = "砲彈飛行中...";
+        if (nextBtnIcon) nextBtnIcon.className = "fa-solid fa-spinner fa-spin text-xs";
+        if (hint) hint.innerText = "🚀 砲彈慢動作飛行中，請觀察彈道拋物線...";
+        if (stepText) {
+          stepText.innerHTML = `<b>【步驟 4 / 5 ‧ 慢動作開火與動態彈道】</b><br>砲彈慢動作 (0.55x) 飛行：受重力 g 下墜，夜空中留下鮮明霓虹發光彈道光帶！正朝目標呼嘯而去...`;
+        }
+
+        // 開火發射
+        fireCannon(p1);
+
+      } else if (step === 5) {
+        // === 步驟 5：實體彈著點水波紋與偏差分析 ===
+        if (nextBtnText) nextBtnText.innerText = "完成示範 ‧ 開始對決 ➔";
+        if (nextBtnIcon) nextBtnIcon.className = "fa-solid fa-play text-xs";
+        if (hint) hint.innerText = "🎉 示範已全部完成！點擊開始對決！";
+        if (stepText) {
+          stepText.innerHTML = `<b>🎉【步驟 5 / 5 ‧ 實體彈著點與偏差分析】</b><br>地面清楚標示「<span class="text-amber-300 font-bold">🎯 實際彈著點</span>」水波紋聲納光環與落點標籤！數理探案精準命中！底部儀表顯示精確落點數值。<br><span class="text-emerald-300 text-xs font-normal">恭喜掌握全套彈道物理與三角函數性質！點擊按鈕即可開始親手遊玩！</span>`;
+        }
+      }
+    }
+
+    // 當步驟 4 的砲彈落地完成時觸發
+    function onDemoProjectileLanded() {
+      if (!isDemoRunning) return;
+
+      if (demoCurrentStep === 4) {
+        const nextBtn = document.getElementById('demo-next-btn');
+        const prevBtn = document.getElementById('demo-prev-btn');
+        const nextBtnText = document.getElementById('demo-next-btn-text');
+        const nextBtnIcon = document.getElementById('demo-next-btn-icon');
+        const hint = document.getElementById('demo-step-hint');
+        const stepText = document.getElementById('demo-step-text');
+
+        if (nextBtn) nextBtn.disabled = false;
+        if (prevBtn) prevBtn.disabled = false;
+        if (nextBtnText) nextBtnText.innerText = "下一步";
+        if (nextBtnIcon) nextBtnIcon.className = "fa-solid fa-arrow-right text-xs";
+        if (hint) hint.innerText = "👉 請按「下一步」檢視落點分析！";
+        if (stepText) {
+          stepText.innerHTML = `<b>【步驟 4 / 5 ‧ 砲彈已精準命中目標！】</b><br>空中已完整保留二次拋物線發光飛行軌跡。<br><span class="text-amber-300 text-xs font-normal">👉 請點擊下方「下一步」，檢視實體彈著點與落點分析！</span>`;
+        }
+      }
+    }
+
+    function nextDemoStep() {
+      if (!isDemoRunning) return;
+      if (isFiring && demoCurrentStep === 4) return; // 飛行中不能跳步
+
+      if (demoCurrentStep < demoTotalSteps) {
+        executeDemoStep(demoCurrentStep + 1);
+      } else {
+        // 完成示範並恢復玩家自由對決
+        stopDemoMode();
+        playSound('correct');
+        const bannerText = document.getElementById('turn-banner-text');
+        if (bannerText) bannerText.innerText = "🎯 示範完畢！請使用下方滑桿或在畫布上直接拖曳瞄準開火！";
+      }
+    }
+
+    function prevDemoStep() {
+      if (!isDemoRunning) return;
+      if (isFiring) return; // 飛行中不切換
+
+      if (demoCurrentStep > 1) {
+        executeDemoStep(demoCurrentStep - 1);
+      }
+    }
+
+    function replayDemoStep() {
+      if (!isDemoRunning) return;
+      if (isFiring) return;
+      executeDemoStep(demoCurrentStep);
+    }
+  </script>
+</body>
+</html>

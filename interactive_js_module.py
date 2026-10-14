@@ -1699,6 +1699,20 @@ function copyQrcodeUrl() {
 }
 
 // ==========================================
+// 12-2. 數理探案對戰遊樂場彈窗 (Game Hub)
+// ==========================================
+function openGameHubModal() {
+    recordInteraction();
+    const modal = document.getElementById('game-hub-modal');
+    if (modal) modal.classList.remove('hidden');
+}
+
+function closeGameHubModal() {
+    const modal = document.getElementById('game-hub-modal');
+    if (modal) modal.classList.add('hidden');
+}
+
+// ==========================================
 // 13. 快捷鍵監聽 (ESC, F, 空白鍵)
 // ==========================================
 function initKeyboardShortcuts() {
@@ -1713,6 +1727,7 @@ function initKeyboardShortcuts() {
             closeCardQuizModal();
             closeTeacherPwdModal();
             closeQrcodeModal();
+            closeGameHubModal();
         }
 
         // F 鍵切換全螢幕

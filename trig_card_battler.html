@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>暗號卡牌攻防戰 - 泰宇數學 2-2 數理探案對決</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Share+Tech+Mono&display=swap');
+    
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: radial-gradient(circle at 50% 30%, #111827 0%, #030712 100%);
+      color: #f3f4f6;
+      user-select: none;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+    
+    .font-mono-num { font-family: 'Share Tech Mono', monospace; }
+
+    /* 微軟原廠 OMML 數學印刷字型規範 */
+    .omml-math, .katex, .katex-display {
+      font-family: 'Cambria Math', 'Times New Roman', 'Noto Sans TC', serif !important;
+    }
+    .math-var {
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+    .math-fn {
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: normal;
+    }
+    .math-sup {
+      font-size: 0.72em;
+      vertical-align: super;
+      line-height: 0;
+    }
+    .math-sub {
+      font-size: 0.72em;
+      vertical-align: sub;
+      line-height: 0;
+    }
+    /* 垂直真分數排版 (符合微軟 Word/OMML 垂直分數標準) */
+    .inline-fraction {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      padding: 0 0.15em;
+      line-height: 1.05;
+      font-size: 0.95em;
+    }
+    .frac-num {
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 0.1em;
+      display: block;
+    }
+    .frac-den {
+      padding-top: 0.1em;
+      display: block;
+    }
+    .katex {
+      font-size: 1.15em !important;
+      line-height: 1.25 !important;
+    }
+    
+    /* 卡牌 3D 懸浮與動畫 */
+    .battle-card {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-origin: bottom center;
+    }
+    .battle-card:hover {
+      transform: translateY(-12px) scale(1.05);
+      z-index: 30;
+      box-shadow: 0 12px 25px -4px rgba(59, 130, 246, 0.4);
+    }
+    .battle-card:active {
+      transform: translateY(-4px) scale(0.98);
+    }
+
+    /* 傷害飄字動畫 */
+    @keyframes float-damage {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-40px) scale(1.3); }
+    }
+    .damage-float {
+      animation: float-damage 0.8s ease-out forwards;
+    }
+
+    /* 角色受擊晃動 */
+    @keyframes hit-shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .shake { animation: hit-shake 0.4s ease-in-out; }
+  </style>
+</head>
+<body class="flex flex-col h-screen w-screen overflow-hidden text-slate-100">
+
+  <!-- 頂部導航列 (48px) -->
+  <header class="h-12 border-b border-slate-800 bg-slate-950/80 px-4 flex items-center justify-between flex-shrink-0 z-20 backdrop-blur">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 transition">
+        <span>←</span> 返回教材
+      </a>
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+        <h1 class="font-black text-sm md:text-base tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400">
+          暗號卡牌攻防戰 <span class="text-xs text-slate-400 font-normal ml-1">CIPHER CARD DUEL</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- 回合資訊與行動指示 -->
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1.5 px-3 py-1 bg-slate-900 border border-slate-700 rounded-full text-xs">
+        <span class="text-slate-400">當前階段:</span>
+        <span id="turn-banner" class="font-bold text-blue-400">你的回合 (柯南)</span>
+      </div>
+      <div class="flex items-center gap-1 text-xs font-mono-num text-slate-400">
+        <span>第</span>
+        <span id="round-count" class="font-bold text-amber-400 text-sm">1</span>
+        <span>回合</span>
+      </div>
+    </div>
+
+    <!-- 控制按鈕 -->
+    <div class="flex items-center gap-2">
+      <button id="btn-sound" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded border border-slate-700">
+        🔊 音效
+      </button>
+      <button id="btn-reset" class="px-2 py-1 bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-xs rounded border border-rose-700">
+        重新發牌
+      </button>
+    </div>
+  </header>
+
+  <!-- 主作戰區 (100vh 一屏無捲軸，分為：敵方區、中央交鋒區、我方區、手牌區) -->
+  <main class="flex-1 flex flex-col justify-between p-3 overflow-hidden relative">
+
+    <!-- 1. 敵方：怪盜基德狀態區 (Top Section) -->
+    <div id="enemy-section" class="flex items-center justify-between bg-slate-950/70 border border-fuchsia-900/40 rounded-xl p-3 relative shadow-lg">
+      <div class="flex items-center gap-3">
+        <!-- 基德頭像 -->
+        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-fuchsia-600 to-indigo-900 p-0.5 shadow-md flex items-center justify-center relative">
+          <div class="w-full h-full bg-slate-900 rounded-full flex items-center justify-center text-2xl">
+            🃏
+          </div>
+          <span class="absolute -bottom-1 -right-1 bg-fuchsia-900 text-fuchsia-200 text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-fuchsia-500">
+            AI 宿敵
+          </span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-bold text-sm text-fuchsia-300">怪盜基德 (KID)</h2>
+            <span id="enemy-shield-badge" class="hidden text-[10px] px-2 py-0.5 rounded-full bg-sky-900/80 text-sky-200 border border-sky-500 font-mono-num">
+              🛡️ 護盾: <b id="enemy-shield-val">0</b>
+            </span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">預告函暗號掌控者</div>
+        </div>
+      </div>
+
+      <!-- 血條與能量 -->
+      <div class="w-1/2 max-w-xs flex flex-col gap-1.5">
+        <div class="flex items-center justify-between text-xs font-mono-num">
+          <span class="text-rose-400 font-bold">HP</span>
+          <span id="enemy-hp-text" class="font-black text-rose-300">100 / 100</span>
+        </div>
+        <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden border border-slate-700">
+          <div id="enemy-hp-bar" class="h-full bg-gradient-to-r from-rose-500 to-pink-500 w-full transition-all duration-300"></div>
+        </div>
+        <div class="flex justify-end gap-1 text-[11px] text-amber-300 font-mono-num">
+          <span>靈感能:</span>
+          <span id="enemy-energy-dots" class="font-bold">⚡⚡⚡</span>
+        </div>
+      </div>
+
+      <!-- 敵方浮動傷害位置 -->
+      <div id="enemy-damage-float" class="absolute top-2 left-1/2 -translate-x-1/2 pointer-events-none text-2xl font-black text-rose-400 hidden"></div>
+    </div>
+
+    <!-- 2. 中央交鋒情報與戰報台 (Center Battlefield) -->
+    <div class="my-2 flex-1 flex flex-col items-center justify-center relative min-h-[120px]">
+      
+      <!-- 戰鬥紀錄日誌與出牌動態 -->
+      <div id="combat-log" class="w-full max-w-xl bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-center flex flex-col items-center justify-center min-h-[110px] shadow-inner">
+        <div id="log-icon" class="text-3xl mb-1">⚔️</div>
+        <div id="log-message" class="text-sm font-medium text-slate-200 omml-math leading-relaxed">
+          雙方偵探已就緒！請從手牌中打出三角暗號卡發動攻防！
+        </div>
+        <div id="log-formula" class="text-xs text-cyan-300 omml-math mt-1 flex items-center justify-center gap-2 flex-wrap">
+          <span>公式基礎：</span>
+          <span class="inline-flex items-center"><span class="math-fn">sin</span><span class="math-sup">2</span><span class="math-var">θ</span> + <span class="math-fn">cos</span><span class="math-sup">2</span><span class="math-var">θ</span> = 1</span>
+          <span class="text-slate-500">‧</span>
+          <span class="inline-flex items-center"><span class="math-fn">tan</span><span class="math-var">θ</span> = <span class="inline-fraction"><span class="frac-num"><span class="math-fn">sin</span><span class="math-var">θ</span></span><span class="frac-den"><span class="math-fn">cos</span><span class="math-var">θ</span></span></span></span>
+        </div>
+      </div>
+
+      <!-- 微型答題暴擊彈窗 (Quick Quiz for Critical Hit) -->
+      <div id="crit-modal" class="absolute inset-0 bg-slate-950/90 border border-amber-500/80 rounded-xl p-3 flex flex-col justify-between items-center z-40 hidden backdrop-blur">
+        <div class="w-full flex items-center justify-between text-xs">
+          <span class="font-bold text-amber-400 flex items-center gap-1">
+            <span>⚡</span> 暗號真偽速驗：答對觸發 150% 暴擊！
+          </span>
+          <span class="font-mono-num text-rose-400 font-bold">倒數 <span id="crit-time">20</span>s</span>
+        </div>
+        <div id="crit-q-text" class="omml-math text-base md:text-lg font-bold text-center text-slate-100 my-1">
+          <span class="math-fn">sin</span> 90° = ?
+        </div>
+        <div id="crit-options" class="grid grid-cols-2 gap-2 w-full max-w-md">
+          <!-- 4 個選項按鈕動態生成 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 我方：名偵探柯南狀態區 (Player Section) -->
+    <div id="player-section" class="flex items-center justify-between bg-slate-950/70 border border-blue-900/40 rounded-xl p-3 relative shadow-lg">
+      <div class="flex items-center gap-3">
+        <!-- 柯南頭像 -->
+        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-indigo-900 p-0.5 shadow-md flex items-center justify-center relative">
+          <div class="w-full h-full bg-slate-900 rounded-full flex items-center justify-center text-2xl">
+            👓
+          </div>
+          <span class="absolute -bottom-1 -right-1 bg-blue-900 text-blue-200 text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-blue-500">
+            你 (P1)
+          </span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-bold text-sm text-blue-300">江戶川柯南</h2>
+            <span id="player-shield-badge" class="hidden text-[10px] px-2 py-0.5 rounded-full bg-sky-900/80 text-sky-200 border border-sky-500 font-mono-num">
+              🛡️ 護盾: <b id="player-shield-val">0</b>
+            </span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">唯一真相解構者</div>
+        </div>
+      </div>
+
+      <!-- 血條與靈感能 -->
+      <div class="w-1/2 max-w-xs flex flex-col gap-1.5">
+        <div class="flex items-center justify-between text-xs font-mono-num">
+          <span class="text-emerald-400 font-bold">HP</span>
+          <span id="player-hp-text" class="font-black text-emerald-300">100 / 100</span>
+        </div>
+        <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden border border-slate-700">
+          <div id="player-hp-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 w-full transition-all duration-300"></div>
+        </div>
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-1 text-amber-300 font-mono-num">
+            <span>靈感能:</span>
+            <span id="player-energy-dots" class="font-black text-sm">⚡⚡⚡</span>
+            <span id="player-energy-num" class="text-slate-400 text-[11px]">(3/3)</span>
+          </div>
+          <button id="btn-end-turn" class="px-3 py-1 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs rounded-full shadow transition active:scale-95">
+            結束回合 ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- 我方浮動傷害位置 -->
+      <div id="player-damage-float" class="absolute top-2 left-1/2 -translate-x-1/2 pointer-events-none text-2xl font-black text-rose-400 hidden"></div>
+    </div>
+
+    <!-- 4. 手牌區 (Hand Cards: 4張牌，自適應懸浮) -->
+    <div class="h-36 sm:h-40 flex items-center justify-center gap-2 sm:gap-4 mt-2 px-2 z-10">
+      <div id="hand-cards-container" class="flex items-center justify-center gap-2 sm:gap-4 w-full max-w-3xl">
+        <!-- 手牌由 JavaScript 動態生成渲染 -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 結算勝利彈窗 (Game Over Modal) -->
+  <div id="game-over-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl relative">
+      <div id="modal-trophy" class="text-5xl mb-3">🏆</div>
+      <h2 id="modal-winner" class="text-2xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">
+        柯南成功破解暗號！
+      </h2>
+      <p id="modal-summary" class="text-xs text-slate-300 leading-relaxed mb-6 omml-math">
+        憑藉嚴密的三角函數恆等式與數值推導，柯南在智謀博弈中戰勝了怪盜基德！
+      </p>
+
+      <div class="flex gap-3">
+        <button id="modal-btn-restart" class="flex-1 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 font-bold text-white text-sm shadow transition">
+          再來一局對決
+        </button>
+        <a href="index.html" class="flex-1 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 font-bold text-slate-200 text-sm flex items-center justify-center transition">
+          返回教材首頁
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript 核心邏輯 -->
+  <script>
+    /* ==========================================================================
+       0. 微軟原廠 OMML / KaTeX 雙引擎渲染輔助函式
+       ========================================================================== */
+    function renderOMMLMath(container = document.body) {
+      if (window.renderMathInElement) {
+        renderMathInElement(container, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    /* ==========================================================================
+       1. Web Audio API 音效合成引擎
+       ========================================================================== */
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+      }
+      playTone(freq, type = 'sine', duration = 0.15, vol = 0.15) {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch(e) {}
+      }
+      cardPlay() { this.playTone(480, 'sine', 0.12, 0.15); }
+      attack() {
+        this.playTone(350, 'sawtooth', 0.1, 0.2);
+        setTimeout(() => this.playTone(180, 'sawtooth', 0.25, 0.3), 80);
+      }
+      crit() {
+        this.playTone(880, 'triangle', 0.1, 0.25);
+        setTimeout(() => this.playTone(1108, 'triangle', 0.25, 0.25), 100);
+      }
+      shield() {
+        this.playTone(600, 'sine', 0.15, 0.15);
+        setTimeout(() => this.playTone(750, 'sine', 0.2, 0.15), 100);
+      }
+      heal() {
+        this.playTone(523, 'sine', 0.15, 0.15);
+        setTimeout(() => this.playTone(659, 'sine', 0.25, 0.15), 120);
+      }
+      victory() {
+        [523, 659, 783, 1046].forEach((f, i) => setTimeout(() => this.playTone(f, 'triangle', 0.3, 0.2), i * 120));
+      }
+    }
+    const audio = new SoundEngine();
+
+    /* ==========================================================================
+       2. 三角卡牌卡庫資料庫 (OMML / KaTeX)
+       ========================================================================== */
+    const CARD_POOL = [
+      {
+        id: 'atk_sin90',
+        name: '正弦直角擊',
+        cost: 1,
+        type: 'attack',
+        baseVal: 15,
+        mathFormula: '$\\sin 90^\\circ \\times 15$',
+        desc: '打出精準的直角正弦擊，造成 15 點基礎傷害。',
+        quiz: { q: '$\\sin 90^\\circ$ 的精確值為何？', options: ['1', '0', '\\frac{1}{2}', '\\frac{\\sqrt{3}}{2}'], correct: 0 }
+      },
+      {
+        id: 'atk_tan60',
+        name: '正切銳角砲',
+        cost: 2,
+        type: 'attack',
+        baseVal: 20,
+        mathFormula: '$\\tan 60^\\circ \\approx 1.732$',
+        desc: '凝聚 60 度的正切能量，造成 20 點重砲傷害。',
+        quiz: { q: '$\\tan 60^\\circ$ 的精確值為何？', options: ['\\sqrt{3}', '1', '\\frac{\\sqrt{3}}{3}', '\\frac{1}{2}'], correct: 0 }
+      },
+      {
+        id: 'atk_cos180',
+        name: '廣義餘弦爆擊',
+        cost: 2,
+        type: 'attack',
+        baseVal: 22,
+        mathFormula: '$|\\cos 180^\\circ| \\times 22$',
+        desc: '利用平角餘弦之絕對值，造成 22 點貫穿傷害。',
+        quiz: { q: '廣義角 $\\cos 180^\\circ$ 的值為何？', options: ['-1', '1', '0', '-\\frac{1}{2}'], correct: 0 }
+      },
+      {
+        id: 'atk_pythagoras',
+        name: '平方恆等真理爆發',
+        cost: 3,
+        type: 'attack',
+        baseVal: 30,
+        mathFormula: '$\\sin^2\\theta + \\cos^2\\theta = 1$',
+        desc: '觸發三角函數終極平方恆等式，造成 30 點真實傷害！',
+        quiz: { q: '對任意角 $\\theta$，$\\sin^2\\theta + \\cos^2\\theta$ 之值恆為？', options: ['1', '0', '2', '\\tan^2\\theta'], correct: 0 }
+      },
+      {
+        id: 'def_cos0',
+        name: '餘弦零度壁壘',
+        cost: 1,
+        type: 'shield',
+        baseVal: 15,
+        mathFormula: '$\\cos 0^\\circ \\times 15$',
+        desc: '展開零度基準屏障，獲得 15 點護盾。',
+        quiz: { q: '$\\cos 0^\\circ$ 的數值為何？', options: ['1', '0', '-1', '\\frac{\\sqrt{2}}{2}'], correct: 0 }
+      },
+      {
+        id: 'def_shield25',
+        name: '象限防禦力場',
+        cost: 2,
+        type: 'shield',
+        baseVal: 24,
+        mathFormula: '$r = \\sqrt{x^2+y^2}$',
+        desc: '以向徑長度建構全方位護盾，獲得 24 點強效護盾。',
+        quiz: { q: '點 $P(-3, 4)$ 到原點的距離 $r$ 為何？', options: ['5', '7', '1', '25'], correct: 0 }
+      },
+      {
+        id: 'heal_quotient',
+        name: '商數關係修復',
+        cost: 2,
+        type: 'heal',
+        baseVal: 18,
+        mathFormula: '$\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}$',
+        desc: '化簡商數關係梳理思緒，恢復 18 點生命值。',
+        quiz: { q: '若 $\\sin\\theta = \\frac{3}{5}, \\cos\\theta = \\frac{4}{5}$，則 $\\tan\\theta = ?$？', options: ['\\frac{3}{4}', '\\frac{4}{3}', '\\frac{7}{5}', '1'], correct: 0 }
+      },
+      {
+        id: 'buff_double',
+        name: '同界角靈感湧現',
+        cost: 1,
+        type: 'buff',
+        baseVal: 0,
+        mathFormula: '$\\theta + 360^\\circ \\times k$',
+        desc: '周而復始洞悉規律，立即恢復 2 點靈感能量！',
+        quiz: { q: '$390^\\circ$ 的最小正同界角為何？', options: ['30^\\circ', '60^\\circ', '150^\\circ', '300^\\circ'], correct: 0 }
+      }
+    ];
+
+    /* ==========================================================================
+       3. 戰鬥狀態管理
+       ========================================================================== */
+    const state = {
+      round: 1,
+      isPlayerTurn: true,
+      player: { hp: 100, maxHp: 100, shield: 0, energy: 3, maxEnergy: 3, hand: [] },
+      enemy: { hp: 100, maxHp: 100, shield: 0, energy: 3, maxEnergy: 3 },
+      isCritQuiz: false,
+      critTimer: null,
+      pendingCard: null
+    };
+
+    /* ==========================================================================
+       4. 抽牌與手牌渲染
+       ========================================================================== */
+    function drawCards(count = 4) {
+      state.player.hand = [];
+      for (let i = 0; i < count; i++) {
+        const randCard = CARD_POOL[Math.floor(Math.random() * CARD_POOL.length)];
+        state.player.hand.push({ ...randCard, uid: Math.random().toString(36).substring(7) });
+      }
+      renderHand();
+    }
+
+    function renderHand() {
+      const container = document.getElementById('hand-cards-container');
+      container.innerHTML = '';
+
+      state.player.hand.forEach((card, idx) => {
+        const cardEl = document.createElement('div');
+        const isAffordable = state.player.energy >= card.cost;
+        
+        // 卡牌樣式依類型區分
+        let borderClass = 'border-blue-500/60 shadow-blue-950/50';
+        let badgeColor = 'bg-blue-900 text-blue-200 border-blue-500';
+        let typeIcon = '⚔️';
+        if (card.type === 'shield') {
+          borderClass = 'border-sky-500/60 shadow-sky-950/50';
+          badgeColor = 'bg-sky-900 text-sky-200 border-sky-500';
+          typeIcon = '🛡️';
+        } else if (card.type === 'heal') {
+          borderClass = 'border-emerald-500/60 shadow-emerald-950/50';
+          badgeColor = 'bg-emerald-900 text-emerald-200 border-emerald-500';
+          typeIcon = '💖';
+        } else if (card.type === 'buff') {
+          borderClass = 'border-amber-500/60 shadow-amber-950/50';
+          badgeColor = 'bg-amber-900 text-amber-200 border-amber-500';
+          typeIcon = '⚡';
+        }
+
+        cardEl.className = `battle-card flex-1 max-w-[170px] h-full bg-slate-900/95 border-2 ${borderClass} rounded-xl p-2 sm:p-2.5 flex flex-col justify-between cursor-pointer relative shadow-lg ${isAffordable ? '' : 'opacity-40 grayscale cursor-not-allowed'}`;
+        
+        cardEl.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded border ${badgeColor}">
+                ${typeIcon} ${card.cost} ⚡
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono-num">#${idx + 1}</span>
+            </div>
+            <div class="text-xs font-bold text-slate-100 truncate">${card.name}</div>
+            <div class="text-[11px] text-cyan-300 font-bold omml-math my-1">${card.mathFormula}</div>
+          </div>
+          <div class="text-[10px] text-slate-400 leading-tight border-t border-slate-800 pt-1">
+            ${card.desc}
+          </div>
+        `;
+
+        if (isAffordable && state.isPlayerTurn) {
+          cardEl.onclick = () => playCard(card);
+        }
+
+        container.appendChild(cardEl);
+      });
+
+      // 渲染數學公式
+      if (window.renderMathInElement) {
+        renderMathInElement(container, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    /* ==========================================================================
+       5. 出牌與暴擊速驗
+       ========================================================================== */
+    function playCard(card) {
+      if (!state.isPlayerTurn || state.player.energy < card.cost || state.isCritQuiz) return;
+      audio.cardPlay();
+
+      // 扣除能量
+      state.player.energy -= card.cost;
+      updateUI();
+
+      // 如果有自檢速驗題，觸發暴擊考核
+      if (card.quiz) {
+        triggerCritQuiz(card);
+      } else {
+        executeCardEffect(card, false);
+      }
+    }
+
+    function triggerCritQuiz(card) {
+      state.isCritQuiz = true;
+      state.pendingCard = card;
+      
+      const modal = document.getElementById('crit-modal');
+      const qText = document.getElementById('crit-q-text');
+      const optContainer = document.getElementById('crit-options');
+      const timeEl = document.getElementById('crit-time');
+
+      qText.innerHTML = card.quiz.q;
+      optContainer.innerHTML = '';
+
+      card.quiz.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'py-2 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg text-xs font-bold text-slate-200 omml-math transition active:scale-95';
+        btn.innerHTML = `$${opt}$`;
+        btn.onclick = () => resolveCritQuiz(idx === card.quiz.correct);
+        optContainer.appendChild(btn);
+      });
+
+      modal.classList.remove('hidden');
+
+      if (window.renderMathInElement) {
+        renderMathInElement(modal, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+
+      let timeLeft = 20;
+      timeEl.innerText = timeLeft;
+      clearInterval(state.critTimer);
+      state.critTimer = setInterval(() => {
+        timeLeft--;
+        timeEl.innerText = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(state.critTimer);
+          resolveCritQuiz(false);
+        }
+      }, 1000);
+    }
+
+    function resolveCritQuiz(isCorrect) {
+      clearInterval(state.critTimer);
+      state.isCritQuiz = false;
+      document.getElementById('crit-modal').classList.add('hidden');
+
+      const card = state.pendingCard;
+      state.pendingCard = null;
+
+      executeCardEffect(card, isCorrect);
+    }
+
+    function executeCardEffect(card, isCrit) {
+      // 從手牌移除
+      state.player.hand = state.player.hand.filter(c => c.uid !== card.uid);
+
+      const logMsg = document.getElementById('log-message');
+      const logFml = document.getElementById('log-formula');
+      const logIcon = document.getElementById('log-icon');
+
+      let val = card.baseVal;
+      if (isCrit) {
+        val = Math.round(val * 1.5);
+        audio.crit();
+        logIcon.innerText = '⚡💥';
+      }
+
+      if (card.type === 'attack') {
+        audio.attack();
+        let dmg = val;
+        // 扣敵方護盾
+        if (state.enemy.shield > 0) {
+          if (state.enemy.shield >= dmg) {
+            state.enemy.shield -= dmg;
+            dmg = 0;
+          } else {
+            dmg -= state.enemy.shield;
+            state.enemy.shield = 0;
+          }
+        }
+        state.enemy.hp = Math.max(0, state.enemy.hp - dmg);
+        showFloatDamage('enemy-damage-float', isCrit ? `-${val} 暴擊!` : `-${val}`);
+        shakeElement('enemy-section');
+
+        logMsg.innerHTML = `柯南打出 <b>${card.name}</b>！${isCrit ? '<span class="text-amber-300 font-bold">【暗號解鎖 150% 暴擊！】</span>' : ''}造成 <b class="text-rose-400">${val}</b> 點傷害！`;
+      } else if (card.type === 'shield') {
+        audio.shield();
+        state.player.shield += val;
+        logIcon.innerText = '🛡️';
+        logMsg.innerHTML = `柯南打出 <b>${card.name}</b>！展開防禦護盾，獲得 <b class="text-sky-400">+${val}</b> 點護盾！`;
+      } else if (card.type === 'heal') {
+        audio.heal();
+        state.player.hp = Math.min(state.player.maxHp, state.player.hp + val);
+        logIcon.innerText = '💖';
+        logMsg.innerHTML = `柯南打出 <b>${card.name}</b>！生命值恢復 <b class="text-emerald-400">+${val}</b> 點！`;
+      } else if (card.type === 'buff') {
+        audio.crit();
+        state.player.energy = Math.min(state.player.maxEnergy, state.player.energy + 2);
+        logIcon.innerText = '⚡';
+        logMsg.innerHTML = `柯南打出 <b>${card.name}</b>！同界角靈感迸發，獲得 <b class="text-amber-400">+2 能量</b>！`;
+      }
+
+      logFml.innerHTML = `公式運算：${card.mathFormula}`;
+      renderOMMLMath(logFml);
+
+      updateUI();
+      renderHand();
+
+      // 檢查是否獲勝
+      if (state.enemy.hp <= 0) {
+        setTimeout(() => endGame(true), 600);
+      }
+    }
+
+    /* ==========================================================================
+       6. 敵方 AI 行動 (怪盜基德)
+       ========================================================================== */
+    function enemyTurn() {
+      state.isPlayerTurn = false;
+      document.getElementById('turn-banner').innerText = '基德的回合 (思考中...)';
+      document.getElementById('turn-banner').className = 'font-bold text-fuchsia-400';
+      document.getElementById('btn-end-turn').disabled = true;
+
+      setTimeout(() => {
+        // 基德重置能量
+        state.enemy.energy = 3;
+        
+        // 基德專屬行動
+        const actions = [
+          { name: '魔術白鴿切牌', dmg: 16, fml: '$\\cos 60^\\circ \\times 32 = 16$' },
+          { name: '怪盜預告函破壞', dmg: 22, fml: '$\\sin 90^\\circ \\times 22 = 22$' },
+          { name: '滑翔翼氣流偏折', shield: 18, fml: '$\\tan 45^\\circ \\times 18 = 18$' }
+        ];
+
+        const act = actions[Math.floor(Math.random() * actions.length)];
+        const logMsg = document.getElementById('log-message');
+        const logFml = document.getElementById('log-formula');
+        const logIcon = document.getElementById('log-icon');
+
+        if (act.dmg) {
+          audio.attack();
+          let dmg = act.dmg;
+          if (state.player.shield > 0) {
+            if (state.player.shield >= dmg) {
+              state.player.shield -= dmg;
+              dmg = 0;
+            } else {
+              dmg -= state.player.shield;
+              state.player.shield = 0;
+            }
+          }
+          state.player.hp = Math.max(0, state.player.hp - dmg);
+          showFloatDamage('player-damage-float', `-${act.dmg}`);
+          shakeElement('player-section');
+
+          logIcon.innerText = '🃏💥';
+          logMsg.innerHTML = `基德施展 <b>${act.name}</b>！對柯南造成 <b class="text-rose-400">${act.dmg}</b> 點傷害！`;
+        } else if (act.shield) {
+          audio.shield();
+          state.enemy.shield += act.shield;
+          logIcon.innerText = '🕊️';
+          logMsg.innerHTML = `基德施展 <b>${act.name}</b>！獲得 <b class="text-sky-400">+${act.shield}</b> 點護盾！`;
+        }
+
+        logFml.innerHTML = `暗號解密：${act.fml}`;
+        renderOMMLMath(logFml);
+
+        updateUI();
+
+        // 檢查柯南是否落敗
+        if (state.player.hp <= 0) {
+          setTimeout(() => endGame(false), 600);
+          return;
+        }
+
+        // 換回玩家回合
+        setTimeout(startPlayerTurn, 1400);
+
+      }, 1200);
+    }
+
+    function startPlayerTurn() {
+      state.round++;
+      document.getElementById('round-count').innerText = state.round;
+      state.isPlayerTurn = true;
+      state.player.energy = state.player.maxEnergy; // 恢復 3 能量
+      
+      document.getElementById('turn-banner').innerText = '你的回合 (柯南)';
+      document.getElementById('turn-banner').className = 'font-bold text-blue-400';
+      document.getElementById('btn-end-turn').disabled = false;
+
+      drawCards(4);
+      updateUI();
+    }
+
+    /* ==========================================================================
+       7. UI 更新與動態特效
+       ========================================================================== */
+    function updateUI() {
+      // 柯南 HP & Shield
+      document.getElementById('player-hp-text').innerText = `${state.player.hp} / ${state.player.maxHp}`;
+      document.getElementById('player-hp-bar').style.width = `${(state.player.hp / state.player.maxHp) * 100}%`;
+      
+      const pShieldBadge = document.getElementById('player-shield-badge');
+      if (state.player.shield > 0) {
+        pShieldBadge.classList.remove('hidden');
+        document.getElementById('player-shield-val').innerText = state.player.shield;
+      } else {
+        pShieldBadge.classList.add('hidden');
+      }
+
+      // 柯南能量
+      let pDots = '';
+      for (let i = 0; i < state.player.energy; i++) pDots += '⚡';
+      document.getElementById('player-energy-dots').innerText = pDots || '○';
+      document.getElementById('player-energy-num').innerText = `(${state.player.energy}/${state.player.maxEnergy})`;
+
+      // 基德 HP & Shield
+      document.getElementById('enemy-hp-text').innerText = `${state.enemy.hp} / ${state.enemy.maxHp}`;
+      document.getElementById('enemy-hp-bar').style.width = `${(state.enemy.hp / state.enemy.maxHp) * 100}%`;
+
+      const eShieldBadge = document.getElementById('enemy-shield-badge');
+      if (state.enemy.shield > 0) {
+        eShieldBadge.classList.remove('hidden');
+        document.getElementById('enemy-shield-val').innerText = state.enemy.shield;
+      } else {
+        eShieldBadge.classList.add('hidden');
+      }
+    }
+
+    function showFloatDamage(elemId, text) {
+      const el = document.getElementById(elemId);
+      el.innerText = text;
+      el.classList.remove('hidden', 'damage-float');
+      void el.offsetWidth;
+      el.classList.add('damage-float');
+      setTimeout(() => el.classList.add('hidden'), 800);
+    }
+
+    function shakeElement(elemId) {
+      const el = document.getElementById(elemId);
+      el.classList.remove('shake');
+      void el.offsetWidth;
+      el.classList.add('shake');
+    }
+
+    function endGame(isWin) {
+      const modal = document.getElementById('game-over-modal');
+      const winner = document.getElementById('modal-winner');
+      const summary = document.getElementById('modal-summary');
+      const trophy = document.getElementById('modal-trophy');
+
+      audio.victory();
+
+      if (isWin) {
+        trophy.innerText = '🏆';
+        winner.innerText = '柯南全面破解暗號！';
+        winner.className = 'text-2xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400';
+        summary.innerText = `在第 ${state.round} 回合中，柯南利用精準的三角函數恆等式與廣義角計算，完全破解了怪盜基德的卡牌防線！`;
+      } else {
+        trophy.innerText = '🃏';
+        winner.innerText = '怪盜基德華麗退場！';
+        winner.className = 'text-2xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-400';
+        summary.innerText = `基德成功掠走了暗號寶石！請再次磨練三角函數公式與特殊角數值，重新發起挑戰！`;
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    /* ==========================================================================
+       8. 事件綁定
+       ========================================================================== */
+    document.getElementById('btn-end-turn').onclick = () => {
+      if (state.isPlayerTurn) {
+        enemyTurn();
+      }
+    };
+
+    document.getElementById('btn-sound').onclick = () => {
+      audio.enabled = !audio.enabled;
+      document.getElementById('btn-sound').innerText = audio.enabled ? '🔊 音效' : '🔇 靜音';
+    };
+
+    document.getElementById('btn-reset').onclick = () => {
+      if (confirm('確定要重新開始本局卡牌攻防對決嗎？')) {
+        location.reload();
+      }
+    };
+
+    document.getElementById('modal-btn-restart').onclick = () => {
+      location.reload();
+    };
+
+    // 啟動開局
+    window.onload = () => {
+      drawCards(4);
+      updateUI();
+      renderOMMLMath(document.body);
+    };
+  </script>
+</body>
+</html>

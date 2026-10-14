@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名偵探柯南數理探案：雙人極速拔河對決 (Trig Math Duel)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap');
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* 微軟原生 OMML 規格數學字型 */
+    .math-var {
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+    .math-sup {
+      font-size: 0.72em;
+      vertical-align: super;
+      line-height: 0;
+    }
+    .math-sub {
+      font-size: 0.72em;
+      vertical-align: sub;
+      line-height: 0;
+    }
+    .katex {
+      font-size: 1.15em !important;
+      line-height: 1.25 !important;
+    }
+    .neon-glow-blue {
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+    .neon-glow-rose {
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-[#070f1e] text-slate-100 h-screen max-h-screen overflow-hidden flex flex-col justify-between">
+
+  <!-- 頂部資訊與控制列 (高度 52px) -->
+  <header class="bg-[#0b172a] border-b border-amber-500/30 px-3 py-1.5 shrink-0 z-30 flex items-center justify-between gap-2 h-13">
+    <div class="flex items-center gap-2">
+      <a href="index.html" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 text-xs font-bold transition-all flex items-center gap-1.5 shrink-0" title="返回主教材">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span class="hidden sm:inline">返回教材</span>
+      </a>
+      <h1 class="text-xs sm:text-sm font-black text-amber-300 tracking-wide flex items-center gap-1.5">
+        <i class="fa-solid fa-bolt text-rose-500"></i>
+        <span>極速拔河對決</span>
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/40 hidden md:inline">泰宇 2-2 快問快答</span>
+      </h1>
+    </div>
+
+    <!-- 模式切換與限時倒數 -->
+    <div class="flex items-center gap-2 sm:gap-4">
+      <div class="flex rounded-lg bg-slate-900 p-0.5 border border-white/10 text-xs">
+        <button id="mode-pve-btn" onclick="setMode('pve')" class="px-2.5 py-1 rounded font-bold transition-all bg-indigo-600 text-white">
+          人機
+        </button>
+        <button id="mode-pvp-btn" onclick="setMode('pvp')" class="px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all">
+          同機雙人
+        </button>
+      </div>
+
+      <!-- 倒數計時器 -->
+      <div class="px-3 py-1 rounded-xl bg-slate-900 border border-amber-400/30 font-mono-code text-xs font-black text-amber-300 flex items-center gap-1.5">
+        <i class="fa-regular fa-clock text-rose-400"></i>
+        <span id="game-timer">60</span>s
+      </div>
+
+      <!-- 音效開關 -->
+      <button onclick="toggleAudio()" id="audio-toggle-btn" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-white/10 flex items-center justify-center text-xs transition-colors shrink-0">
+        <i id="audio-icon" class="fa-solid fa-volume-high"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 中央拔河繩指示器 (拔河指針) -->
+  <div class="bg-[#0f172a] border-b border-slate-800 px-4 py-2 shrink-0 z-20">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center justify-between text-xs font-black mb-1">
+        <div class="flex items-center gap-1.5 text-sky-400">
+          <i class="fa-solid fa-glasses"></i>
+          <span>柯南得分: <b id="p1-score" class="font-mono-code">0</b></span>
+        </div>
+        <div class="text-[11px] text-amber-300 font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-400/30">
+          拔河指針：率先拉滿 5 格勝出！
+        </div>
+        <div class="flex items-center gap-1.5 text-rose-400">
+          <span id="p2-name">基德</span>得分: <b id="p2-score" class="font-mono-code">0</b>
+          <i class="fa-solid fa-hat-wizard"></i>
+        </div>
+      </div>
+
+      <!-- 拔河軌道 (11 格刻度) -->
+      <div class="relative w-full h-5 bg-slate-950 rounded-full border border-slate-700 overflow-hidden flex items-center p-1">
+        <!-- 柯南藍色拉力區 -->
+        <div id="rope-left" class="h-full bg-gradient-to-r from-sky-500 to-indigo-600 rounded-l-full transition-all duration-300 w-1/2"></div>
+        <!-- 基德紅色拉力區 -->
+        <div id="rope-right" class="h-full bg-gradient-to-l from-rose-500 to-amber-600 rounded-r-full transition-all duration-300 w-1/2"></div>
+        <!-- 中央指針標記 -->
+        <div id="rope-knot" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-amber-400 border-2 border-white shadow-lg flex items-center justify-center text-slate-950 text-xs font-black transition-all duration-300 z-10">
+          <i class="fa-solid fa-arrows-left-right text-[10px]"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 對戰中央題目與雙人按鈕主舞台 (自適應滿版 flex-1) -->
+  <main class="flex-1 w-full max-w-6xl mx-auto p-2 sm:p-4 flex flex-col justify-between min-h-0 gap-2">
+
+    <!-- 中央核心題目看板 (雙方共用題目，搶先作答) -->
+    <div class="bg-slate-900/90 border-2 border-amber-500/50 rounded-2xl p-3 sm:p-4 shadow-xl text-center relative flex flex-col justify-center shrink-0">
+      <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1 border-b border-white/10 pb-1">
+        <span class="text-amber-400 font-bold"><i class="fa-solid fa-crosshairs mr-1"></i>泰宇數學 2-2 極速暗號</span>
+        <span id="streak-info" class="text-emerald-400 font-bold">先按且答對者拉動拔河指針！</span>
+      </div>
+      <div id="question-text" class="text-base sm:text-xl font-black text-white py-1">
+        <!-- 題目動態注入 -->
+      </div>
+      <div id="question-hint" class="text-xs text-amber-300/90 font-medium">
+        <!-- 提示注入 -->
+      </div>
+    </div>
+
+    <!-- 雙方按鈕操作區 (左方 P1 柯南 / 右方 P2 基德) -->
+    <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3 min-h-0">
+      
+      <!-- P1: 江戶川柯南操作板 -->
+      <div id="p1-board" class="bg-slate-900/80 border-2 border-sky-500/50 rounded-2xl p-2.5 sm:p-3 flex flex-col justify-between neon-glow-blue transition-all">
+        <div class="flex items-center justify-between pb-1.5 border-b border-sky-500/30 text-xs font-black text-sky-300">
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-glasses"></i>柯南控制台</span>
+          <span class="text-[10px] text-slate-400 hidden sm:inline">鍵盤快速鍵: 1 / 2 / 3 / 4</span>
+        </div>
+        
+        <!-- P1 四個選項按鈕 -->
+        <div id="p1-options" class="grid grid-cols-2 gap-2 my-auto">
+          <!-- 按鈕動態注入 -->
+        </div>
+
+        <div id="p1-status" class="text-center text-[11px] font-bold text-sky-400 h-5 leading-5">
+          準備搶答！
+        </div>
+      </div>
+
+      <!-- P2: 怪盜基德操作板 -->
+      <div id="p2-board" class="bg-slate-900/80 border-2 border-rose-500/50 rounded-2xl p-2.5 sm:p-3 flex flex-col justify-between transition-all">
+        <div class="flex items-center justify-between pb-1.5 border-b border-rose-500/30 text-xs font-black text-rose-300">
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-hat-wizard"></i><span id="p2-board-title">怪盜基德 (AI)</span></span>
+          <span class="text-[10px] text-slate-400 hidden sm:inline">鍵盤快速鍵: 7 / 8 / 9 / 0</span>
+        </div>
+
+        <!-- P2 四個選項按鈕 -->
+        <div id="p2-options" class="grid grid-cols-2 gap-2 my-auto">
+          <!-- 按鈕動態注入 -->
+        </div>
+
+        <div id="p2-status" class="text-center text-[11px] font-bold text-rose-400 h-5 leading-5">
+          伺機行動中...
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- 頁尾簡易說明 (高度 24px) -->
+  <footer class="bg-[#0b172a] border-t border-slate-800 py-1 px-4 text-center text-[10px] text-slate-500 shrink-0">
+    泰宇數學 第一冊 2-2 三角函數 ｜ 雙人面對面極速拔河對決 ｜ 微軟 OMML 標準排版
+  </footer>
+
+  <!-- 勝負結算彈出視窗 -->
+  <div id="duel-gameover-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[#0b172a] border-2 border-amber-500 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative">
+      <div id="duel-winner-icon" class="w-16 h-16 rounded-full bg-amber-500/20 text-amber-300 border-2 border-amber-400/50 flex items-center justify-center text-3xl mx-auto mb-3">
+        <i class="fa-solid fa-trophy"></i>
+      </div>
+      <h3 id="duel-winner-title" class="text-xl font-black text-amber-300 mb-1">江戶川柯南 拔河勝出！</h3>
+      <p id="duel-winner-subtitle" class="text-xs text-slate-300 mb-4">以絕對的三角函數速算優勢擊潰對手！</p>
+      
+      <div class="bg-slate-900 p-3 rounded-xl border border-white/10 mb-5 text-xs font-mono-code space-y-1">
+        <div class="flex justify-between text-slate-300">
+          <span>柯南總得分:</span>
+          <span id="stat-p1-final" class="text-sky-300 font-bold">500 分</span>
+        </div>
+        <div class="flex justify-between text-slate-300">
+          <span>對手總得分:</span>
+          <span id="stat-p2-final" class="text-rose-300 font-bold">200 分</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="restartDuel()" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition-all shadow-md">
+          <i class="fa-solid fa-rotate-right mr-1"></i>再來一局
+        </button>
+        <a href="index.html" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-white/10 transition-all flex items-center justify-center">
+          返回主頁
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 核心遊戲引擎 -->
+  <script>
+    /* ==========================================
+       1. 題庫資料 (泰宇 2-2 OMML/KaTeX 垂直真分數標準)
+       ========================================== */
+    const DUEL_BANK = [
+      {
+        q: "\\(\\sin 30^\\circ\\) 的值為？",
+        options: ["\\(\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "\\(\\frac{\\sqrt{2}}{2}\\)", "\\(1\\)"],
+        ans: 0,
+        hint: "30° 斜邊為 2，對邊為 1"
+      },
+      {
+        q: "\\(\\cos 60^\\circ\\) 的值為？",
+        options: ["\\(\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "\\(1\\)", "\\(0\\)"],
+        ans: 0,
+        hint: "餘角關係：\\(\\cos 60^\\circ = \\sin 30^\\circ\\)"
+      },
+      {
+        q: "\\(\\tan 45^\\circ\\) 的值為？",
+        options: ["\\(1\\)", "\\(\\sqrt{3}\\)", "\\(\\frac{\\sqrt{3}}{3}\\)", "\\(0\\)"],
+        ans: 0,
+        hint: "等腰直角三角形對邊比鄰邊等於 1"
+      },
+      {
+        q: "\\(\\sin 45^\\circ\\) 的精確值為？",
+        options: ["\\(\\frac{\\sqrt{2}}{2}\\)", "\\(\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "\\(1\\)"],
+        ans: 0,
+        hint: "\\(\\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}\\)"
+      },
+      {
+        q: "\\(\\cos 120^\\circ\\) 位於第 II 象限，其值為？",
+        options: ["\\(-\\frac{1}{2}\\)", "\\(\\frac{1}{2}\\)", "\\(-\\frac{\\sqrt{3}}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)"],
+        ans: 0,
+        hint: "\\(\\cos 120^\\circ = -\\cos 60^\\circ = -\\frac{1}{2}\\)"
+      },
+      {
+        q: "\\(\\sin 150^\\circ\\) 的值為？",
+        options: ["\\(\\frac{1}{2}\\)", "\\(-\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "\\(-\\frac{\\sqrt{3}}{2}\\)"],
+        ans: 0,
+        hint: "\\(\\sin(180^\\circ - 30^\\circ) = \\sin 30^\\circ = \\frac{1}{2}\\)"
+      },
+      {
+        q: "象限角 \\(\\cos 180^\\circ\\) 的值為？",
+        options: ["\\(-1\\)", "\\(0\\)", "\\(1\\)", "不存在"],
+        ans: 0,
+        hint: "終邊在負 x 軸，\\(x = -r\\)"
+      },
+      {
+        q: "象限角 \\(\\sin 90^\\circ\\) 的值為？",
+        options: ["\\(1\\)", "\\(0\\)", "\\(-1\\)", "\\(\\frac{1}{2}\\)"],
+        ans: 0,
+        hint: "終邊在正 y 軸，\\(y = r\\)"
+      },
+      {
+        q: "若 \\(\\sin\\theta > 0\\) 且 \\(\\cos\\theta < 0\\)，則 \\(\\theta\\) 位於第幾象限？",
+        options: ["第二象限", "第一象限", "第三象限", "第四象限"],
+        ans: 0,
+        hint: "口訣：二正弦(\\(\\sin\\))"
+      },
+      {
+        q: "若 \\(\\tan\\theta > 0\\) 且 \\(\\cos\\theta < 0\\)，則 \\(\\theta\\) 位於第幾象限？",
+        options: ["第三象限", "第一象限", "第二象限", "第四象限"],
+        ans: 0,
+        hint: "口訣：三正切(\\(\\tan\\))"
+      },
+      {
+        q: "角 \\(750^\\circ\\) 的最小正同界角為多少度？",
+        options: ["\\(30^\\circ\\)", "\\(60^\\circ\\)", "\\(150^\\circ\\)", "\\(390^\\circ\\)"],
+        ans: 0,
+        hint: "\\(750^\\circ - 720^\\circ = 30^\\circ\\)"
+      },
+      {
+        q: "角 \\(-330^\\circ\\) 的最小正同界角為多少度？",
+        options: ["\\(30^\\circ\\)", "\\(60^\\circ\\)", "\\(330^\\circ\\)", "\\(150^\\circ\\)"],
+        ans: 0,
+        hint: "\\(-330^\\circ + 360^\\circ = 30^\\circ\\)"
+      },
+      {
+        q: "平方關係：\\(\\sin^2\\theta + \\cos^2\\theta\\) 之值恆等於？",
+        options: ["\\(1\\)", "\\(0\\)", "\\(2\\)", "\\(-1\\)"],
+        ans: 0,
+        hint: "單位圓畢氏定理恆等式"
+      },
+      {
+        q: "商數關係：\\(\\tan\\theta\\) 等於？",
+        options: ["\\(\\frac{\\sin\\theta}{\\cos\\theta}\\)", "\\(\\frac{\\cos\\theta}{\\sin\\theta}\\)", "\\(\\frac{1}{\\sin\\theta}\\)", "\\(\\sin\\theta \\cdot \\cos\\theta\\)"],
+        ans: 0,
+        hint: "\\(\\tan\\theta = \\frac{y}{x} = \\frac{\\sin\\theta}{\\cos\\theta}\\)"
+      }
+    ];
+
+    /* ==========================================
+       2. Web Audio API 音效引擎
+       ========================================== */
+    let audioCtx = null;
+    let audioEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+    }
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      document.getElementById('audio-icon').className = audioEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark text-slate-500';
+    }
+    function playSound(type) {
+      if (!audioEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      if (type === 'correct') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(587, now);
+        osc.frequency.setValueAtTime(880, now + 0.1);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } else if (type === 'wrong') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(160, now);
+        osc.frequency.setValueAtTime(120, now + 0.1);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      } else if (type === 'tug') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.exponentialRampToValueAtTime(440, now + 0.2);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.2);
+      }
+    }
+
+    /* ==========================================
+       3. 拔河遊戲狀態
+       ========================================== */
+    let gameMode = 'pve'; // 'pve', 'pvp'
+    let ropePosition = 0; // -5 (基德勝) ~ +5 (柯南勝)
+    let p1Score = 0;
+    let p2Score = 0;
+    let gameTimer = 60;
+    let timerInterval = null;
+    let isGameOver = false;
+
+    let p1Frozen = false;
+    let p2Frozen = false;
+    let currentQuiz = null;
+    let currentOptions = []; // 洗牌後的選項
+
+    function setMode(mode) {
+      gameMode = mode;
+      document.getElementById('mode-pve-btn').className = "px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all";
+      document.getElementById('mode-pvp-btn').className = "px-2.5 py-1 rounded font-bold text-slate-400 hover:text-white transition-all";
+
+      const p2Name = document.getElementById('p2-name');
+      const p2Title = document.getElementById('p2-board-title');
+
+      if (mode === 'pve') {
+        document.getElementById('mode-pve-btn').className = "px-2.5 py-1 rounded font-bold transition-all bg-indigo-600 text-white";
+        p2Name.innerText = "基德(AI)";
+        p2Title.innerText = "怪盜基德 (AI)";
+      } else {
+        document.getElementById('mode-pvp-btn').className = "px-2.5 py-1 rounded font-bold transition-all bg-indigo-600 text-white";
+        p2Name.innerText = "基德(P2)";
+        p2Title.innerText = "怪盜基德 (P2)";
+      }
+      restartDuel();
+    }
+
+    // 產生新題目
+    function nextQuestion() {
+      if (isGameOver) return;
+      currentQuiz = DUEL_BANK[Math.floor(Math.random() * DUEL_BANK.length)];
+      
+      // 打亂選項
+      const optionsWithMeta = currentQuiz.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: (idx === currentQuiz.ans)
+      }));
+      for (let i = optionsWithMeta.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [optionsWithMeta[i], optionsWithMeta[j]] = [optionsWithMeta[j], optionsWithMeta[i]];
+      }
+      currentOptions = optionsWithMeta;
+
+      document.getElementById('question-text').innerHTML = currentQuiz.q;
+      document.getElementById('question-hint').innerHTML = "💡 解題思維：" + currentQuiz.hint;
+
+      renderButtons('p1', optionsWithMeta);
+      renderButtons('p2', optionsWithMeta);
+
+      // 強制 KaTeX 渲染
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true}
+          ],
+          throwOnError: false
+        });
+      }
+
+      // 若為 PVE，排程 AI 自動搶答
+      if (gameMode === 'pve' && !p2Frozen) {
+        scheduleAITurn();
+      }
+    }
+
+    let aiTimeout = null;
+    function scheduleAITurn() {
+      clearTimeout(aiTimeout);
+      // AI 思考時間：1.2 ~ 2.8 秒
+      const thinkTime = 1200 + Math.random() * 1600;
+      aiTimeout = setTimeout(() => {
+        if (isGameOver || p2Frozen) return;
+        // 75% 機率選對
+        const correctIdx = currentOptions.findIndex(o => o.isCorrect);
+        let chosenIdx = correctIdx;
+        if (Math.random() > 0.75) {
+          chosenIdx = (correctIdx + 1) % 4; // 答錯
+        }
+        handleAnswer('p2', chosenIdx);
+      }, thinkTime);
+    }
+
+    function renderButtons(player, options) {
+      const container = document.getElementById(`${player}-options`);
+      container.innerHTML = '';
+      const isPlayerFrozen = (player === 'p1' ? p1Frozen : p2Frozen);
+
+      options.forEach((item, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `min-h-[52px] py-2 px-3 rounded-xl ${player === 'p1' ? 'bg-sky-950/70 hover:bg-sky-800 border-sky-600/40' : 'bg-rose-950/70 hover:bg-rose-800 border-rose-600/40'} border text-sm font-bold text-amber-300 transition-all flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-xs ${isPlayerFrozen ? 'opacity-40 cursor-not-allowed' : ''}`;
+        btn.disabled = isPlayerFrozen;
+        btn.innerHTML = `<span class="w-5 h-5 rounded-full bg-slate-900 text-[10px] text-slate-300 font-bold flex items-center justify-center shrink-0">${['A','B','C','D'][idx]}</span> <span class="katex-opt">${item.text}</span>`;
+        btn.onclick = () => handleAnswer(player, idx);
+        container.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(player, selectedIndex) {
+      if (isGameOver) return;
+      if (player === 'p1' && p1Frozen) return;
+      if (player === 'p2' && p2Frozen) return;
+
+      const isCorrect = currentOptions[selectedIndex].isCorrect;
+
+      if (isCorrect) {
+        playSound('correct');
+        playSound('tug');
+        if (player === 'p1') {
+          p1Score += 100;
+          ropePosition = Math.min(5, ropePosition + 1);
+          document.getElementById('p1-status').innerText = "🎉 搶答正確！拔河指針往柯南拉 1 格！";
+        } else {
+          p2Score += 100;
+          ropePosition = Math.max(-5, ropePosition - 1);
+          document.getElementById('p2-status').innerText = "🎉 基德搶答正確！拔河指針往基德拉 1 格！";
+        }
+        updateRopeUI();
+
+        if (ropePosition >= 5) {
+          triggerDuelGameOver('p1', "柯南率先拉滿 5 格！完全壓制獲勝！");
+          return;
+        } else if (ropePosition <= -5) {
+          triggerDuelGameOver('p2', "怪盜基德率先拉滿 5 格！華麗勝出！");
+          return;
+        }
+
+        // 換下一題
+        nextQuestion();
+      } else {
+        // 答錯凍結處罰 1.5 秒
+        playSound('wrong');
+        freezePlayer(player);
+      }
+    }
+
+    function freezePlayer(player) {
+      if (player === 'p1') {
+        p1Frozen = true;
+        document.getElementById('p1-status').innerHTML = '<span class="text-rose-400">❌ 答錯！凍結 1.5 秒</span>';
+        renderButtons('p1', currentOptions);
+        setTimeout(() => {
+          p1Frozen = false;
+          document.getElementById('p1-status').innerText = "恢復搶答！";
+          renderButtons('p1', currentOptions);
+        }, 1500);
+      } else {
+        p2Frozen = true;
+        document.getElementById('p2-status').innerHTML = '<span class="text-rose-400">❌ 答錯！凍結 1.5 秒</span>';
+        renderButtons('p2', currentOptions);
+        setTimeout(() => {
+          p2Frozen = false;
+          document.getElementById('p2-status').innerText = "恢復搶答！";
+          renderButtons('p2', currentOptions);
+        }, 1500);
+      }
+    }
+
+    function updateRopeUI() {
+      document.getElementById('p1-score').innerText = p1Score;
+      document.getElementById('p2-score').innerText = p2Score;
+
+      // 拔河指針位置 (-5 到 +5 對應百分比 0% ~ 100%)
+      const percentage = ((ropePosition + 5) / 10) * 100;
+      document.getElementById('rope-knot').style.left = `${percentage}%`;
+      document.getElementById('rope-left').style.width = `${percentage}%`;
+      document.getElementById('rope-right').style.width = `${100 - percentage}%`;
+    }
+
+    function triggerDuelGameOver(winner, reason) {
+      isGameOver = true;
+      clearInterval(timerInterval);
+      clearTimeout(aiTimeout);
+
+      const modal = document.getElementById('duel-gameover-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      const title = document.getElementById('duel-winner-title');
+      const sub = document.getElementById('duel-winner-subtitle');
+      const icon = document.getElementById('duel-winner-icon');
+
+      if (winner === 'p1') {
+        title.innerText = "江戶川柯南 拔河勝出！";
+        title.className = "text-xl font-black text-amber-300 mb-1";
+        sub.innerText = reason;
+        icon.innerHTML = '<i class="fa-solid fa-trophy text-amber-300"></i>';
+      } else if (winner === 'p2') {
+        title.innerText = "怪盜基德 華麗勝出！";
+        title.className = "text-xl font-black text-rose-400 mb-1";
+        sub.innerText = reason;
+        icon.innerHTML = '<i class="fa-solid fa-hat-wizard text-rose-400"></i>';
+      } else {
+        title.innerText = "勢均力敵！平局！";
+        title.className = "text-xl font-black text-slate-300 mb-1";
+        sub.innerText = reason;
+        icon.innerHTML = '<i class="fa-solid fa-handshake text-slate-300"></i>';
+      }
+
+      document.getElementById('stat-p1-final').innerText = `${p1Score} 分`;
+      document.getElementById('stat-p2-final').innerText = `${p2Score} 分`;
+    }
+
+    function restartDuel() {
+      ropePosition = 0;
+      p1Score = 0;
+      p2Score = 0;
+      gameTimer = 60;
+      isGameOver = false;
+      p1Frozen = false;
+      p2Frozen = false;
+
+      updateRopeUI();
+      document.getElementById('game-timer').innerText = gameTimer;
+      document.getElementById('duel-gameover-modal').classList.add('hidden');
+      document.getElementById('duel-gameover-modal').classList.remove('flex');
+
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        gameTimer--;
+        document.getElementById('game-timer').innerText = gameTimer;
+        if (gameTimer <= 0) {
+          clearInterval(timerInterval);
+          if (ropePosition > 0) {
+            triggerDuelGameOver('p1', "時間到！柯南拔河領先勝出！");
+          } else if (ropePosition < 0) {
+            triggerDuelGameOver('p2', "時間到！基德拔河領先勝出！");
+          } else {
+            triggerDuelGameOver('draw', "時間到！雙方指針持平！");
+          }
+        }
+      }, 1000);
+
+      nextQuestion();
+    }
+
+    // 鍵盤監聽支援 (P1: 1,2,3,4 / P2: 7,8,9,0)
+    window.addEventListener('keydown', (e) => {
+      if (isGameOver) return;
+      if (e.key === '1') handleAnswer('p1', 0);
+      if (e.key === '2') handleAnswer('p1', 1);
+      if (e.key === '3') handleAnswer('p1', 2);
+      if (e.key === '4') handleAnswer('p1', 3);
+
+      if (gameMode === 'pvp') {
+        if (e.key === '7') handleAnswer('p2', 0);
+        if (e.key === '8') handleAnswer('p2', 1);
+        if (e.key === '9') handleAnswer('p2', 2);
+        if (e.key === '0') handleAnswer('p2', 3);
+      }
+    });
+
+    // 啟動
+    window.addEventListener('load', () => {
+      restartDuel();
+    });
+  </script>
+</body>
+</html>

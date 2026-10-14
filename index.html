@@ -146,6 +146,11 @@
           <span>破案心智圖</span>
         </button>
 
+        <button onclick="openGameHubModal()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-red-600 via-purple-600 to-indigo-600 hover:from-red-500 hover:to-indigo-500 text-white transition-all shadow-md flex items-center gap-1.5" title="啟動名偵探柯南數理探案對戰遊樂場（四大對戰特訓場）">
+          <i class="fa-solid fa-gamepad text-amber-300"></i>
+          <span>🎮 數理對戰遊樂場</span>
+        </button>
+
         <button onclick="togglePageFullscreen()" id="fullscreen-toggle-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-xs flex items-center gap-1.5" title="首頁全螢幕投影 (快捷鍵 F)">
           <i id="fullscreen-toggle-icon" class="fa-solid fa-expand"></i>
           <span id="fullscreen-toggle-text">全螢幕投影</span>
@@ -200,6 +205,11 @@
             <i class="fa-solid fa-file-pdf text-red-400"></i>
             <span>全套圖解卡 PDF</span>
           </a>
+
+          <button onclick="openGameHubModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-red-600 via-purple-600 to-indigo-600 hover:from-red-500 hover:to-indigo-500 text-white transition-all shadow-md flex items-center gap-2" title="開啟數理探案對戰遊樂場（四大對戰特訓場）">
+            <i class="fa-solid fa-gamepad text-amber-200"></i>
+            <span>🎮 數理對戰遊樂場 (四大方案)</span>
+          </button>
         </div>
       </div>
 
@@ -237,6 +247,31 @@
           </div>
           <div class="w-full bg-white/20 h-2.5 rounded-full overflow-hidden">
             <div id="case-progress-bar" class="bg-gradient-to-r from-amber-400 to-emerald-400 h-full w-0 transition-all duration-500"></div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-white/10 space-y-1.5">
+          <div class="text-[10px] font-bold text-amber-300 flex items-center justify-between">
+            <span>🎮 數理探案四大對戰特訓</span>
+            <button onclick="openGameHubModal()" class="text-white hover:text-amber-200 underline">全覽特訓場 ❯</button>
+          </div>
+          <div class="grid grid-cols-2 gap-1.5">
+            <a href="trig_artillery_duel.html" target="_blank" class="p-1.5 rounded-lg bg-rose-950/70 hover:bg-rose-900 border border-rose-500/40 text-[11px] font-bold text-rose-200 flex items-center justify-between transition" title="方案一：砲陣地彈道對決">
+              <span>🎯 1.彈道砲戰</span>
+              <span class="text-[9px] text-rose-400">進入</span>
+            </a>
+            <a href="trig_math_duel.html" target="_blank" class="p-1.5 rounded-lg bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-500/40 text-[11px] font-bold text-indigo-200 flex items-center justify-between transition" title="方案二：雙人極速拔河對決">
+              <span>🪢 2.極速拔河</span>
+              <span class="text-[9px] text-indigo-400">進入</span>
+            </a>
+            <a href="trig_territory_war.html" target="_blank" class="p-1.5 rounded-lg bg-purple-950/70 hover:bg-purple-900 border border-purple-500/40 text-[11px] font-bold text-purple-200 flex items-center justify-between transition" title="方案三：四象限領域佔領戰">
+              <span>🗺️ 3.象限爭奪</span>
+              <span class="text-[9px] text-purple-400">進入</span>
+            </a>
+            <a href="trig_card_battler.html" target="_blank" class="p-1.5 rounded-lg bg-amber-950/70 hover:bg-amber-900 border border-amber-500/40 text-[11px] font-bold text-amber-200 flex items-center justify-between transition" title="方案四：暗號卡牌攻防戰">
+              <span>🃏 4.卡牌攻防</span>
+              <span class="text-[9px] text-amber-400">進入</span>
+            </a>
           </div>
         </div>
       </div>
@@ -935,6 +970,138 @@
       <button onclick="copyQrcodeUrl()" class="w-full py-2.5 rounded-xl font-bold text-xs bg-blue-600 text-white hover:bg-blue-700 shadow-sm">
         <i class="fa-solid fa-copy mr-1"></i>複製連線網址
       </button>
+    </div>
+  </div>
+
+  <!-- 9. 數理探案對戰遊樂場彈窗 (四大對戰特訓場) -->
+  <div id="game-hub-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border-2 border-amber-500 rounded-3xl max-w-4xl w-full max-h-[90vh] p-6 shadow-2xl flex flex-col justify-between overflow-hidden text-white">
+      
+      <!-- 彈窗頂部 -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-700 mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl shadow-md">
+            🎮
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-amber-300">
+              名偵探柯南數理探案對戰遊樂場
+            </h3>
+            <p class="text-xs text-slate-400">泰宇高中數學 2-2「三角函數的定義與性質」四大沉浸式互動特訓場</p>
+          </div>
+        </div>
+        <button onclick="closeGameHubModal()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition">
+          <i class="fa-solid fa-xmark mr-1"></i>關閉 (ESC)
+        </button>
+      </div>
+
+      <!-- 四大遊戲卡片網格 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto pr-1 my-2">
+        
+        <!-- 方案一：砲陣地彈道對決 -->
+        <div class="bg-slate-950/80 border border-rose-500/50 hover:border-rose-400 rounded-2xl p-4 flex flex-col justify-between shadow-lg transition hover:scale-[1.01]">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-700 text-[10px] font-bold">
+                方案一 ‧ 彈道物理
+              </span>
+              <span class="text-xs text-amber-400 font-mono font-bold">單人 / 雙人對決</span>
+            </div>
+            <h4 class="text-base font-black text-rose-200 mb-1.5 flex items-center gap-2">
+              <span>🎯</span> 砲陣地彈道對決 (Ballistic Duel)
+            </h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+              將三角向量分解 \(v_x = v\cos\theta, v_y = v\sin\theta\) 實體化為拋物線砲戰！具備<b>常駐 45 步瞄準虛線預測</b>、<b>發射後彈道歷史殘影保留</b>、雙發射鍵（直接開火 vs 解密暴擊發射），支援滑鼠/觸控拖曳瞄準。
+            </p>
+            <div class="bg-slate-900/90 rounded-lg p-2 text-[11px] text-cyan-300 font-mono mb-3 border border-slate-800">
+              📐 核心數學：仰角與速度分解、廣義角補角彈道、拋物線方程
+            </div>
+          </div>
+          <a href="trig_artillery_duel.html" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-center font-bold text-xs text-white shadow-md transition">
+            🚀 啟動彈道砲戰 ❯
+          </a>
+        </div>
+
+        <!-- 方案二：雙人極速拔河對決 -->
+        <div class="bg-slate-950/80 border border-indigo-500/50 hover:border-indigo-400 rounded-2xl p-4 flex flex-col justify-between shadow-lg transition hover:scale-[1.01]">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-700 text-[10px] font-bold">
+                方案二 ‧ 競速拔河
+              </span>
+              <span class="text-xs text-indigo-400 font-mono font-bold">同機雙人 / 鍵盤搶答</span>
+            </div>
+            <h4 class="text-base font-black text-indigo-200 mb-1.5 flex items-center gap-2">
+              <span>🪢</span> 雙人極速拔河對決 (Math Tug-of-War)
+            </h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+              60秒倒數極速對抗！雙方依題目以鍵盤或觸控搶答，答對將拔河繩索指標拉向己方，答錯凍結 1.5 秒處罰。完全符合<b>微軟原廠 OMML 垂直真分數</b>排版規範。
+            </p>
+            <div class="bg-slate-900/90 rounded-lg p-2 text-[11px] text-indigo-300 font-mono mb-3 border border-slate-800">
+              📐 核心數學：30°/45°/60° 特別角速算、同界角判別、正負號反射
+            </div>
+          </div>
+          <a href="trig_math_duel.html" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-center font-bold text-xs text-white shadow-md transition">
+            ⚡ 啟動極速拔河 ❯
+          </a>
+        </div>
+
+        <!-- 方案三：四象限領域佔領戰 -->
+        <div class="bg-slate-950/80 border border-purple-500/50 hover:border-purple-400 rounded-2xl p-4 flex flex-col justify-between shadow-lg transition hover:scale-[1.01]">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-700 text-[10px] font-bold">
+                方案三 ‧ 象限戰棋
+              </span>
+              <span class="text-xs text-purple-400 font-mono font-bold">人機 AI / 雙人輪流</span>
+            </div>
+            <h4 class="text-base font-black text-purple-200 mb-1.5 flex items-center gap-2">
+              <span>🗺️</span> 四象限領域佔領戰 (Quadrant Conquest)
+            </h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+              以直角坐標系四象限為棋盤（All-Sin-Tan-Cos），搶佔 16 個重要廣義角據點。支援「<b>平方關係護盾</b>」建立永久防線，以及「<b>商數關係突襲</b>」跨區連鎖佔領！
+            </p>
+            <div class="bg-slate-900/90 rounded-lg p-2 text-[11px] text-purple-300 font-mono mb-3 border border-slate-800">
+              📐 核心數學：廣義角象限正負號判別、標準位置角坐標轉換
+            </div>
+          </div>
+          <a href="trig_territory_war.html" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-center font-bold text-xs text-white shadow-md transition">
+            🛡️ 啟動象限戰棋 ❯
+          </a>
+        </div>
+
+        <!-- 方案四：暗號卡牌攻防戰 -->
+        <div class="bg-slate-950/80 border border-amber-500/50 hover:border-amber-400 rounded-2xl p-4 flex flex-col justify-between shadow-lg transition hover:scale-[1.01]">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-700 text-[10px] font-bold">
+                方案四 ‧ 卡牌構築
+              </span>
+              <span class="text-xs text-amber-400 font-mono font-bold">柯南 vs 基德 智謀博弈</span>
+            </div>
+            <h4 class="text-base font-black text-amber-200 mb-1.5 flex items-center gap-2">
+              <span>🃏</span> 暗號卡牌攻防戰 (Cipher Card Duel)
+            </h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+              雙方 100 HP 生命值博弈！每張卡牌均為真實三角公式數值（\(\sin 90^\circ\) 攻擊、\(\cos 0^\circ\) 護盾、平方恆等真實傷害）。出牌觸發 <b>5秒暴擊速驗</b>，答對造成 150% 暴擊傷害！
+            </p>
+            <div class="bg-slate-900/90 rounded-lg p-2 text-[11px] text-amber-300 font-mono mb-3 border border-slate-800">
+              📐 核心數學：四大三角恆等式應用、特殊角數值精準運算
+            </div>
+          </div>
+          <a href="trig_card_battler.html" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-center font-bold text-xs text-white shadow-md transition">
+            ⚔️ 啟動卡牌對決 ❯
+          </a>
+        </div>
+
+      </div>
+
+      <!-- 底部提醒 -->
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+        <div>💡 全部遊戲均遵循 100vh 一屏無捲軸標準與微軟 OMML 數學印刷排版規範。</div>
+        <div>按 ESC 或點擊右上角關閉</div>
+      </div>
+
     </div>
   </div>
 
@@ -2637,6 +2804,20 @@ function copyQrcodeUrl() {
 }
 
 // ==========================================
+// 12-2. 數理探案對戰遊樂場彈窗 (Game Hub)
+// ==========================================
+function openGameHubModal() {
+    recordInteraction();
+    const modal = document.getElementById('game-hub-modal');
+    if (modal) modal.classList.remove('hidden');
+}
+
+function closeGameHubModal() {
+    const modal = document.getElementById('game-hub-modal');
+    if (modal) modal.classList.add('hidden');
+}
+
+// ==========================================
 // 13. 快捷鍵監聽 (ESC, F, 空白鍵)
 // ==========================================
 function initKeyboardShortcuts() {
@@ -2651,6 +2832,7 @@ function initKeyboardShortcuts() {
             closeCardQuizModal();
             closeTeacherPwdModal();
             closeQrcodeModal();
+            closeGameHubModal();
         }
 
         // F 鍵切換全螢幕
