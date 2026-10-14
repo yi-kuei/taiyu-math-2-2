@@ -3,31 +3,32 @@
 > 任何 Agent、任何電腦接手前**必讀**；收工時**必更新**。本檔只放交接必需的精簡資訊，詳細脈絡放 Obsidian（若有 L3）。
 
 ## ⏯️ 目前做到哪
-1. **GitHub Pages 正式發布與線上驗證**：
-   - 專案程式庫 `yi-kuei/taiyu-math-2-2` 成功轉為 Public。
-   - 透過 API 啟用 GitHub Pages（分支 `main`，路徑 `/`），GitHub Actions 自動建置部署完成。
-   - 經連線檢測，主平台與四大對戰遊戲端點全數回傳 **HTTP 200 OK**，完全可公開連線存取：
-     - 主平台：`https://yi-kuei.github.io/taiyu-math-2-2/`
-     - 方案一（砲陣地彈道對決）：`https://yi-kuei.github.io/taiyu-math-2-2/trig_artillery_duel.html`
-     - 方案二（雙人極速拔河對決）：`https://yi-kuei.github.io/taiyu-math-2-2/trig_math_duel.html`
-     - 方案三（四象限領域佔領戰）：`https://yi-kuei.github.io/taiyu-math-2-2/trig_territory_war.html`
-     - 方案四（暗號卡牌攻防戰）：`https://yi-kuei.github.io/taiyu-math-2-2/trig_card_battler.html`
-2. **全套教材完整度**：
-   - 包含 60 張圖解卡、JIS B4 雙欄學習單與教師解答版、直式教案、四款對戰遊戲皆已整合。
+1. **GitHub Pages 線上正式發布完成**：
+   - 專案已於 GitHub Pages 公開上線：[主平台](https://yi-kuei.github.io/taiyu-math-2-2/) 及四大遊戲端點均通過 HTTP 200 OK 連線驗證。
+2. **遊戲跨載具連線對戰方案評估與確認**：
+   - 確認現有遊戲為純前端「同機共玩」與「單人打 AI」。
+   - 使用者提出跨載具連線對打需求，確認採用 **Google Firebase Realtime Database** 技術方案：
+     - 具備 100% 穿透校園防火牆優勢。
+     - 支援 4 位數房號與掃碼（QR Code）自動進房。
+     - 免費 Spark 方案提供 100 同時在線連線，符合班級 30~40 人分組對戰需求。
+     - 確定優先為「方案二：雙人極速拔河對決」升級跨載具連線功能。
 
 ## 🚦 目前狀態
-✅ **全專案驗收發布完成**！線上平台（GitHub Pages）與線下伺服器（一鍵掃碼連線 .bat）雙軌並行，隨開即用。
+✅ **全套教材與單機/同機遊戲穩定運行於線上**。跨載具連線架構已確立，待取得 Firebase 專案設定或引導建立後即可動工整合。
 
 ## ➡️ 下一步
-1. 提供教師課堂連結 `https://yi-kuei.github.io/taiyu-math-2-2/` 給學生手機或平板直接連線實施教學。
-2. 評估後續章節（如 2-3 或其他單元）是否延續此套技術高中標準 SOP 模組進行開發。
+1. **取得/建立 Firebase 專案**：提供 3 分鐘簡易圖文引導建立 Firebase 免費資料庫（或直接由使用者提供 Firebase Config）。
+2. **方案二拔河遊戲注入 Firebase 房間模組**：
+   - 支援「同機對戰 / AI 練習 / 🌐 雲端連線」三模式切換。
+   - 開房者自動生成 4 碼房號與連線 QR Code。
+   - 加入者掃碼或輸入代碼秒進房，實現雙機各自搶答、拔河繩毫秒級即時同步。
+3. **跨載具實機聯網驗測**：使用電腦/平板與手機進行雙載具實測並發布至 GitHub Pages。
 
 ## ⚠️ 注意事項
-- 線上平台免裝任何外掛，手機/平板瀏覽器直接支援 100vh 一屏無捲軸操作。
-- 警視廳特權密碼驗證為 88888888（8 個 8）。
-- 本地如需離線教學，仍可雙擊 `啟動手機掃碼連線伺服器.bat` 產生區域網路 QR Code。
+- **資安合規**：不可將個人私密 API Key 硬編碼入 GitHub 公開程式庫；採介面動態配置快取或 URL 參數傳遞。
+- **降級容錯**：若未填入 Firebase Config，遊戲需保持完整的本機同機對戰與 AI 對戰功能，不影響既有教學。
 
 ## 🕐 最後更新
-- 時間：2026-10-14 12:54
-- 更新者：Antigravity @ DESKTOP-HS4CHCD
-- Git push 狀態：✅ 已推（更新 AGENTS.md 與 handoff.md）
+- 時間：2026-10-14 20:05
+- 更新者：Antigravity @ DESKTOP-KUEI
+- Git push 狀態：✅ 已推
