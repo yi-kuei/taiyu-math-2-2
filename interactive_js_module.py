@@ -195,20 +195,20 @@ function renderCards() {
             const isBlur = (curStep > 0 && s.num > curStep);
             const isHighlight = (curStep > 0 && s.num === curStep);
             return `
-            <div id="grid-card-${cardRealIndex}-step-${s.num}" class="p-3 rounded-xl border text-sm sm:text-base mb-2 transition-all duration-300 ${isHighlight ? 'bg-amber-50 border-amber-400 shadow-xs' : 'bg-slate-50 border-slate-200'} ${isBlur ? 'blur-[1.5px] opacity-20' : ''}">
-                <div class="font-bold text-amber-900 mb-1 text-sm sm:text-base">${s.title}</div>
-                <div class="card-step-content text-slate-800 leading-[2.05] text-sm sm:text-base">${s.content}</div>
+            <div id="grid-card-${cardRealIndex}-step-${s.num}" class="p-3 sm:p-3.5 rounded-xl border text-base sm:text-lg mb-2 transition-all duration-300 ${isHighlight ? 'bg-amber-50 border-amber-400 shadow-xs' : 'bg-slate-50 border-slate-200'} ${isBlur ? 'blur-[1.5px] opacity-20' : ''}">
+                <div class="font-black text-amber-900 mb-1 text-base sm:text-lg">${s.title}</div>
+                <div class="card-step-content text-slate-800 leading-[2.05] text-base sm:text-lg font-medium">${s.content}</div>
             </div>`;
         }).join('');
 
         const isConclusionBlur = (curStep > 0 && curStep < card.steps.length);
 
         return `
-        <div class="card-item perspective relative min-h-[730px] h-[785px]" data-card-index="${cardRealIndex}">
+        <div class="card-item perspective relative min-h-[760px] h-[820px]" data-card-index="${cardRealIndex}">
             <div id="flipper-${cardRealIndex}" class="flipper w-full h-full relative transition-transform duration-500 transform-style-3d">
                 
                 <!-- 卡片正面 (題幹、幾何模型與破案導引) -->
-                <div onclick="if(!event.target.closest('button, a, input')) flipCard(${cardRealIndex}, event)" class="card-front cursor-pointer absolute inset-0 w-full h-full bg-[#fbf9f4] border-2 border-amber-300 rounded-2xl p-5 flex flex-col justify-between backface-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div onclick="if(!event.target.closest('button, a, input')) flipCard(${cardRealIndex}, event)" class="card-front cursor-pointer absolute inset-0 w-full h-full bg-[#fbf9f4] border-2 border-amber-300 rounded-2xl p-4 sm:p-5 flex flex-col justify-between backface-hidden shadow-sm hover:shadow-md transition-shadow">
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="px-3 py-1 text-xs sm:text-sm font-black rounded-full bg-amber-600 text-white shadow-2xs">${card.tag}</span>
@@ -217,32 +217,32 @@ function renderCards() {
                                 <i class="fa-solid ${isMastered ? 'fa-check' : 'fa-circle-question'} mr-1"></i>${isMastered ? '已結案' : '未結案'}
                             </button>
                         </div>
-                        <h3 class="text-lg sm:text-xl font-black text-amber-950 mb-2 leading-snug tracking-tight">${card.title}</h3>
-                        <div class="card-front-content text-sm sm:text-base text-slate-800 leading-[2.35] bg-white/90 p-3.5 rounded-xl border border-amber-200/80 max-h-48 overflow-y-auto font-medium mb-3">
+                        <h3 class="text-xl sm:text-2xl font-black text-amber-950 mb-2 leading-snug tracking-tight">${card.title}</h3>
+                        <div class="card-front-content text-base sm:text-lg lg:text-xl text-slate-800 leading-[2.35] bg-white/90 p-3.5 sm:p-4 rounded-xl border border-amber-200/80 max-h-52 overflow-y-auto font-medium mb-3">
                             ${card.front_content}
                         </div>
 
                         <!-- 正面幾何模型圖形展示 (黃色方框容器，高度充裕、溢出保護，圖表完全置入內部) -->
-                        <div class="h-48 sm:h-52 bg-amber-50/70 rounded-xl p-2.5 border-2 border-amber-300/90 flex items-center justify-center mt-4 mb-3 shadow-2xs overflow-hidden">
+                        <div class="h-48 sm:h-52 bg-amber-50/70 rounded-xl p-2.5 border-2 border-amber-300/90 flex items-center justify-center mt-3 mb-3 shadow-2xs overflow-hidden">
                             ${card.svg}
                         </div>
                     </div>
 
                     <div>
-                        <div class="bg-red-50/95 border border-red-200 p-3 rounded-xl text-xs sm:text-sm text-red-950 mb-3 font-semibold shadow-2xs">
+                        <div class="bg-red-50/95 border border-red-200 p-3 rounded-xl text-sm sm:text-base text-red-950 mb-3 font-bold shadow-2xs">
                             ${card.front_tip}
                         </div>
 
                         <!-- 正面互動作答抽屜 -->
                         <div class="pt-2 border-t border-slate-200 flex items-center justify-between">
-                            <button onclick="openCardQuiz(${card.id}, event)" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-100 text-amber-900 hover:bg-amber-200 transition-colors shadow-2xs">
+                            <button onclick="openCardQuiz(${card.id}, event)" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-black bg-amber-100 text-amber-900 hover:bg-amber-200 transition-colors shadow-2xs">
                                 <i class="fa-solid fa-bullseye mr-1 text-red-600"></i>破案自檢抽屜
                             </button>
                             <div class="flex items-center gap-2">
                                 <button onclick="openFullscreenModal(${cardRealIndex}, event)" class="p-2 text-slate-500 hover:text-amber-600 rounded-xl hover:bg-amber-50 text-base" title="全螢幕投影劇院">
                                     <i class="fa-solid fa-expand"></i>
                                 </button>
-                                <button onclick="flipCard(${cardRealIndex}, event)" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-600 text-white hover:bg-amber-700 transition-colors shadow-2xs">
+                                <button onclick="flipCard(${cardRealIndex}, event)" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-black bg-amber-600 text-white hover:bg-amber-700 transition-colors shadow-2xs">
                                     <i class="fa-solid fa-rotate mr-1"></i>翻轉查線索
                                 </button>
                             </div>
@@ -256,14 +256,14 @@ function renderCards() {
                         <div class="flex items-center justify-between pb-2 border-b border-slate-200 mb-2">
                             <div class="flex items-center gap-1.5">
                                 <span class="px-2.5 py-0.5 text-xs sm:text-sm font-black rounded-lg bg-amber-600 text-white">${card.tag}</span>
-                                <span class="text-sm sm:text-base font-black text-amber-900">👓 名偵探推理筆記</span>
+                                <span class="text-base sm:text-lg font-black text-amber-900">👓 名偵探推理筆記</span>
                             </div>
                             <div class="flex items-center gap-1">
                                 ${stepButtonsHtml}
                             </div>
                         </div>
 
-                        <div class="max-h-44 overflow-y-auto pr-1">
+                        <div class="max-h-48 overflow-y-auto pr-1">
                             ${stepsHtml}
                         </div>
                     </div>
@@ -274,7 +274,7 @@ function renderCards() {
                             ${card.svg}
                         </div>
 
-                        <div id="grid-card-${cardRealIndex}-conclusion" class="p-2.5 rounded-xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-950 text-center transition-all duration-300 ${isConclusionBlur ? 'blur-[1.5px] opacity-20' : ''}">
+                        <div id="grid-card-${cardRealIndex}-conclusion" class="p-3 rounded-xl bg-emerald-50 border-2 border-emerald-500 text-sm sm:text-base md:text-lg font-black text-emerald-950 text-center transition-all duration-300 ${isConclusionBlur ? 'blur-[1.5px] opacity-20' : ''}">
                             ${card.conclusion}
                         </div>
 

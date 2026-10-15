@@ -66,38 +66,38 @@
 </head>
 <body class="flex flex-col h-screen w-screen overflow-hidden text-slate-100">
 
-  <!-- 頂部資訊列 (Header: 48px) -->
-  <header class="h-12 border-b border-slate-800/80 bg-slate-950/80 px-4 flex items-center justify-between flex-shrink-0 z-20 backdrop-blur">
+  <!-- 頂部資訊列 (Header: 54px) -->
+  <header class="h-14 border-b border-slate-800/80 bg-slate-950/80 px-4 sm:px-6 flex items-center justify-between flex-shrink-0 z-20 backdrop-blur">
     <div class="flex items-center gap-3">
-      <a href="index.html" class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 transition">
+      <a href="index.html" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs sm:text-sm font-bold text-slate-300 transition">
         <span>←</span> 返回教材
       </a>
       <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
-        <h1 class="font-black text-sm md:text-base tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300">
-          四象限領域佔領戰 <span class="text-xs text-slate-400 font-normal ml-1">QUADRANT CONQUEST</span>
+        <span class="w-3 h-3 rounded-full bg-cyan-400 animate-ping"></span>
+        <h1 class="font-black text-sm md:text-lg tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300">
+          四象限領域佔領戰 <span class="text-xs text-slate-400 font-normal ml-1 hidden sm:inline">QUADRANT CONQUEST</span>
         </h1>
       </div>
     </div>
 
     <!-- 比分與回合展示 -->
-    <div class="flex items-center gap-4 text-xs font-mono-num">
-      <div class="flex items-center gap-2 bg-blue-950/60 border border-blue-500/40 px-3 py-1 rounded-full">
-        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
-        <span class="font-bold text-blue-300">柯南隊(P1):</span>
-        <span id="p1-score" class="text-sm font-black text-blue-400">0</span>
-        <span class="text-slate-500 text-[10px]">據點</span>
+    <div class="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm font-mono-num">
+      <div class="flex items-center gap-2 bg-blue-950/60 border border-blue-500/40 px-3.5 py-1 rounded-full">
+        <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
+        <span class="font-black text-blue-300">柯南隊(P1):</span>
+        <span id="p1-score" class="text-base sm:text-lg font-black text-blue-400">0</span>
+        <span class="text-slate-400 text-xs">據點</span>
       </div>
-      <div class="flex items-center gap-1 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300">
+      <div class="flex items-center gap-1 px-3 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300">
         <span class="text-slate-400">回合</span>
-        <span id="current-round" class="font-bold text-amber-400">1</span>
+        <span id="current-round" class="font-black text-amber-400 text-sm sm:text-base">1</span>
         <span class="text-slate-500">/ 12</span>
       </div>
-      <div class="flex items-center gap-2 bg-fuchsia-950/60 border border-fuchsia-500/40 px-3 py-1 rounded-full">
-        <span class="w-2 h-2 rounded-full bg-fuchsia-400"></span>
-        <span class="font-bold text-fuchsia-300">基德隊(P2):</span>
-        <span id="p2-score" class="text-sm font-black text-fuchsia-400">0</span>
-        <span class="text-slate-500 text-[10px]">據點</span>
+      <div class="flex items-center gap-2 bg-fuchsia-950/60 border border-fuchsia-500/40 px-3.5 py-1 rounded-full">
+        <span class="w-2.5 h-2.5 rounded-full bg-fuchsia-400"></span>
+        <span class="font-black text-fuchsia-300">基德隊(P2):</span>
+        <span id="p2-score" class="text-base sm:text-lg font-black text-fuchsia-400">0</span>
+        <span class="text-slate-400 text-xs">據點</span>
       </div>
     </div>
 
@@ -172,82 +172,82 @@
       </div>
     </section>
 
-    <!-- 右側：戰況控制台 & 答題作戰卡 (寬度固定約 380px，自適應) -->
-    <aside class="w-full md:w-[380px] lg:w-[420px] flex flex-col bg-slate-950/90 rounded-xl border border-slate-800/80 p-3 relative flex-shrink-0 z-20 shadow-2xl">
+    <!-- 右側：戰況控制台 & 答題作戰卡 (加寬至 480px，自適應滿版大字) -->
+    <aside class="w-full md:w-[420px] lg:w-[480px] flex flex-col bg-slate-950/90 rounded-xl border border-slate-800/80 p-3 sm:p-4 relative flex-shrink-0 z-20 shadow-2xl">
       
       <!-- 目標據點情報卡 -->
-      <div class="bg-slate-900/90 border border-slate-700/70 rounded-lg p-2.5 mb-2.5">
+      <div class="bg-slate-900/90 border border-slate-700/70 rounded-lg p-3 mb-2.5">
         <div class="flex items-center justify-between mb-1.5">
-          <span class="text-xs font-bold text-slate-400 flex items-center gap-1.5">
-            <span class="w-1.5 h-3 bg-cyan-400 rounded-sm"></span> 鎖定據點情報
+          <span class="text-xs sm:text-sm font-black text-slate-300 flex items-center gap-1.5">
+            <span class="w-2 h-3.5 bg-cyan-400 rounded-sm"></span> 鎖定據點情報
           </span>
-          <span id="node-badge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+          <span id="node-badge" class="text-xs font-bold px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
             請於地圖點選據點
           </span>
         </div>
-        <div class="flex items-center justify-between text-xs">
+        <div class="flex items-center justify-between text-xs sm:text-sm">
           <div>
             <span class="text-slate-400">標準角：</span>
-            <span id="node-angle" class="font-bold text-cyan-300 font-mono-num omml-math">--</span>
+            <span id="node-angle" class="font-black text-cyan-300 font-mono-num omml-math text-sm sm:text-base">--</span>
           </div>
           <div>
             <span class="text-slate-400">終邊座標：</span>
-            <span id="node-coord" class="font-bold text-amber-300 font-mono-num omml-math">--</span>
+            <span id="node-coord" class="font-black text-amber-300 font-mono-num omml-math text-sm sm:text-base">--</span>
           </div>
           <div>
             <span class="text-slate-400">掌控方：</span>
-            <span id="node-owner" class="font-bold text-slate-400">中立中</span>
+            <span id="node-owner" class="font-black text-slate-300 text-sm">中立中</span>
           </div>
         </div>
       </div>
 
-      <!-- 答題作戰面板 (Quiz Card) -->
-      <div id="quiz-card" class="flex-1 flex flex-col bg-slate-900/60 border border-slate-800 rounded-lg p-3 relative justify-between overflow-hidden">
+      <!-- 答題作戰面板 (Quiz Card - 大字版) -->
+      <div id="quiz-card" class="flex-1 flex flex-col bg-slate-900/60 border border-slate-800 rounded-xl p-3 sm:p-4 relative justify-between overflow-hidden">
         
         <!-- 計時器與題號 -->
         <div>
           <div class="flex items-center justify-between mb-2">
-            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+            <span class="text-xs sm:text-sm font-black text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
               <span>🎯</span> 領域解鎖考核
             </span>
             <div class="flex items-center gap-1.5">
-              <span class="text-[11px] text-slate-400">答題倒數:</span>
-              <span id="quiz-timer" class="text-sm font-black text-amber-400 font-mono-num">20</span>
+              <span class="text-xs text-slate-400">答題倒數:</span>
+              <span id="quiz-timer" class="text-base sm:text-lg font-black text-amber-400 font-mono-num">20</span>
               <span class="text-xs text-slate-500">s</span>
             </div>
           </div>
 
           <!-- 倒數進度條 -->
-          <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mb-3">
+          <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-3">
             <div id="timer-bar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 w-full transition-all duration-200"></div>
           </div>
 
-          <!-- 題目內容區 (嚴格微軟 OMML 標準排版) -->
-          <div id="question-box" class="min-h-[70px] bg-slate-950/80 rounded-md p-3 border border-slate-800/80 flex items-center justify-center text-center">
-            <div id="question-text" class="omml-math text-base md:text-lg font-medium text-slate-100 leading-relaxed">
+          <!-- 題目內容區 (嚴格微軟 OMML 標準排版，大字強化) -->
+          <div id="question-box" class="min-h-[80px] bg-slate-950/80 rounded-xl p-3.5 border border-slate-800/80 flex items-center justify-center text-center">
+            <div id="question-text" class="omml-math text-base sm:text-xl font-bold text-slate-100 leading-relaxed">
               點擊地圖上的任意中立節點發動佔領！
             </div>
           </div>
         </div>
 
-        <!-- 四大選項按鈕區 -->
-        <div id="options-grid" class="grid grid-cols-2 gap-2 my-2">
-          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math opacity-50 cursor-not-allowed" disabled>
+        <!-- 四大選項按鈕區 (高度加大、字級有感放大) -->
+        <div id="options-grid" class="grid grid-cols-2 gap-2 sm:gap-3 my-2.5">
+          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-xl p-3 sm:p-3.5 text-center text-base sm:text-lg font-black text-slate-200 omml-math min-h-[58px] opacity-50 cursor-not-allowed" disabled>
             A. 待就緒
           </button>
-          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math opacity-50 cursor-not-allowed" disabled>
+          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-xl p-3 sm:p-3.5 text-center text-base sm:text-lg font-black text-slate-200 omml-math min-h-[58px] opacity-50 cursor-not-allowed" disabled>
             B. 待就緒
           </button>
-          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math opacity-50 cursor-not-allowed" disabled>
+          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-xl p-3 sm:p-3.5 text-center text-base sm:text-lg font-black text-slate-200 omml-math min-h-[58px] opacity-50 cursor-not-allowed" disabled>
             C. 待就緒
           </button>
-          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-lg p-2.5 text-center text-sm font-semibold text-slate-200 omml-math opacity-50 cursor-not-allowed" disabled>
+          <button class="opt-btn bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 rounded-xl p-3 sm:p-3.5 text-center text-base sm:text-lg font-black text-slate-200 omml-math min-h-[58px] opacity-50 cursor-not-allowed" disabled>
             D. 待就緒
           </button>
         </div>
 
         <!-- 答題解析與戰況反饋 -->
-        <div id="feedback-box" class="min-h-[46px] rounded p-2 text-xs flex items-center justify-center text-center bg-slate-950/60 border border-slate-800/60 text-slate-400">
+        <div id="feedback-box" class="min-h-[48px] rounded-lg p-2.5 text-xs sm:text-sm flex items-center justify-center text-center bg-slate-950/60 border border-slate-800/60 text-slate-400">
           提示：第一象限全部為正；第二象限正弦為正；第三象限正切為正；第四象限餘弦為正。
         </div>
       </div>

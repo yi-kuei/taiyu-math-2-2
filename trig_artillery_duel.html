@@ -54,19 +54,19 @@
     }
     /* KaTeX OMML 規格數學公式排版 */
     .katex {
-      font-size: 1.15em !important;
-      line-height: 1.25 !important;
+      font-size: 1.35em !important;
+      line-height: 1.3 !important;
     }
     .katex-opt .katex {
-      font-size: 1.25em !important;
+      font-size: 1.45em !important;
       color: #fbbf24 !important; /* 亮金黃色，與深色按鈕形成高對比 */
     }
   </style>
 </head>
 <body class="bg-[#070f1e] text-slate-100 h-screen max-h-screen overflow-hidden flex flex-col justify-between">
 
-  <!-- 頂部對決 HUD 抬頭顯示儀表列 (高度 52px 一體化整合) -->
-  <header class="bg-[#0b172a] border-b border-amber-500/30 px-3 py-1.5 shrink-0 z-30 flex items-center justify-between gap-2 h-14">
+  <!-- 頂部對決 HUD 抬頭顯示儀表列 (高度 56px 一體化整合) -->
+  <header class="bg-[#0b172a] border-b border-amber-500/30 px-3 sm:px-6 py-2 shrink-0 z-30 flex items-center justify-between gap-2 h-14">
     <!-- 左側：返回 + 柯南 HUD -->
     <div class="flex items-center gap-2 sm:gap-3">
       <a href="index.html" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 text-xs font-bold transition-all flex items-center gap-1.5 shrink-0" title="返回主教材">
@@ -242,57 +242,57 @@
         </div>
       </div>
 
-      <!-- 中：滑桿與特殊角按鈕 -->
-      <div class="w-full md:flex-1 max-w-xl flex flex-col gap-1.5">
-        <div class="grid grid-cols-2 gap-2">
+      <!-- 中：滑桿與特殊角按鈕 (滿版加寬與字體放大) -->
+      <div class="w-full md:flex-1 max-w-4xl 2xl:max-w-5xl flex flex-col gap-2">
+        <div class="grid grid-cols-2 gap-2 sm:gap-3">
           <!-- 角度滑桿 -->
-          <div class="flex items-center gap-2 bg-slate-900 px-2 py-1 rounded-lg border border-white/10">
-            <span class="text-[10px] text-slate-300 font-bold whitespace-nowrap"><i class="fa-solid fa-compass text-amber-400 mr-1"></i>角度 <span class="math-var text-amber-300">θ</span>:</span>
-            <input type="range" id="angle-slider" min="5" max="175" value="45" class="w-full accent-amber-500 cursor-pointer h-1.5 bg-slate-800 rounded">
-            <span id="slider-angle-label" class="text-amber-300 font-mono-code font-bold text-xs w-8 text-right">45°</span>
+          <div class="flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-xl border border-white/10">
+            <span class="text-xs sm:text-sm text-slate-300 font-bold whitespace-nowrap"><i class="fa-solid fa-compass text-amber-400 mr-1"></i>角度 <span class="math-var text-amber-300">θ</span>:</span>
+            <input type="range" id="angle-slider" min="5" max="175" value="45" class="w-full accent-amber-500 cursor-pointer h-2 bg-slate-800 rounded">
+            <span id="slider-angle-label" class="text-amber-300 font-mono-code font-black text-sm sm:text-base w-10 text-right">45°</span>
           </div>
           <!-- 初速滑桿 -->
-          <div class="flex items-center gap-2 bg-slate-900 px-2 py-1 rounded-lg border border-white/10">
-            <span class="text-[10px] text-slate-300 font-bold whitespace-nowrap"><i class="fa-solid fa-gauge-high text-sky-400 mr-1"></i>初速 <span class="math-var text-sky-300">V</span>:</span>
-            <input type="range" id="power-slider" min="30" max="95" value="60" class="w-full accent-sky-500 cursor-pointer h-1.5 bg-slate-800 rounded">
-            <span id="slider-power-label" class="text-sky-300 font-mono-code font-bold text-xs w-6 text-right">60</span>
+          <div class="flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-xl border border-white/10">
+            <span class="text-xs sm:text-sm text-slate-300 font-bold whitespace-nowrap"><i class="fa-solid fa-gauge-high text-sky-400 mr-1"></i>初速 <span class="math-var text-sky-300">V</span>:</span>
+            <input type="range" id="power-slider" min="30" max="95" value="60" class="w-full accent-sky-500 cursor-pointer h-2 bg-slate-800 rounded">
+            <span id="slider-power-label" class="text-sky-300 font-mono-code font-black text-sm sm:text-base w-8 text-right">60</span>
           </div>
         </div>
 
         <!-- 特殊角捷徑與智慧鎖定輔助 -->
-        <div class="flex items-center justify-between text-[10px]">
-          <div class="flex items-center gap-1 flex-wrap sm:flex-nowrap">
-            <span class="text-slate-400 text-[10px] hidden sm:inline">特殊角:</span>
-            <button onclick="setSpecialAngle(30)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold">30°</button>
-            <button onclick="setSpecialAngle(45)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold">45°</button>
-            <button onclick="setSpecialAngle(60)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold">60°</button>
+        <div class="flex items-center justify-between text-xs sm:text-sm">
+          <div class="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
+            <span class="text-slate-400 text-xs hidden sm:inline">特殊角:</span>
+            <button onclick="setSpecialAngle(30)" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold text-xs sm:text-sm">30°</button>
+            <button onclick="setSpecialAngle(45)" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold text-xs sm:text-sm">45°</button>
+            <button onclick="setSpecialAngle(60)" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 font-bold text-xs sm:text-sm">60°</button>
             <span class="text-slate-600">|</span>
-            <button onclick="setSpecialAngle(120)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold">120°</button>
-            <button onclick="setSpecialAngle(135)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold">135°</button>
-            <button onclick="setSpecialAngle(150)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold">150°</button>
+            <button onclick="setSpecialAngle(120)" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold text-xs sm:text-sm">120°</button>
+            <button onclick="setSpecialAngle(135)" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold text-xs sm:text-sm">135°</button>
+            <button onclick="setSpecialAngle(150)" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold text-xs sm:text-sm">150°</button>
             <span class="text-slate-600">|</span>
-            <button onclick="autoAimAssist()" class="px-2 py-0.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 hover:text-emerald-200 border border-emerald-400/50 font-bold text-[10px] flex items-center gap-1 transition cursor-pointer shadow-xs active:scale-95" title="智慧瞄準輔助：一鍵自動微調力道與角度鎖定目標">
+            <button onclick="autoAimAssist()" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 hover:text-emerald-200 border border-emerald-400/50 font-black text-xs sm:text-sm flex items-center gap-1.5 transition cursor-pointer shadow-xs active:scale-95" title="智慧瞄準輔助：一鍵自動微調力道與角度鎖定目標">
               <i class="fa-solid fa-crosshairs text-emerald-400"></i>
               <span>智慧鎖定</span>
             </button>
           </div>
-          <span id="trig-identity-check" class="text-indigo-300 font-mono-code text-[10px] hidden sm:inline">sin<span class="math-sup">2</span><span class="math-var">θ</span> + cos<span class="math-sup">2</span><span class="math-var">θ</span> = 1.000</span>
+          <span id="trig-identity-check" class="text-indigo-300 font-mono-code text-xs hidden md:inline">sin<span class="math-sup">2</span><span class="math-var">θ</span> + cos<span class="math-sup">2</span><span class="math-var">θ</span> = 1.000</span>
         </div>
       </div>
 
       <!-- 右：發射按鈕群 (支援直接開火與解密暗號) -->
-      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <button onclick="resetGamePrompt()" class="px-2.5 sm:px-3 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-rose-950/80 text-slate-300 hover:text-rose-200 border border-slate-700 hover:border-rose-500/40 active:scale-95 transition-all flex items-center justify-center gap-1 cursor-pointer shadow-xs" title="重新開始本局對決">
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="resetGamePrompt()" class="px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 hover:bg-rose-950/80 text-slate-300 hover:text-rose-200 border border-slate-700 hover:border-rose-500/40 active:scale-95 transition-all flex items-center justify-center gap-1 cursor-pointer shadow-xs" title="重新開始本局對決">
           <i class="fa-solid fa-rotate-left text-rose-400"></i>
           <span>重開</span>
         </button>
 
-        <button id="direct-fire-btn" onclick="directFire()" class="px-3 sm:px-3.5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-400/40 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs" title="不解題直接盲射開火">
+        <button id="direct-fire-btn" onclick="directFire()" class="px-3.5 sm:px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-400/40 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs" title="不解題直接盲射開火">
           <i class="fa-solid fa-crosshairs text-sky-400"></i>
           <span>直接開火</span>
         </button>
 
-        <button id="fire-btn" onclick="startQuestionModal()" class="px-4 py-2.5 rounded-xl font-black text-xs sm:text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 hover:from-amber-300 hover:to-orange-400 shadow-md shadow-amber-500/20 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer" title="答對暗號可解鎖雷達瞄準虛線與 1.5 倍威力">
+        <button id="fire-btn" onclick="startQuestionModal()" class="px-4 sm:px-5 py-2.5 rounded-xl font-black text-xs sm:text-sm md:text-base text-slate-950 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 hover:from-amber-300 hover:to-orange-400 shadow-md shadow-amber-500/20 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer" title="答對暗號可解鎖雷達瞄準虛線與 1.5 倍威力">
           <i class="fa-solid fa-key text-red-700"></i>
           <span>解密發射 (爆擊)</span>
         </button>

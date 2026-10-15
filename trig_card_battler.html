@@ -69,8 +69,8 @@
       display: block;
     }
     .katex {
-      font-size: 1.15em !important;
-      line-height: 1.25 !important;
+      font-size: 1.35em !important;
+      line-height: 1.3 !important;
     }
     
     /* 卡牌 3D 懸浮與動畫 */
@@ -107,29 +107,29 @@
 </head>
 <body class="flex flex-col h-screen w-screen overflow-hidden text-slate-100">
 
-  <!-- 頂部導航列 (48px) -->
-  <header class="h-12 border-b border-slate-800 bg-slate-950/80 px-4 flex items-center justify-between flex-shrink-0 z-20 backdrop-blur">
+  <!-- 頂部導航列 (54px) -->
+  <header class="h-14 border-b border-slate-800 bg-slate-950/80 px-4 sm:px-6 flex items-center justify-between flex-shrink-0 z-20 backdrop-blur">
     <div class="flex items-center gap-3">
-      <a href="index.html" class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 transition">
+      <a href="index.html" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs sm:text-sm font-bold text-slate-300 transition">
         <span>←</span> 返回教材
       </a>
       <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-        <h1 class="font-black text-sm md:text-base tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400">
-          暗號卡牌攻防戰 <span class="text-xs text-slate-400 font-normal ml-1">CIPHER CARD DUEL</span>
+        <span class="w-3 h-3 rounded-full bg-amber-400 animate-ping"></span>
+        <h1 class="font-black text-sm md:text-lg tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400">
+          暗號卡牌攻防戰 <span class="text-xs text-slate-400 font-normal ml-1 hidden sm:inline">CIPHER CARD DUEL</span>
         </h1>
       </div>
     </div>
 
     <!-- 回合資訊與行動指示 -->
     <div class="flex items-center gap-3">
-      <div class="flex items-center gap-1.5 px-3 py-1 bg-slate-900 border border-slate-700 rounded-full text-xs">
+      <div class="flex items-center gap-1.5 px-3.5 py-1 bg-slate-900 border border-slate-700 rounded-full text-xs sm:text-sm">
         <span class="text-slate-400">當前階段:</span>
-        <span id="turn-banner" class="font-bold text-blue-400">你的回合 (柯南)</span>
+        <span id="turn-banner" class="font-black text-blue-400">你的回合 (柯南)</span>
       </div>
-      <div class="flex items-center gap-1 text-xs font-mono-num text-slate-400">
+      <div class="flex items-center gap-1 text-xs sm:text-sm font-mono-num text-slate-400">
         <span>第</span>
-        <span id="round-count" class="font-bold text-amber-400 text-sm">1</span>
+        <span id="round-count" class="font-black text-amber-400 text-sm sm:text-base">1</span>
         <span>回合</span>
       </div>
     </div>
@@ -193,13 +193,13 @@
     <!-- 2. 中央交鋒情報與戰報台 (Center Battlefield) -->
     <div class="my-2 flex-1 flex flex-col items-center justify-center relative min-h-[120px]">
       
-      <!-- 戰鬥紀錄日誌與出牌動態 -->
-      <div id="combat-log" class="w-full max-w-xl bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-center flex flex-col items-center justify-center min-h-[110px] shadow-inner">
-        <div id="log-icon" class="text-3xl mb-1">⚔️</div>
-        <div id="log-message" class="text-sm font-medium text-slate-200 omml-math leading-relaxed">
+      <!-- 戰鬥紀錄日誌與出牌動態 (加寬至 max-w-3xl，字級有感放大) -->
+      <div id="combat-log" class="w-full max-w-3xl bg-slate-950/80 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center flex flex-col items-center justify-center min-h-[120px] shadow-inner">
+        <div id="log-icon" class="text-3xl sm:text-4xl mb-1">⚔️</div>
+        <div id="log-message" class="text-base sm:text-lg md:text-xl font-bold text-slate-100 omml-math leading-relaxed">
           雙方偵探已就緒！請從手牌中打出三角暗號卡發動攻防！
         </div>
-        <div id="log-formula" class="text-xs text-cyan-300 omml-math mt-1 flex items-center justify-center gap-2 flex-wrap">
+        <div id="log-formula" class="text-xs sm:text-sm text-cyan-300 omml-math mt-1.5 flex items-center justify-center gap-2 flex-wrap">
           <span>公式基礎：</span>
           <span class="inline-flex items-center"><span class="math-fn">sin</span><span class="math-sup">2</span><span class="math-var">θ</span> + <span class="math-fn">cos</span><span class="math-sup">2</span><span class="math-var">θ</span> = 1</span>
           <span class="text-slate-500">‧</span>
@@ -207,18 +207,18 @@
         </div>
       </div>
 
-      <!-- 微型答題暴擊彈窗 (Quick Quiz for Critical Hit) -->
-      <div id="crit-modal" class="absolute inset-0 bg-slate-950/90 border border-amber-500/80 rounded-xl p-3 flex flex-col justify-between items-center z-40 hidden backdrop-blur">
-        <div class="w-full flex items-center justify-between text-xs">
-          <span class="font-bold text-amber-400 flex items-center gap-1">
+      <!-- 微型答題暴擊彈窗 (Quick Quiz for Critical Hit - 大字強化) -->
+      <div id="crit-modal" class="absolute inset-0 bg-slate-950/95 border-2 border-amber-500/80 rounded-2xl p-4 flex flex-col justify-between items-center z-40 hidden backdrop-blur shadow-2xl">
+        <div class="w-full flex items-center justify-between text-xs sm:text-sm">
+          <span class="font-black text-amber-400 flex items-center gap-1.5">
             <span>⚡</span> 暗號真偽速驗：答對觸發 150% 暴擊！
           </span>
-          <span class="font-mono-num text-rose-400 font-bold">倒數 <span id="crit-time">20</span>s</span>
+          <span class="font-mono-num text-rose-400 font-black">倒數 <span id="crit-time" class="text-base sm:text-lg">20</span>s</span>
         </div>
-        <div id="crit-q-text" class="omml-math text-base md:text-lg font-bold text-center text-slate-100 my-1">
+        <div id="crit-q-text" class="omml-math text-xl sm:text-3xl font-black text-center text-slate-100 my-2">
           <span class="math-fn">sin</span> 90° = ?
         </div>
-        <div id="crit-options" class="grid grid-cols-2 gap-2 w-full max-w-md">
+        <div id="crit-options" class="grid grid-cols-2 gap-2 sm:gap-3 w-full max-w-xl">
           <!-- 4 個選項按鈕動態生成 -->
         </div>
       </div>
@@ -513,20 +513,20 @@
           typeIcon = '⚡';
         }
 
-        cardEl.className = `battle-card flex-1 max-w-[170px] h-full bg-slate-900/95 border-2 ${borderClass} rounded-xl p-2 sm:p-2.5 flex flex-col justify-between cursor-pointer relative shadow-lg ${isAffordable ? '' : 'opacity-40 grayscale cursor-not-allowed'}`;
+        cardEl.className = `battle-card flex-1 max-w-[210px] h-full bg-slate-900/95 border-2 ${borderClass} rounded-2xl p-2.5 sm:p-3 flex flex-col justify-between cursor-pointer relative shadow-xl ${isAffordable ? '' : 'opacity-40 grayscale cursor-not-allowed'}`;
         
         cardEl.innerHTML = `
           <div>
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded border ${badgeColor}">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs font-black px-2 py-0.5 rounded-lg border ${badgeColor}">
                 ${typeIcon} ${card.cost} ⚡
               </span>
-              <span class="text-[10px] text-slate-400 font-mono-num">#${idx + 1}</span>
+              <span class="text-xs text-slate-400 font-mono-num font-bold">#${idx + 1}</span>
             </div>
-            <div class="text-xs font-bold text-slate-100 truncate">${card.name}</div>
-            <div class="text-[11px] text-cyan-300 font-bold omml-math my-1">${card.mathFormula}</div>
+            <div class="text-sm sm:text-base font-black text-slate-100 truncate">${card.name}</div>
+            <div class="text-xs sm:text-sm text-cyan-300 font-black omml-math my-1">${card.mathFormula}</div>
           </div>
-          <div class="text-[10px] text-slate-400 leading-tight border-t border-slate-800 pt-1">
+          <div class="text-[11px] sm:text-xs text-slate-300 leading-snug border-t border-slate-800 pt-1 font-medium">
             ${card.desc}
           </div>
         `;
@@ -583,7 +583,7 @@
 
       card.quiz.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
-        btn.className = 'py-2 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg text-xs font-bold text-slate-200 omml-math transition active:scale-95';
+        btn.className = 'py-3 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-xl text-base sm:text-lg font-black text-slate-200 omml-math transition active:scale-95 min-h-[56px] flex items-center justify-center';
         btn.innerHTML = `$${opt}$`;
         btn.onclick = () => resolveCritQuiz(idx === card.quiz.correct);
         optContainer.appendChild(btn);

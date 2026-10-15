@@ -120,8 +120,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       margin-top: 0.5rem !important;
     }
     .katex {
-      font-size: 1.08em !important;
-      line-height: 1.25 !important;
+      font-size: 1.25em !important;
+      line-height: 1.3 !important;
     }
   </style>
 </head>
@@ -129,7 +129,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
   <!-- 頂部導覽列 -->
   <header class="sticky top-0 z-40 bg-[#0a192f] text-white shadow-md border-b border-amber-500/40">
-    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="w-full max-w-[98vw] 2xl:max-w-[1720px] mx-auto px-2 sm:px-6 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-amber-600 flex items-center justify-center text-white shadow-inner font-black text-lg">
           <i class="fa-solid fa-glasses"></i>
@@ -184,8 +184,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   </header>
 
   <!-- 主視覺首頁橫幅 -->
-  <section class="bg-gradient-to-b from-[#0a192f] via-[#10243e] to-slate-100 text-white pt-8 pb-10 px-4">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+  <section class="bg-gradient-to-b from-[#0a192f] via-[#10243e] to-slate-100 text-white pt-8 pb-10 px-2 sm:px-4">
+    <div class="w-full max-w-[98vw] 2xl:max-w-[1720px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 px-2 sm:px-4">
       
       <!-- 左側專案簡介 -->
       <div class="max-w-2xl">
@@ -300,7 +300,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   </section>
 
   <!-- 內容主體區 -->
-  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
+  <main class="w-full max-w-[98vw] 2xl:max-w-[1720px] mx-auto px-1 sm:px-4 py-6 flex-1">
     
     <!-- 篩選與工具列 -->
     <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -356,7 +356,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     </div>
 
     <!-- 學習卡網格 (雙欄響應式佈局) -->
-    <div id="cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div id="cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
       <!-- 由 JS 動態注入 60 張卡片 -->
     </div>
 
@@ -364,7 +364,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
   <!-- 頁尾 (Core Rule 5 第一列三色膠囊計數器) -->
   <footer class="bg-[#0a192f] text-white pt-8 pb-10 border-t-2 border-amber-500/50 mt-12">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col items-center text-center">
+    <div class="w-full max-w-[98vw] 2xl:max-w-[1720px] mx-auto px-2 sm:px-4 flex flex-col items-center text-center">
       
       <!-- 第一列：三色圖示圓角膠囊計數器 -->
       <div class="flex flex-wrap items-center justify-center gap-3 mb-6">
